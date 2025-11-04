@@ -1,0 +1,28 @@
+# === ARCHIVOS DE COMPILACIÓN ===
+/bin/
+/target/
+*.class
+
+# === CONFIGURACIÓN LOCAL DE IDES ===
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# === ARCHIVOS TEMPORALES DEL SISTEMA ===
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# === ARCHIVOS DE LA BASE DE DATOS SQLITE ===
+*.db
+*.sqlite
+*.sqlite3
+/data/
+
+# === ARCHIVOS DE CONFIGURACIÓN PRIVADOS ===
+config.properties
+*.env
