@@ -1,28 +1,83 @@
-# === ARCHIVOS DE COMPILACIÓN ===
-/bin/
-/target/
-*.class
+##############################################################
+# CONFIGURACIÓN GENERAL DEL PROYECTO
+# Archivo .gitignore común
+# Proyecto Java + Eclipse + SQLite + Maven
+##############################################################
 
-# === CONFIGURACIÓN LOCAL DE IDES ===
-.classpath
+# === ARCHIVOS DE COMPILACIÓN Y BUILD ===
+/bin/
+target/
+out/
+*.class
+*.jar
+*.war
+*.ear
+
+# === ARCHIVOS DE IDE (ECLIPSE, INTELLIJ, VS CODE...) ===
+# Eclipse
 .project
+.classpath
 .settings/
+# IntelliJ IDEA
 .idea/
 *.iml
+*.ipr
+*.iws
+# VS Code
+.vscode/
 
 # === ARCHIVOS TEMPORALES DEL SISTEMA ===
 *.log
 *.tmp
 *.bak
+*.swp
+*.swo
+*.orig
 .DS_Store
 Thumbs.db
 
-# === ARCHIVOS DE LA BASE DE DATOS SQLITE ===
+# === ARCHIVOS DE BASE DE DATOS LOCAL (SQLite) ===
+# No versionar la base de datos, solo scripts SQL
 *.db
 *.sqlite
 *.sqlite3
 /data/
 
-# === ARCHIVOS DE CONFIGURACIÓN PRIVADOS ===
-config.properties
+# === ARCHIVOS DE CONFIGURACIÓN PRIVADA ===
+# Evita subir contraseñas o configuraciones locales
 *.env
+.env.*
+config.properties
+local.properties
+credentials.json
+secrets.json
+
+# === ARCHIVOS DE DEPENDENCIAS O COMPILACIONES ===
+# (se reconstruyen automáticamente)
+.mvn/
+dependency-reduced-pom.xml
+
+# === ARCHIVOS DE PRUEBAS O EXPORTACIONES ===
+/test-output/
+/reports/
+/logs/
+*.csv
+*.xml
+*.json
+
+# === ARCHIVOS DE SISTEMAS OPERATIVOS ===
+# macOS / Windows / Linux
+ehthumbs.db
+Icon?
+desktop.ini
+._*
+
+##############################################################
+#   NOTAS:
+# - Versionar únicamente: código fuente (src/), scripts SQL,
+#   archivos de configuración de ejemplo, y documentación.
+# - Cada desarrollador tendrá su propia BD local en /data/
+#   o en su carpeta de usuario.
+# - Para compartir el esquema de la BD, incluir archivos
+#   .sql en resources/db/migrations/
+##############################################################
