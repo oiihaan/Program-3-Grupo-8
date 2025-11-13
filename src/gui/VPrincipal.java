@@ -36,7 +36,7 @@ public class VPrincipal extends JFrame {
         g.gridy++; card.add(txtPass, g);
 
 
-        btnLogin = AppUI.primaryButton("LOGIN");
+        btnLogin = AppUI.primaryButton("LOG IN");
         g.gridy++; card.add(btnLogin, g);
 
         JLabel lblForgot = AppUI.subtitle("Olvidé mi contraseña");

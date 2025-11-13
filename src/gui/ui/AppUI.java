@@ -8,7 +8,7 @@ import java.awt.event.*;
 
 public final class AppUI {
 
-    // 🎨 Paleta inspirada en tu imagen
+    // 🎨 Paleta de colores que vamos a utilizar en todas las ventanas
     public static final Color BG_APP       = new Color(230, 233, 240);  // Fondo general claro (gris azulado)
     public static final Color BG_CARD      = new Color(70, 72, 75);     // Tarjeta oscura
     public static final Color FIELD_BG     = new Color(150, 152, 155);  // Campos gris medio
