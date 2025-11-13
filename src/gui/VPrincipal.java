@@ -1,87 +1,162 @@
 package gui;
 
 import gui.ui.AppUI;
-import multiplesVentanas.ventanaLogIn;
-
-import javax.swing.*;
-
 import domain.Trabajador;
 import domain.Usuario;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class VPrincipal extends JFrame {
+
+    private JPanel contentPane;
+    private JPanel card;
+
     private JTextField txtUser;
     private JPasswordField txtPass;
-    private JCheckBox chkRemember;
     private JButton btnLogin;
-    private ArrayList<Usuario> personal; //Creo esta propiedad para poder hacer simulaciones, pero igual sale mejor tener una clase empresa que tenga listas de personal y dentro de ella una de trbajadores y otra de admins
+    private JLabel lblForgot;
 
-    public static void main(String[] args) {   
+    private ArrayList<Usuario> personal;
+
+    public static void main(String[] args) {
         AppUI.initLookAndFeel();
-        EventQueue.invokeLater(() -> new VPrincipal().setVisible(true));
+        EventQueue.invokeLater(() -> {
+            VPrincipal frame = new VPrincipal();
+            frame.setVisible(true);
+        });
     }
 
     public VPrincipal() {
-    	this.personal= new ArrayList<Usuario>();// SOLO PARA SIMULAR
-    	Trabajador Eneko = new Trabajador("Eneko", "Gil Jimenez", "Enekore", "aupa"); //SOLO PARA SIMULAR
-    	personal.add(Eneko);
-    	
+        // ==== DATOS DE PRUEBA ====
+        personal = new ArrayList<>();
+        Trabajador eneko = new Trabajador("Eneko", "Gil Jimenez", "Enekore", "aupa");
+        personal.add(eneko);
+
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(420, 400);
+        setBounds(100, 100, 555, 491);
         setLocationRelativeTo(null);
 
-        JPanel bg = AppUI.appBackground();
-        setContentPane(bg);
+        // === FONDO ===
+        contentPane = new JPanel();
+        setContentPane(contentPane);
+        contentPane.setLayout(new GridBagLayout());
 
-        JPanel card = AppUI.card(30);
-        GridBagConstraints g = new GridBagConstraints();
-        g.gridx = 0; g.gridy = 0; g.fill = GridBagConstraints.HORIZONTAL; g.insets = new Insets(8,0,8,0);
-        card.add(AppUI.title("Bienvenido"), g);
+        // === CARD CENTRAL ===
+        card = new JPanel();
+        card.setLayout(new GridBagLayout());
 
-        txtUser = AppUI.textField("Usuario");
-        txtPass = AppUI.passwordField("Contraseña");
+        // --- TÍTULO ---
+        JLabel lblTitle = new JLabel("Bienvenido");
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+        gbc_lblTitle.gridx = 0;
+        gbc_lblTitle.gridy = 0;
+        gbc_lblTitle.insets = new Insets(8, 0, 8, 0);
+        gbc_lblTitle.fill = GridBagConstraints.HORIZONTAL;
+        card.add(lblTitle, gbc_lblTitle);
 
-        g.gridy++; card.add(txtUser, g);
-        g.gridy++; card.add(txtPass, g);
+        // --- USUARIO ---
+        txtUser = new JTextField();
+        txtUser.setColumns(15);
+        GridBagConstraints gbc_txtUser = new GridBagConstraints();
+        gbc_txtUser.gridx = 0;
+        gbc_txtUser.gridy = 1;
+        gbc_txtUser.insets = new Insets(8, 0, 8, 0);
+        gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
+        card.add(txtUser, gbc_txtUser);
 
+        // --- PASSWORD ---
+        txtPass = new JPasswordField();
+        txtPass.setColumns(15);
+        GridBagConstraints gbc_txtPass = new GridBagConstraints();
+        gbc_txtPass.gridx = 0;
+        gbc_txtPass.gridy = 2;
+        gbc_txtPass.insets = new Insets(8, 0, 8, 0);
+        gbc_txtPass.fill = GridBagConstraints.HORIZONTAL;
+        card.add(txtPass, gbc_txtPass);
 
-        btnLogin = AppUI.primaryButton("LOG IN");
-        g.gridy++; card.add(btnLogin, g);
+        // --- BOTÓN LOGIN ---
+        btnLogin = new JButton("LOG IN");
+        GridBagConstraints gbc_btnLogin = new GridBagConstraints();
+        gbc_btnLogin.gridx = 0;
+        gbc_btnLogin.gridy = 3;
+        gbc_btnLogin.insets = new Insets(8, 0, 8, 0);
+        gbc_btnLogin.fill = GridBagConstraints.HORIZONTAL;
+        card.add(btnLogin, gbc_btnLogin);
+
+        // --- LABEL OLVIDÉ CONTRASEÑA ---
+        lblForgot = new JLabel("Olvidé mi contraseña");
+        lblForgot.setHorizontalAlignment(SwingConstants.CENTER);
+        GridBagConstraints gbc_lblForgot = new GridBagConstraints();
+        gbc_lblForgot.gridx = 0;
+        gbc_lblForgot.gridy = 4;
+        gbc_lblForgot.insets = new Insets(8, 0, 8, 0);
+        gbc_lblForgot.fill = GridBagConstraints.HORIZONTAL;
+        card.add(lblForgot, gbc_lblForgot);
+
+        // --- Añadimos la card al fondo (centrada) ---
+        GridBagConstraints gbc_card = new GridBagConstraints();
+        gbc_card.gridx = 0;
+        gbc_card.gridy = 0;
+        contentPane.add(card, gbc_card);
+
+        // === ESTILO CON AppUI (solo “maquillaje”) ===
+        AppUI.styleBackground(contentPane);
+        AppUI.styleCard(card);
+        AppUI.styleTitle(lblTitle);
+        AppUI.styleTextField(txtUser);
+        AppUI.stylePasswordField(txtPass);
+        AppUI.stylePrimaryButton(btnLogin);
+        AppUI.styleSubtitle(lblForgot);
+
+        // === LÓGICA DEL LOGIN ===
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	String contraseyna = String.copyValueOf(txtPass.getPassword());
-            	String usuario = txtUser.getName();
-            	boolean deLaEmpresa = false;
-            	while (!deLaEmpresa){
-            	for (Usuario u : personal) {
-            		if (contraseyna.equals(u.getContraseyna()) && usuario.equals(u.getUsuario())) {
-            			if (u instanceof Trabajador) {
-            				VTrabajador1 VTrabajador1 = new VTrabajador1 (VPrincipal.this, (Trabajador) u);
-            				VTrabajador1.setVisible(true);
-            				VPrincipal.this.setVisible(false);
-                			deLaEmpresa = true;
-            			} else {
-            				JOptionPane.showMessageDialog(VPrincipal.this, "El usuario o la contraseña no son válidos");
-            			}
-            		}
-            	}
-            }
+                String usuario = txtUser.getText().trim();
+                String contraseyna = new String(txtPass.getPassword());
+
+                System.out.println(">>> CLICK LOGIN");
+                System.out.println("Usuario escrito    : [" + usuario + "]");
+                System.out.println("Contraseña escrita : [" + contraseyna + "]");
+
+                Usuario encontrado = null;
+
+                for (Usuario u : personal) {
+                    System.out.println(" - Comparando con: u.getUsuario() = [" + u.getUsuario()
+                            + "], u.getContraseyna() = [" + u.getContraseyna() + "]");
+
+                    if (usuario.equals(u.getUsuario())
+                            && contraseyna.equals(u.getContraseyna())) {
+                        encontrado = u;
+                        break;
+                    }
+                }
+
+                if (encontrado == null) {
+                    System.out.println(">>> NO SE ENCONTRÓ NINGÚN USUARIO COINCIDENTE");
+                    JOptionPane.showMessageDialog(VPrincipal.this,
+                            "El usuario o la contraseña no son válidos");
+                    return;
+                }
+
+                System.out.println(">>> USUARIO ENCONTRADO: " + encontrado.getNombre());
+
+                if (encontrado instanceof Trabajador) {
+                    System.out.println(">>> Es Trabajador, abriendo VTrabajador1");
+                    VTrabajador1 v = new VTrabajador1((Trabajador) encontrado);
+                    v.setVisible(true);
+                    VPrincipal.this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(VPrincipal.this,
+                            "Login de administrador aún no implementado");
+                }
             }
         });
-        
-
-        JLabel lblForgot = AppUI.subtitle("Olvidé mi contraseña");
-        lblForgot.setHorizontalAlignment(SwingConstants.CENTER);
-        g.gridy++; card.add(lblForgot, g);
-
-        AppUI.centerCardIn(bg, card);
-        
-        
     }
 }
