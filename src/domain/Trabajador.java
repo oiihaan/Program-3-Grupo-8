@@ -11,13 +11,22 @@ public class Trabajador extends Usuario {
 	
 
 
-	public Trabajador(String nombre, String usuario, String contraseyna, HashSet<Tarea> tareasAsignadas, Date entrada,
+	public Trabajador(String nombre, String apellidos, String usuario, String contraseyna, HashSet<Tarea> tareasAsignadas, Date entrada,
 			Date salida) {
-		super(nombre, usuario, contraseyna);
+		super(nombre, apellidos, usuario, contraseyna);
 		this.tareasAsignadas = tareasAsignadas;
 		this.entrada = entrada;
 		this.salida = salida;
 	}
+	
+
+	public Trabajador(String nombre,String apellidos, String usuario, String contraseyna) {
+		super(nombre, apellidos, usuario, contraseyna);
+		this.tareasAsignadas= new HashSet<Tarea>();
+		this.entrada = null;
+		this.salida = null;
+	}
+
 
 	public HashSet<Tarea> getTareasAsignadas() {
 		return tareasAsignadas;
