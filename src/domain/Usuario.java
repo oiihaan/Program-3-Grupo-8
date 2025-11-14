@@ -1,4 +1,9 @@
 package domain;
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+
 
 public abstract class Usuario {
 	
@@ -6,8 +11,19 @@ public abstract class Usuario {
 	private String apellidos;
 	private String usuario; // El de la parte del login
 	private String contraseyna;
-	
+	private Map<LocalDate, List<String>> registros;	//clave = dia
 
+	public Usuario(String nombre, String apellidos, String usuario, String contraseyna,
+			Map<LocalDate, List<String>> registros) {
+		super();
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.usuario = usuario;
+		this.contraseyna = contraseyna;
+		this.registros = registros;
+	}
+	
+	
 
 	public Usuario(String nombre, String apellidos, String usuario, String contraseyna) {
 		super();
@@ -15,7 +31,10 @@ public abstract class Usuario {
 		this.apellidos = apellidos;
 		this.usuario = usuario;
 		this.contraseyna = contraseyna;
+		this.registros = new HashMap<LocalDate, List<String>>();
 	}
+
+
 
 	public String getNombre() {
 		return nombre;
@@ -48,6 +67,15 @@ public abstract class Usuario {
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}
+
+	public Map<LocalDate, List<String>> getRegistros() {
+		return registros;
+	}
+
+	public void setRegistros(Map<LocalDate, List<String>> registros) {
+		this.registros = registros;
+	}
+	
 	
 	
 	

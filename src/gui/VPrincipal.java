@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class VPrincipal extends JFrame {
@@ -19,8 +21,8 @@ public class VPrincipal extends JFrame {
     private JPasswordField txtPass;
     private JButton btnLogin;
     private JLabel lblForgot;
-
     private ArrayList<Usuario> personal;
+    
 
     public static void main(String[] args) {
         AppUI.initLookAndFeel();
@@ -33,9 +35,15 @@ public class VPrincipal extends JFrame {
     public VPrincipal() {
         // ==== DATOS DE PRUEBA ====
         personal = new ArrayList<>();
-        Trabajador eneko = new Trabajador("Eneko", "Gil Jimenez", "Enekore", "aupa");
+        Trabajador eneko = new Trabajador("Eneko", "Gil Jimenez", "Enekore", "aupa", null, LocalDate.now(), null, null );
         personal.add(eneko);
+        LocalDate hoy = eneko.getEntrada();
+        String hora = LocalTime.now().toString();  //Esto se puede simplificar haciendo una funcion registrar();
+        ArrayList<String> registroHoy = new ArrayList<>();
+        registroHoy.add(hora);
+        eneko.getRegistros().put(hoy, registroHoy);
 
+     // === Login TITULO ===
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 555, 491);
