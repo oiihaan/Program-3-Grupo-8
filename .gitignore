@@ -38,10 +38,10 @@ Thumbs.db
 
 # === ARCHIVOS DE BASE DE DATOS LOCAL (SQLite) ===
 # No versionar la base de datos, solo scripts SQL
-#*.db
-#*.sqlite
-#*.sqlite3
-#/data/
+*.db
+*.sqlite
+*.sqlite3
+/data/
 
 # === ARCHIVOS DE CONFIGURACIÓN PRIVADA ===
 # Evita subir contraseñas o configuraciones locales
