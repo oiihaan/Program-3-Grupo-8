@@ -14,11 +14,15 @@ public class ConexionSQLite {
 	
 	// esto simplemente hace la conexion de nuestro .db con sqlite
 	public static Connection getConnection() throws SQLException {
-		Connection conn = DriverManager.getConnection(URL);
-		try (Statement st = conn.createStatement()){
-			st.execute("PRAGMA foreign_keys = ON");
-		}
-		return conn;
+		try {
+			Connection conn = DriverManager.getConnection(URL);
+			try (Statement st = conn.createStatement()){
+				st.execute("PRAGMA foreign_keys = ON");
+			}
+			return conn;
+		}catch(Exception e) {
+			System.out.println("ERROR: no ha sido posible conectar con la base de datos");
+			return null;
+		}	
 	}
-	
 }
