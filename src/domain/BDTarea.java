@@ -1,81 +1,90 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class BDTarea {
     private int id;
     private String nombre;
-    private int tiempoEjecucion;        
-    private boolean completada;
-    private Integer trabajadorId;       
-    private Integer adminIdCreador;     
+    private int duracion; // En minutos
+	private String estado; // Opciones : pendiente (Si no se ha iniciado) , ejecutando (Si se ha iniciado el hilo) y finalizado (Si el hilo se ha finalizado)
+	private Boolean ejecucion; // Por si es necesario para algo luego
+	private HashSet<Trabajador> trabajadoresAsignados;
+	private Thread hilo;
 
-    public BDTarea(int id, String nombre, int tiempoEjecucion,
-                   boolean completada, Integer trabajadorId, Integer adminIdCreador) {
-        this.id = id;
-        this.nombre = nombre;
-        this.tiempoEjecucion = tiempoEjecucion;
-        this.completada = completada;
-        this.trabajadorId = trabajadorId;
-        this.adminIdCreador = adminIdCreador;
-    }
 
-    public BDTarea(String nombre, int tiempoEjecucion,
-                   boolean completada, Integer trabajadorId, Integer adminIdCreador) {
-        this(0, nombre, tiempoEjecucion, completada, trabajadorId, adminIdCreador);
-    }
+	public BDTarea(int id, String nombre, int duracion,  HashSet<Trabajador> trabajadores) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.estado = "pendiente";
+		this.ejecucion = false;
+		this.trabajadoresAsignados = trabajadores;
+		this.hilo =  new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				setEstado("ejecutando");
+				setEjecucion(true);
+				try {
+					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				setEjecucion(null);
+				setEstado("finalizado");
+				
+				
+			}
+		});;
+	}
+	
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getTiempoEjecucion() {
-        return tiempoEjecucion;
-    }
-
-    public void setTiempoEjecucion(int tiempoEjecucion) {
-        this.tiempoEjecucion = tiempoEjecucion;
-    }
-
-    public boolean isCompletada() {
-        return completada;
-    }
-
-    public void setCompletada(boolean completada) {
-        this.completada = completada;
-    }
-
-    public Integer getTrabajadorId() {
-        return trabajadorId;
-    }
-
-    public void setTrabajadorId(Integer trabajadorId) {
-        this.trabajadorId = trabajadorId;
-    }
-
-    public Integer getAdminIdCreador() {
-        return adminIdCreador;
-    }
-
-    public void setAdminIdCreador(Integer adminIdCreador) {
-        this.adminIdCreador = adminIdCreador;
-    }
-
-    @Override
-    public String toString() {
-        return "TareaBD{id=" + id + ", nombre='" + nombre + "', completada=" + completada + "}";
-    }
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public int getDuracion() {
+		return duracion;
+	}
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public Boolean getEjecucion() {
+		return ejecucion;
+	}
+	public void setEjecucion(Boolean ejecucion) {
+		this.ejecucion = ejecucion;
+	}
+	public Thread getHilo() {
+		return hilo;
+	}
+	public void setHilo(Thread hilo) {
+		this.hilo = hilo;
+	}
+	public HashSet<Trabajador> getTrabajadoresAsignados() {
+		return trabajadoresAsignados;
+	}
+	public void setTrabajadoresAsignados(HashSet<Trabajador> trabajadoresAsignados) {
+		this.trabajadoresAsignados = trabajadoresAsignados;
+	}
 }
 
 

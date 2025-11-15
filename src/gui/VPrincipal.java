@@ -1,6 +1,7 @@
 package gui;
 
 import gui.ui.AppUI;
+import domain.BDTrabajador;
 import domain.Trabajador;
 import domain.Usuario;
 
@@ -35,13 +36,8 @@ public class VPrincipal extends JFrame {
     public VPrincipal() {
         // ==== DATOS DE PRUEBA ====
         personal = new ArrayList<>();
-        Trabajador eneko = new Trabajador("Eneko", "Gil Jimenez", "Enekore", "aupa", null, LocalDate.now(), null, null );
+        BDTrabajador eneko = new BDTrabajador(1,"Eneko", "Gil", "Enekogil", "aupa");
         personal.add(eneko);
-        LocalDate hoy = eneko.getEntrada();
-        String hora = LocalTime.now().toString();  //Esto se puede simplificar haciendo una funcion registrar();
-        ArrayList<String> registroHoy = new ArrayList<>();
-        registroHoy.add(hora);
-        eneko.getRegistros().put(hoy, registroHoy);
 
      // === Login TITULO ===
         setTitle("Login");
@@ -157,7 +153,7 @@ public class VPrincipal extends JFrame {
 
                 if (encontrado instanceof Trabajador) {
                     System.out.println(">>> Es Trabajador, abriendo VTrabajador1");
-                    VTrabajador1 v = new VTrabajador1((Trabajador) encontrado);
+                    VTrabajador1 v = new VTrabajador1((BDTrabajador) encontrado);
                     v.setVisible(true);
                     VPrincipal.this.dispose();
                 } else {

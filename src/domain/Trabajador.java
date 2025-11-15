@@ -2,6 +2,7 @@ package domain;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,19 +11,23 @@ import java.util.Map;
 public class Trabajador extends Usuario {
 	
 	private HashSet<Tarea> tareasAsignadas;
-	private LocalDate entrada;
-	private Date salida;
+	private LocalDateTime entrada;
+	private LocalDateTime salida;
 	
 
 
-	public Trabajador(String nombre, String apellidos, String usuario, String contraseyna, HashSet<Tarea> tareasAsignadas, LocalDate entrada,
-			Date salida, HashMap registros) {
+
+
+
+	public Trabajador(String nombre, String apellidos, String usuario, String contraseyna,
+			Map<LocalDate, List<String>> registros, HashSet<Tarea> tareasAsignadas, LocalDateTime entrada,
+			LocalDateTime salida) {
 		super(nombre, apellidos, usuario, contraseyna, registros);
 		this.tareasAsignadas = tareasAsignadas;
 		this.entrada = entrada;
 		this.salida = salida;
 	}
-	
+
 
 
 	public Trabajador(String nombre, String apellidos, String usuario, String contraseyna,
@@ -39,27 +44,39 @@ public class Trabajador extends Usuario {
 		return tareasAsignadas;
 	}
 
+
+
 	public void setTareasAsignadas(HashSet<Tarea> tareasAsignadas) {
 		this.tareasAsignadas = tareasAsignadas;
 	}
 
-	public LocalDate getEntrada() {
+
+
+	public LocalDateTime getEntrada() {
 		return entrada;
 	}
 
-	public void setEntrada(LocalDate entrada) {
+
+
+	public void setEntrada(LocalDateTime entrada) {
 		this.entrada = entrada;
 	}
 
-	public Date getSalida() {
+
+
+	public LocalDateTime getSalida() {
 		return salida;
 	}
 
-	public void setSalida(Date salida) {
+
+
+	public void setSalida(LocalDateTime salida) {
 		this.salida = salida;
 	}
-	
-	
+
+
+
+s
 	
 	
 	

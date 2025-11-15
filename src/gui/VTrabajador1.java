@@ -8,25 +8,37 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import domain.BDTrabajador;
 import domain.Trabajador;
+import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.awt.event.ActionEvent;
 
 public class VTrabajador1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Trabajador trabajador;
+	private JButton btnDesfichar;
+	private JButton btnFichar;
+	private JButton btnVerTareas;
 
 	//Creo que hacerlo sin parent, queda mejor
-	public VTrabajador1(Trabajador trabajador) {
+	public VTrabajador1(BDTrabajador trabajador) {
         setTitle("Panel del Trabajador");
-        setSize(450, 300);
+        setSize(559, 368);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        getContentPane().setLayout(new GridBagLayout());
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.rowHeights = new int[]{0, 0, 130};
+        gridBagLayout.columnWidths = new int[]{0, 284};
+        getContentPane().setLayout(gridBagLayout);
 
         // --- LABEL BIENVENIDO ---
         JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
@@ -38,7 +50,18 @@ public class VTrabajador1 extends JFrame {
         getContentPane().add(lbl, gbc_lbl);
 
         // --- BOTÓN FICHAR ---
-        JButton btnFichar = new JButton("Fichar");
+        btnFichar = new JButton("Fichar");
+        btnFichar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		LocalDateTime fichaje = LocalDateTime.now();
+        		btnDesfichar.setEnabled(true);
+        		btnFichar.setEnabled(false);
+        		trabajador.setEntrada(fichaje);
+        		
+        		
+        		
+        	}
+        });
         GridBagConstraints gbc_btnFichar = new GridBagConstraints();
         gbc_btnFichar.insets = new Insets(10, 10, 10, 10);
         gbc_btnFichar.gridx = 0;
@@ -46,7 +69,23 @@ public class VTrabajador1 extends JFrame {
         getContentPane().add(btnFichar, gbc_btnFichar);
 
         // --- BOTÓN DESFICHAR ---
-        JButton btnDesfichar = new JButton("Desfichar");
+        btnDesfichar = new JButton("Desfichar");
+        btnDesfichar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		LocalDateTime entrada = trabajador.getEntrada();
+        		btnDesfichar.setEnabled(false);
+        		btnFichar.setEnabled(true);
+        		trabajador.metodoFichar();
+        		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        		String entradaFormat = entrada.format(formato);
+        		String salidaFormtar = LocalDateTime.now().format(formato);
+
+        		JOptionPane.showMessageDialog(null, "Has fichado desde" + entradaFormat + " - " + salidaFormtar );
+
+        		
+        	}
+        });
+        btnDesfichar.setEnabled(false);
         GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
         gbc_btnDesfichar.insets = new Insets(10, 10, 10, 10);
         gbc_btnDesfichar.gridx = 1;
@@ -54,7 +93,7 @@ public class VTrabajador1 extends JFrame {
         getContentPane().add(btnDesfichar, gbc_btnDesfichar);
 
         // --- BOTÓN VER TAREAS ---
-        JButton btnVerTareas = new JButton("Ver tareas");
+        btnVerTareas = new JButton("Ver tareas");
         GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
         gbc_btnVerTareas.insets = new Insets(10, 10, 10, 10);
         gbc_btnVerTareas.gridx = 0;
