@@ -14,7 +14,7 @@ public class AdminDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, a.getNombre());
-            ps.setString(2, a.getContraseña());
+            ps.setString(2, a.getContraseyna());
             ps.executeUpdate();
 
         } catch (SQLException e) {

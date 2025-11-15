@@ -9,11 +9,11 @@ public class BDTarea {
     private int duracion; // En minutos
 	private String estado; // Opciones : pendiente (Si no se ha iniciado) , ejecutando (Si se ha iniciado el hilo) y finalizado (Si el hilo se ha finalizado)
 	private Boolean ejecucion; // Por si es necesario para algo luego
-	private HashSet<Trabajador> trabajadoresAsignados;
+	private HashSet<BDTrabajador> trabajadoresAsignados;
 	private Thread hilo;
 
 
-	public BDTarea(int id, String nombre, int duracion,  HashSet<Trabajador> trabajadores) {
+	public BDTarea(int id, String nombre, int duracion,  HashSet<BDTrabajador> trabajadores) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -41,6 +41,7 @@ public class BDTarea {
 			}
 		});;
 	}
+	
 	
 
 	public int getId() {
@@ -79,11 +80,17 @@ public class BDTarea {
 	public void setHilo(Thread hilo) {
 		this.hilo = hilo;
 	}
-	public HashSet<Trabajador> getTrabajadoresAsignados() {
+	public HashSet<BDTrabajador> getTrabajadoresAsignados() {
 		return trabajadoresAsignados;
 	}
-	public void setTrabajadoresAsignados(HashSet<Trabajador> trabajadoresAsignados) {
+	public void setTrabajadoresAsignados(HashSet<BDTrabajador> trabajadoresAsignados) {
 		this.trabajadoresAsignados = trabajadoresAsignados;
+	}
+
+	//es necesario para la base de datos (hay que completarlo)
+	public boolean isCompletada() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

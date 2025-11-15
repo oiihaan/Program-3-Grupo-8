@@ -2,10 +2,12 @@ package gui;
 
 import gui.ui.AppUI;
 import domain.BDTrabajador;
-import domain.Trabajador;
 import domain.Usuario;
 
 import javax.swing.*;
+
+import bd.InicializadorBaseDatos;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +27,7 @@ public class VPrincipal extends JFrame {
     private ArrayList<Usuario> personal;
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {			
         AppUI.initLookAndFeel();
         EventQueue.invokeLater(() -> {
             VPrincipal frame = new VPrincipal();
@@ -36,7 +38,7 @@ public class VPrincipal extends JFrame {
     public VPrincipal() {
         // ==== DATOS DE PRUEBA ====
         personal = new ArrayList<>();
-        BDTrabajador eneko = new BDTrabajador(1,"Eneko", "Gil", "Enekogil", "aupa");
+        BDTrabajador eneko = new BDTrabajador(1,"Eneko", "aupa");
         personal.add(eneko);
 
      // === Login TITULO ===
@@ -132,10 +134,10 @@ public class VPrincipal extends JFrame {
                 Usuario encontrado = null;
 
                 for (Usuario u : personal) {
-                    System.out.println(" - Comparando con: u.getUsuario() = [" + u.getUsuario()
+                    System.out.println(" - Comparando con: u.getUsuario() = [" + u.getNombre()
                             + "], u.getContraseyna() = [" + u.getContraseyna() + "]");
 
-                    if (usuario.equals(u.getUsuario())
+                    if (usuario.equals(u.getNombre())
                             && contraseyna.equals(u.getContraseyna())) {
                         encontrado = u;
                         break;
@@ -151,7 +153,7 @@ public class VPrincipal extends JFrame {
 
                 System.out.println(">>> USUARIO ENCONTRADO: " + encontrado.getNombre());
 
-                if (encontrado instanceof Trabajador) {
+                if (encontrado instanceof BDTrabajador) {
                     System.out.println(">>> Es Trabajador, abriendo VTrabajador1");
                     VTrabajador1 v = new VTrabajador1((BDTrabajador) encontrado);
                     v.setVisible(true);

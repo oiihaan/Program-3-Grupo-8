@@ -17,7 +17,7 @@ public class TrabajadorDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, t.getNombre());
-            ps.setString(2, t.getContraseña());
+            ps.setString(2, t.getContraseyna());
             ps.executeUpdate();
 
         } catch (SQLException e) {

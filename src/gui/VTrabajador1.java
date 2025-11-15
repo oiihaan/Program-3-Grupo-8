@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import domain.BDTrabajador;
-import domain.Trabajador;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +22,7 @@ public class VTrabajador1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Trabajador trabajador;
+	private BDTrabajador trabajador;
 	private JButton btnDesfichar;
 	private JButton btnFichar;
 	private JButton btnVerTareas;

@@ -8,17 +8,18 @@ import java.util.HashMap;
 public abstract class Usuario {
     private int id;
 	private String nombre;
-	private String apellido;
-	private String usuario; // El de la parte del login
-	private String contraseyna;
+	//private String apellido;
+	//private String usuario; // El de la parte del login
+	private String contrasenya;
 	
-	public Usuario(int id, String nombre, String apellido, String usuario, String contraseyna) {
+
+	public Usuario(int id, String nombre, String contraseyna) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		this.apellido = apellido;
-		this.usuario = usuario;
-		this.contraseyna = contraseyna;
+		//this.apellido = apellido;
+		//this.usuario = usuario;
+		this.contrasenya = contraseyna;
 	}
 
 	public int getId() {
@@ -37,31 +38,13 @@ public abstract class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
 
 	public String getContraseyna() {
-		return contraseyna;
+		return contrasenya;
 	}
 
 	public void setContraseyna(String contraseyna) {
-		this.contraseyna = contraseyna;
+		this.contrasenya = contraseyna;
 	}
-	
-	
-	
 	
 }

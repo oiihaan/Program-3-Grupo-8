@@ -8,25 +8,35 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class BDTrabajador extends Usuario {
-	private HashSet<Tarea> tareasAsignadas;
+	private HashSet<BDTarea> tareasAsignadas;
 	private LocalDateTime entrada; //formateador DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	private HashMap<LocalDate, ArrayList<LocalDateTime>> registrosFichaje;
 	
 	
-	public BDTrabajador(int id, String nombre, String apellido, String usuario, String contraseyna) {
-		super(id, nombre, apellido, usuario, contraseyna);
-		this.tareasAsignadas = new HashSet<Tarea>();
+	public BDTrabajador(int id, String nombre,  String contrasenya) {
+		super(id, nombre, contrasenya);
+		this.tareasAsignadas = new HashSet<BDTarea>();
 		this.entrada = null;
 		this.registrosFichaje = new HashMap<LocalDate, ArrayList<LocalDateTime>>();
 	}
+	
+	public void metodoFichar() {
+		LocalDateTime entrada = this.getEntrada();
+		LocalDateTime salida = LocalDateTime.now();
+		registrosFichaje.putIfAbsent(LocalDate.now(), new ArrayList<LocalDateTime>());
+		registrosFichaje.get(LocalDate.now()).add(entrada);
+		registrosFichaje.get(LocalDate.now()).add(salida);
+		this.setEntrada(null);
+
+	}
 
 
-	public HashSet<Tarea> getTareasAsignadas() {
+	public HashSet<BDTarea> getTareasAsignadas() {
 		return tareasAsignadas;
 	}
 
 
-	public void setTareasAsignadas(HashSet<Tarea> tareasAsignadas) {
+	public void setTareasAsignadas(HashSet<BDTarea> tareasAsignadas) {
 		this.tareasAsignadas = tareasAsignadas;
 	}
 
@@ -50,22 +60,6 @@ public class BDTrabajador extends Usuario {
 		this.registrosFichaje = registrosFichaje;
 	}
 	
-	public void metodoFichar() {
-		LocalDateTime entrada = this.getEntrada();
-		LocalDateTime salida = LocalDateTime.now();
-		registrosFichaje.putIfAbsent(LocalDate.now(), new ArrayList<LocalDateTime>());
-		registrosFichaje.get(LocalDate.now()).add(entrada);
-		registrosFichaje.get(LocalDate.now()).add(salida);
-		this.setEntrada(null);
-
-	}
-	
-	
-	
-	
-	
-
-
 }
 
 
