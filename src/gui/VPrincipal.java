@@ -1,6 +1,7 @@
 package gui;
 
 import gui.ui.AppUI;
+import domain.BDAdmin;
 import domain.BDTrabajador;
 import domain.Usuario;
 
@@ -39,7 +40,11 @@ public class VPrincipal extends JFrame {
         // ==== DATOS DE PRUEBA ====
         personal = new ArrayList<>();
         BDTrabajador eneko = new BDTrabajador(1,"Eneko", "aupa");
+        BDAdmin juan = new BDAdmin(2,"Juan", "123");
+
         personal.add(eneko);
+        personal.add(juan);
+
 
      // === Login TITULO ===
         setTitle("Login");
@@ -125,44 +130,35 @@ public class VPrincipal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String usuario = txtUser.getText().trim();
-                String contraseyna = new String(txtPass.getPassword());
-
-                System.out.println(">>> CLICK LOGIN");
-                System.out.println("Usuario escrito    : [" + usuario + "]");
-                System.out.println("Contraseña escrita : [" + contraseyna + "]");
-
-                Usuario encontrado = null;
-
+                String contraseyna = String.copyValueOf(txtPass.getPassword());
+                Boolean entrado = false;
+                
                 for (Usuario u : personal) {
-                    System.out.println(" - Comparando con: u.getUsuario() = [" + u.getNombre()
-                            + "], u.getContraseyna() = [" + u.getContraseyna() + "]");
+                	if(u.getNombre().equals(usuario) && u.getContraseyna().equals(contraseyna) ) {
+                		
+                		if (u instanceof BDTrabajador) {
+                			VTrabajador1 v = new VTrabajador1((BDTrabajador) u);
+                            v.setVisible(true);
+                            VPrincipal.this.dispose();
+                            entrado = true;
+                		} else if (u instanceof BDAdmin) {
+                			VAdmin1 v = new VAdmin1((BDAdmin) u);
+                            v.setVisible(true);
+                            VPrincipal.this.dispose();	
+                            entrado = true;
 
-                    if (usuario.equals(u.getNombre())
-                            && contraseyna.equals(u.getContraseyna())) {
-                        encontrado = u;
-                        break;
-                    }
+						}
+                		
+                		
+                	}
+                	
                 }
-
-                if (encontrado == null) {
-                    System.out.println(">>> NO SE ENCONTRÓ NINGÚN USUARIO COINCIDENTE");
-                    JOptionPane.showMessageDialog(VPrincipal.this,
-                            "El usuario o la contraseña no son válidos");
-                    return;
-                }
-
-                System.out.println(">>> USUARIO ENCONTRADO: " + encontrado.getNombre());
-
-                if (encontrado instanceof BDTrabajador) {
-                    System.out.println(">>> Es Trabajador, abriendo VTrabajador1");
-                    VTrabajador1 v = new VTrabajador1((BDTrabajador) encontrado);
-                    v.setVisible(true);
-                    VPrincipal.this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(VPrincipal.this,
-                            "Login de administrador aún no implementado");
+                if (!entrado == true) {
+        		JOptionPane.showMessageDialog(null, "El usuario o la contraseña no son válidos" );
                 }
             }
+            
+            
         });
     }
 }

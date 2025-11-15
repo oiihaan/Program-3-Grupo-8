@@ -80,6 +80,7 @@ public class VTrabajador1 extends JFrame {
         		String salidaFormtar = LocalDateTime.now().format(formato);
 
         		JOptionPane.showMessageDialog(null, "Has fichado desde" + entradaFormat + " - " + salidaFormtar );
+        		System.out.println(trabajador.getRegistrosFichaje());
 
         		
         	}
