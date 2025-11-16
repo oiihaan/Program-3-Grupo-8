@@ -79,7 +79,7 @@ public class VTrabajador1 extends JFrame {
         		String entradaFormat = entrada.format(formato);
         		String salidaFormtar = LocalDateTime.now().format(formato);
 
-        		JOptionPane.showMessageDialog(null, "Has fichado desde" + entradaFormat + " - " + salidaFormtar );
+        		JOptionPane.showMessageDialog(null, "Has fichado desde " + entradaFormat + " - " + salidaFormtar );
         		System.out.println(trabajador.getRegistrosFichaje());
 
         		
@@ -96,7 +96,7 @@ public class VTrabajador1 extends JFrame {
         btnVerTareas = new JButton("Ver tareas");
         btnVerTareas.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this);
+        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
         		VTrabajadorTarea.setVisible(true);
         		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
         	}

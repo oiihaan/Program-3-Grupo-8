@@ -5,18 +5,27 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import domain.BDTarea;
 import domain.BDTrabajador;
 
 import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VTrabajadorTarea extends JFrame {
 
@@ -24,13 +33,15 @@ public class VTrabajadorTarea extends JFrame {
 	private JPanel contentPane;
 	private VTrabajador1 parent;
 	
+	Thread HiloTiempo;
+	
 
 
 
 	/**
 	 * Create the frame.
 	 */
-	public VTrabajadorTarea(VTrabajador1 parent) {
+	public VTrabajadorTarea(VTrabajador1 parent,BDTrabajador trabajador ) {
 		this.parent = parent;
 
 		setTitle("Tareas");
@@ -96,6 +107,124 @@ public class VTrabajadorTarea extends JFrame {
 		btnFinalizarTarea.setEnabled(false);
 		btnFinalizarTarea.setBounds(21, 120, 101, 21);
 		centroDe.add(btnFinalizarTarea);
+		
+		JButton btnVolver = new JButton("Volver");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 2;
+		contentPane.add(btnVolver, gbc_btnNewButton);
+		
+		////////////////////////////////////////////////// ACIONES
+		//Creamos el modelo de la lista , le añadimos las tareas del trabajador y añadimos el modelo a la lista
+		DefaultListModel<BDTarea> modelo = new DefaultListModel<>();
+		
+		for (BDTarea tarea : trabajador.getTareasAsignadas()) {
+			if(tarea.getEstado().equals("finalizado")) {  //Los finalizados no los metemos al modelo pero siguien en sus tareas para que el jefe pueda verlos
+			} else {
+				modelo.addElement(tarea);
+			}
+			
+		}
+		list.setModel(modelo);
+		
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Para que solo pueda selecionar una opcion 
+		
+
+		//Hacemos que el boton de empezar tarea se habilite cuando esta algo de la lista selecionado , pero si desabilita la opcion se va
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+			BDTarea tareaselect = (BDTarea) list.getSelectedValue();
+	
+				if(!list.isSelectionEmpty()) {
+					if (tareaselect.getEjecucion() == true) { //Se esta ejecutando
+						btnEmpezarTarea.setEnabled(false);
+						btnFinalizarTarea.setEnabled(true);
+					} else {
+						btnEmpezarTarea.setEnabled(true);
+						btnFinalizarTarea.setEnabled(false);
+
+
+					}
+					
+				}else {
+					btnEmpezarTarea.setEnabled(false);
+					btnFinalizarTarea.setEnabled(false);
+
+				}
+					
+				
+			}
+		});
+		
+		//Inicia  el hilo
+		btnEmpezarTarea.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			BDTarea tareaselect = (BDTarea) list.getSelectedValue();
+	
+
+				tareaselect.getHilo().start();
+				btnEmpezarTarea.setEnabled(false);
+				btnFinalizarTarea.setEnabled(true);
+
+				
+				
+			}
+		});
+
+		//Finaliza el hilo manualmente y lo borra de la lista
+		btnFinalizarTarea.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BDTarea tareaselect = (BDTarea) list.getSelectedValue();
+				tareaselect.getHilo().interrupt();
+				btnFinalizarTarea.setEnabled(false);
+				btnEmpezarTarea.setEnabled(false);
+				int indice = modelo.indexOf(tareaselect);
+				modelo.removeElementAt(indice);
+
+				
+			}
+		});
+		//Creo hilo para que cada 10 segundo revise si alguna tarea a sido finalizada y los borre del modelo
+		HiloTiempo = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while(true) {
+				try {
+					Thread.sleep(10000); // Duerme 10 seg
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // Busca entre todas las tarareas si ahi alguna que esta finalizada y esta dentro del modelo y las borra
+				for (BDTarea tarea : trabajador.getTareasAsignadas()) {
+					if(tarea.getEstado().equals("finalizado") && modelo.contains(tarea)) {
+						System.out.println("Borrando");
+		                    btnFinalizarTarea.setEnabled(false);
+		                    btnEmpezarTarea.setEnabled(false);
+		                    int indice = modelo.indexOf(tarea);
+		                    modelo.removeElementAt(indice);
+		                
+					} 
+				}				
+			}
+			}
+		});
+		HiloTiempo.start();
+		
+		//Volver a la pestaña de atras
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VTrabajadorTarea.this.parent.setVisible(true);
+				VTrabajadorTarea.this.parent.repaint();
+				VTrabajadorTarea.this.dispose();
+
+
+			}
+		});
+
+		
+
 	
 	}
 }

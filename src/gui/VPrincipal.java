@@ -2,6 +2,7 @@ package gui;
 
 import gui.ui.AppUI;
 import domain.BDAdmin;
+import domain.BDTarea;
 import domain.BDTrabajador;
 import domain.Usuario;
 
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class VPrincipal extends JFrame {
 
@@ -44,6 +46,18 @@ public class VPrincipal extends JFrame {
 
         personal.add(eneko);
         personal.add(juan);
+        
+        HashSet<BDTrabajador> trabajadores = new HashSet<>();
+        trabajadores.add(eneko); // Tu instancia de trabajador
+        
+        BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, trabajadores);
+        BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, trabajadores);
+        BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, trabajadores);
+        tarea3.setEstado("finalizado");
+        eneko.getTareasAsignadas().add(tarea1);
+        eneko.getTareasAsignadas().add(tarea3);
+        eneko.getTareasAsignadas().add(tarea2);
+
 
 
      // === Login TITULO ===

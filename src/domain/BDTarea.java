@@ -28,12 +28,17 @@ public class BDTarea {
 				
 				setEstado("ejecutando");
 				setEjecucion(true);
+				System.out.println("Tarea Iniciada " + nombre);
+
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("hilo terminado" + nombre);
+					setEjecucion(null);
+					setEstado("finalizado");
+					return;
 				}
+				System.out.println("Tarea finalizada " + nombre);
 				setEjecucion(null);
 				setEstado("finalizado");
 				
@@ -92,6 +97,14 @@ public class BDTarea {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 }
 
 
