@@ -2,18 +2,27 @@ package gui;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.awt.EventQueue;
+import java.awt.*;
+import javax.swing.*;
 
 import domain.BDAdmin;
+
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VAdmin1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
+	private BDAdmin admin;
 	/**
 	 * Launch the application.
 	 */
@@ -23,17 +32,69 @@ public class VAdmin1 extends JFrame {
 	 * Create the frame.
 	 */
 	public VAdmin1(BDAdmin admin) {
+		
+		this.admin = admin;
+		setTitle("MENU de Adminisrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 547, 389);
+		setBounds(100, 100, 640, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[] {150, 150, 150};
+		gbl_contentPane.rowHeights = new int[] {50, 300, 50};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0};
+		contentPane.setLayout(gbl_contentPane);
 		
-		JLabel lblNewLabel = new JLabel("PRUEBA");
-		lblNewLabel.setBounds(242, 10, 46, 14);
-		contentPane.add(lblNewLabel);
+		JPanel centro = new JPanel();
+		GridBagConstraints gbc_centro = new GridBagConstraints();
+		gbc_centro.anchor = GridBagConstraints.WEST;
+		gbc_centro.fill = GridBagConstraints.VERTICAL;
+		gbc_centro.insets = new Insets(0, 0, 5, 5);
+		gbc_centro.gridx = 1;
+		gbc_centro.gridy = 1;
+		contentPane.add(centro, gbc_centro);
+		centro.setLayout(new BorderLayout(0, 0));
+		
+		JPanel centroNorth = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) centroNorth.getLayout();
+		flowLayout.setVgap(20);
+		centro.add(centroNorth, BorderLayout.NORTH);
+		
+		JLabel lblBienvenida = new JLabel("Bienvenid@: ");
+		centroNorth.add(lblBienvenida);
+		lblBienvenida.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblNombreAdmin = new JLabel("");
+		lblNombreAdmin.setText(admin.getNombre());
+		centroNorth.add(lblNombreAdmin);
+		
+		JPanel centroCenter = new JPanel();
+		centro.add(centroCenter, BorderLayout.CENTER);
+		centroCenter.setLayout(new GridLayout(2, 2, 10, 30));
+		
+		JButton btnAnyadirTareas = new JButton("Añadir Tareas");
+		centroCenter.add(btnAnyadirTareas);
+		btnAnyadirTareas.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JButton btnAnyadirEmpleados = new JButton("Añadir Empleados");
+		btnAnyadirEmpleados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VAnyadirTrabajador VAnyadirTrabajador = new VAnyadirTrabajador (VAdmin1.this, admin);
+				VAnyadirTrabajador.setVisible(true);
+				VAdmin1.this.dispose();
+			}
+		});
+		centroCenter.add(btnAnyadirEmpleados);
+		
+		JButton btnVerTareas = new JButton("Ver Tareas");
+		centroCenter.add(btnVerTareas);
+		
+		JButton btnVisualizarEmpleados = new JButton("Ver Empleados");
+		centroCenter.add(btnVisualizarEmpleados);
+
 	}
 
 }
