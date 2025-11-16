@@ -10,7 +10,7 @@ public class main {
 		 * Launch the application.
 		 */
 	public static void main(String[] args) {
-		bd.InicializadorBaseDatos.init();			//asegura que la base de datos este creada
+		bd.InicializadorBaseDatos.init();			//Asegura que la base de datos este creada
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 					try {
