@@ -94,6 +94,13 @@ public class VTrabajador1 extends JFrame {
 
         // --- BOTÓN VER TAREAS ---
         btnVerTareas = new JButton("Ver tareas");
+        btnVerTareas.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea();
+        		VTrabajadorTarea.setVisible(true);
+        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+        	}
+        });
         GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
         gbc_btnVerTareas.insets = new Insets(10, 10, 10, 10);
         gbc_btnVerTareas.gridx = 0;
