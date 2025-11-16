@@ -22,6 +22,7 @@ public class VTrabajadorTarea extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private VTrabajador1 parent;
 	
 
 
@@ -29,7 +30,8 @@ public class VTrabajadorTarea extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VTrabajadorTarea() {
+	public VTrabajadorTarea(VTrabajador1 parent) {
+		this.parent = parent;
 
 		setTitle("Tareas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -96,7 +96,7 @@ public class VTrabajador1 extends JFrame {
         btnVerTareas = new JButton("Ver tareas");
         btnVerTareas.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea();
+        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this);
         		VTrabajadorTarea.setVisible(true);
         		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
         	}
