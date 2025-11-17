@@ -57,8 +57,38 @@ public class VVerTareas extends JFrame {
 		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		scrollPane.setViewportView(list);
 		
-		JPanel panel = new JPanel();
-		centro.add(panel);
+		JPanel right = new JPanel();
+		centro.add(right);
+		right.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JPanel firstRowCe = new JPanel();
+		right.add(firstRowCe);
+		firstRowCe.setLayout(null);
+		
+		JLabel lblEstado = new JLabel("Estado de la tarea: ");
+		lblEstado.setBounds(10, 30, 90, 13);
+		firstRowCe.add(lblEstado);
+		
+		JLabel lblEstadoVar = new JLabel("\"Aqui aparecera el estado de la tarea seleccionada\"");
+		lblEstadoVar.setBounds(10, 53, 237, 13);
+		firstRowCe.add(lblEstadoVar);
+		
+		JPanel secondRowCe = new JPanel();
+		right.add(secondRowCe);
+		
+		
+		
+		JPanel thirdRowCe = new JPanel();
+		thirdRowCe.add(thirdRowCe);
+		
+		JLabel lblProgreso = new JLabel("Progreso de la tarea:");
+		secondRowCe.add(lblProgreso);
+		
+		JProgressBar progressBarTarea = new JProgressBar();
+		secondRowCe.add(progressBarTarea);
+		
+		JPanel forthRowCe = new JPanel();
+		right.add(forthRowCe);
 		
 
 	}
