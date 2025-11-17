@@ -18,7 +18,7 @@ public class main {
 						VPrincipal.setVisible(true);
 						System.out.println("main");
 				} catch (Exception e) {
-					e.printStackTrace();
+					e.printStackTrace(); 
 				}
 			}
 		});
