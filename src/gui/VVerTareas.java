@@ -2,9 +2,13 @@ package gui;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import domain.BDAdmin;
+
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -15,18 +19,32 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VVerTareas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private VAdmin1 parent;
+	private BDAdmin admin;
 
 
-	public VVerTareas() {
+	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
+		this.parent = parent;
+		this.admin = admin;
+		
+		setTitle("Ver Tareas");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 640, 482);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {100, 299, 100};
 		gridBagLayout.rowHeights = new int[] {50, 300, 50};
-		gridBagLayout.columnWeights = new double[]{0.0,1.0,0.0};
+		gridBagLayout.columnWeights = new double[]{0.0,0.0,0.0};
 		gridBagLayout.rowWeights = new double[]{0.0,1.0,0.0};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -66,29 +84,41 @@ public class VVerTareas extends JFrame {
 		firstRowCe.setLayout(null);
 		
 		JLabel lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 30, 90, 13);
+		lblEstado.setBounds(10, 10, 90, 13);
 		firstRowCe.add(lblEstado);
 		
-		JLabel lblEstadoVar = new JLabel("\"Aqui aparecera el estado de la tarea seleccionada\"");
-		lblEstadoVar.setBounds(10, 53, 237, 13);
+		JLabel lblEstadoVar = new JLabel("\"Estado\"");
+		lblEstadoVar.setBounds(10, 33, 90, 13);
 		firstRowCe.add(lblEstadoVar);
 		
 		JPanel secondRowCe = new JPanel();
 		right.add(secondRowCe);
 		
-		
-		
 		JPanel thirdRowCe = new JPanel();
-		thirdRowCe.add(thirdRowCe);
+		right.add(thirdRowCe);
+		thirdRowCe.setLayout(null);
 		
 		JLabel lblProgreso = new JLabel("Progreso de la tarea:");
-		secondRowCe.add(lblProgreso);
+		lblProgreso.setBounds(10, 10, 98, 13);
+		thirdRowCe.add(lblProgreso);
 		
 		JProgressBar progressBarTarea = new JProgressBar();
-		secondRowCe.add(progressBarTarea);
+		progressBarTarea.setBounds(10, 32, 98, 14);
+		thirdRowCe.add(progressBarTarea);
 		
 		JPanel forthRowCe = new JPanel();
 		right.add(forthRowCe);
+		forthRowCe.setLayout(null);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
+				VVerTareas.this.dispose();
+			}
+		});
+		btnVolver.setBounds(28, 51, 85, 21);
+		forthRowCe.add(btnVolver);
 		
 
 	}

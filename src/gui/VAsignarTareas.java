@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import domain.BDAdmin;
+
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -19,32 +22,24 @@ import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SpringLayout;
 
 public class VAsignarTareas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VAsignarTareas frame = new VAsignarTareas();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private VAdmin1 parent;
+	private BDAdmin admin;
 
 	/**
 	 * Create the frame.
 	 */
-	public VAsignarTareas() {
+	public VAsignarTareas(VAdmin1 parent, BDAdmin admin) {
+		this.parent = parent;
+		this.admin = admin;
+		
 		setTitle("Asignar Tareas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 604, 426);
@@ -106,10 +101,21 @@ public class VAsignarTareas extends JFrame {
 	
 		
 		JPanel centroSouth = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) centroSouth.getLayout();
+		flowLayout.setHgap(30);
 		Centro.add(centroSouth, BorderLayout.SOUTH);
 		
 		JButton btnAsignarTarea = new JButton("Asignar Tarea");
 		centroSouth.add(btnAsignarTarea);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
+				VAsignarTareas.this.dispose();
+			}
+		});
+		centroSouth.add(btnVolver);
 		
 		JPanel centroCentro = new JPanel();
 		Centro.add(centroCentro, BorderLayout.CENTER);
@@ -117,7 +123,6 @@ public class VAsignarTareas extends JFrame {
 		
 		JPanel centroDe = new JPanel();
 		centroCentro.add(centroDe, BorderLayout.EAST);
-		centroDe.setLayout(new GridLayout(0, 1, 0, 0));
 		centroDe.setPreferredSize(new Dimension(50, 0)); 
 		
 		JScrollPane scrollPaneCentroDe = new JScrollPane();
@@ -125,6 +130,12 @@ public class VAsignarTareas extends JFrame {
 		gbc_scrollPaneCentroDe.fill = GridBagConstraints.BOTH;
 		gbc_scrollPaneCentroDe.gridx = 0;
 		gbc_scrollPaneCentroDe.gridy = 0;
+		SpringLayout sl_centroDe = new SpringLayout();
+		sl_centroDe.putConstraint(SpringLayout.NORTH, scrollPaneCentroDe, 0, SpringLayout.NORTH, centroDe);
+		sl_centroDe.putConstraint(SpringLayout.WEST, scrollPaneCentroDe, 0, SpringLayout.WEST, centroDe);
+		sl_centroDe.putConstraint(SpringLayout.SOUTH, scrollPaneCentroDe, 270, SpringLayout.NORTH, centroDe);
+		sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 257, SpringLayout.WEST, centroDe);
+		centroDe.setLayout(sl_centroDe);
 		centroDe.add(scrollPaneCentroDe);
 		scrollPaneCentroDe.setViewportView(listTrabajadores);
 		
