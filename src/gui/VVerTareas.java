@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import domain.BDAdmin;
+import domain.BDTarea;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -71,9 +73,14 @@ public class VVerTareas extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		left.add(scrollPane);
 		
-		JList list = new JList();
-		list.setLayoutOrientation(JList.VERTICAL_WRAP);
-		scrollPane.setViewportView(list);
+		JList listaTareas = new JList();
+		listaTareas.setLayoutOrientation(JList.VERTICAL_WRAP);
+		DefaultListModel<BDTarea> modeloTareas = new DefaultListModel<BDTarea>();
+		for (BDTarea t : VPrincipal.getTareas()) {
+			modeloTareas.addElement(t);
+		}
+		listaTareas.setModel(modeloTareas);
+		scrollPane.setViewportView(listaTareas);
 		
 		JPanel right = new JPanel();
 		centro.add(right);

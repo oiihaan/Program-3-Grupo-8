@@ -8,11 +8,18 @@ import domain.Usuario;
 
 import javax.swing.*;
 
+import bd.ConexionSQLite;
 import bd.InicializadorBaseDatos;
+import bd.TareaDAO;
+import bd.TrabajadorDAO;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -27,38 +34,51 @@ public class VPrincipal extends JFrame {
     private JPasswordField txtPass;
     private JButton btnLogin;
     private JLabel lblForgot;
-    private ArrayList<Usuario> personal;
+    private static HashSet<BDTrabajador> trabajadores;
+    private static HashSet<BDTarea> tareas;
     
-
-    public static void main(String[] args) {			
-        AppUI.initLookAndFeel();
-        EventQueue.invokeLater(() -> {
-            VPrincipal frame = new VPrincipal();
-            frame.setVisible(true);
-        });
-    }
 
     public VPrincipal() {
         // ==== DATOS DE PRUEBA ====
-        personal = new ArrayList<>();
-        BDTrabajador eneko = new BDTrabajador(1,"Eneko", "aupa");
+        ArrayList<Usuario> personal = new ArrayList<>();
         BDAdmin juan = new BDAdmin(2,"Juan", "123");
 
-        personal.add(eneko);
         personal.add(juan);
         
-        HashSet<BDTrabajador> trabajadores = new HashSet<>();
-        trabajadores.add(eneko); // Tu instancia de trabajador
+
+       
+
+        
+     // ==== DATOS conectando a BD ====
+        BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
+        TrabajadorDAO.insertar(iker);
+        trabajadores = new HashSet<BDTrabajador>();
+        cargarTrabajadoresBD();
+        System.out.println(trabajadores);
+        
         
         BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, trabajadores);
         BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, trabajadores);
         BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, trabajadores);
-        tarea3.setEstado("finalizado");
-        eneko.getTareasAsignadas().add(tarea1);
-        eneko.getTareasAsignadas().add(tarea3);
-        eneko.getTareasAsignadas().add(tarea2);
+        TareaDAO.insertar(tarea1);
+        TareaDAO.insertar(tarea2);
+        TareaDAO.insertar(tarea3);
+        tareas = new HashSet<BDTarea>();
+        cargarTareasBD();
+        System.out.println(tareas);
 
-
+       
+        for (BDTrabajador t : trabajadores) {  
+        	//---Para hacer el logIn---
+        	personal.add(t);
+        	
+        	//--- las tareas las debería asignar el admin ---
+        	t.getTareasAsignadas().add(tarea1);
+        	t.getTareasAsignadas().add(tarea2);
+        	t.getTareasAsignadas().add(tarea3);
+        }
+        
+        
 
      // === Login TITULO ===
         setTitle("Login");
@@ -175,4 +195,28 @@ public class VPrincipal extends JFrame {
             
         });
     }
+        public void cargarTrabajadoresBD() {
+            HashSet<BDTrabajador> trabajadoresBD = TrabajadorDAO.getAllTrabajadores();
+            trabajadores.addAll(trabajadoresBD);
+        }
+        
+		public static HashSet<BDTrabajador> getTrabajadores() {
+			return trabajadores;
+		}
+
+		public void setTrabajadores(HashSet<BDTrabajador> trabajadores) {
+			this.trabajadores = trabajadores;
+		}
+        public void cargarTareasBD() {
+        	HashSet<BDTarea> tareasBD = TareaDAO.getAllTareas();
+        	tareas.addAll(tareasBD);
+        }
+		public static HashSet<BDTarea> getTareas() {
+			return tareas;
+		}
+		public static void setTareas(HashSet<BDTarea> tareas) {
+			VPrincipal.tareas = tareas;
+		}
+        
+
 }

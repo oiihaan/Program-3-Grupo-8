@@ -8,8 +8,28 @@ import java.util.HashSet;
 
 public class TareaDAO {
 
-    // INSERTAR tarea (versión básica)
-    public void insertar(BDTarea t) {
+	public static BDTarea buscarTareaPorNombre(String nombre) {
+	    String sql = "SELECT id, nombre, tiempo_ejecucion, completada FROM tarea WHERE nombre = ?";
+	    try (Connection conn = ConexionSQLite.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, nombre);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return new BDTarea(rs.getInt("id"), rs.getString("nombre"), rs.getInt("tiempo_ejecucion"), rs.getBoolean("completada"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
+    public static void insertar(BDTarea t) {
+    	// Comprobar si el nombre ya existe
+	    if (buscarTareaPorNombre(t.getNombre()) != null) {
+	        System.out.println("ERROR: La tarea " + t.getNombre() + " ya existe.");
+	        return;
+	    }
         String sql = "INSERT INTO tarea(nombre, tiempo_ejecucion, completada) "
                    + "VALUES (?, ?, ?)";
 
@@ -82,5 +102,25 @@ public class TareaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static HashSet<BDTarea> getAllTareas() {
+    	HashSet<BDTarea> listaTareas = new HashSet<>();
+        String sql = "SELECT id, nombre, tiempo_ejecucion, completada FROM tarea";
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+            	int idTarea = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                int duracion = rs.getInt("tiempo_ejecucion");
+                boolean completada = rs.getInt("completada") == 1;
+                BDTarea tarea = new BDTarea (idTarea, nombre, duracion, completada);
+                listaTareas.add(tarea);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaTareas;
     }
 }

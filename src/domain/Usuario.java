@@ -46,5 +46,11 @@ public abstract class Usuario {
 	public void setContraseyna(String contraseyna) {
 		this.contrasenya = contraseyna;
 	}
+
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 	
 }
