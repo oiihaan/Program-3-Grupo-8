@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
+import java.awt.Cursor;
 
 public class VTrabajador1 extends JFrame {
 
@@ -35,36 +36,31 @@ public class VTrabajador1 extends JFrame {
 	
 
 	public VTrabajador1(VPrincipal parent, BDTrabajador trabajador) {
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         setTitle("Panel del Trabajador");
-        setSize(559, 368);
+        setSize(330, 293);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
-
-        // --- LABEL BIENVENIDO ---
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[]{25, 100, 40, 40, 100, 25, 0};
+        gridBagLayout.rowHeights = new int[]{53, 13, 21, 21, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        getContentPane().setLayout(gridBagLayout);
+                          
+        
+			// --- LABEL BIENVENIDO ---
         JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
-        lbl.setBounds(182, 53, 107, 13);
-        getContentPane().add(lbl);
-
-        // --- BOTÓN FICHAR ---
-        btnFichar = new JButton("Fichar");
-        btnFichar.setBounds(115, 86, 61, 21);
-        btnFichar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		LocalDateTime fichaje = LocalDateTime.now();
-        		btnDesfichar.setEnabled(true);
-        		btnFichar.setEnabled(false);
-        		trabajador.setEntrada(fichaje);
-        		
-        		
-        		
-        	}
-        });
-        getContentPane().add(btnFichar);
-
+        GridBagConstraints gbc_lbl = new GridBagConstraints();
+        gbc_lbl.fill = GridBagConstraints.VERTICAL;
+        gbc_lbl.insets = new Insets(0, 0, 5, 0);
+        gbc_lbl.gridwidth = 6;
+        gbc_lbl.gridx = 0;
+        gbc_lbl.gridy = 1;
+        getContentPane().add(lbl, gbc_lbl);                                 
+                                              
         // --- BOTÓN DESFICHAR ---
         btnDesfichar = new JButton("Desfichar");
-        btnDesfichar.setBounds(285, 86, 75, 21);
         btnDesfichar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		LocalDateTime entrada = trabajador.getEntrada();
@@ -81,30 +77,72 @@ public class VTrabajador1 extends JFrame {
         		
         	}
         });
-        btnDesfichar.setEnabled(false);
-        getContentPane().add(btnDesfichar);
+        
+                // --- BOTÓN FICHAR ---
+                btnFichar = new JButton("Fichar");
+                btnFichar.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		LocalDateTime fichaje = LocalDateTime.now();
+                		btnDesfichar.setEnabled(true);
+                		btnFichar.setEnabled(false);
+                		trabajador.setEntrada(fichaje);
+	
+                	}
+                });
                 
-                        // --- BOTÓN VER TAREAS ---
-                        btnVerTareas = new JButton("Ver tareas");
-                        btnVerTareas.setBounds(113, 124, 107, 21);
-                        btnVerTareas.addActionListener(new ActionListener() {
-                        	public void actionPerformed(ActionEvent e) {
-                        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
-                        		VTrabajadorTarea.setVisible(true);
-                        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
-                        	}
-                        });
-                        getContentPane().add(btnVerTareas);
-                        
-                        JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-                        btnCerrarSesion.addActionListener(new ActionListener() {
-                        	public void actionPerformed(ActionEvent e) {
-                        		VTrabajador1.this.dispose();
-                        		parent.setVisible(true);
-                        	}
-                        });
-                        btnCerrarSesion.setBounds(285, 124, 117, 21);
-                        getContentPane().add(btnCerrarSesion);;
-    
+                
+              
+                
+                JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+                btnCerrarSesion.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		VTrabajador1.this.dispose();
+                		parent.setVisible(true);
+                	}
+                });
+
+                // --- BOTÓN VER TAREAS ---
+                btnVerTareas = new JButton("Ver tareas");
+                btnVerTareas.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
+                		VTrabajadorTarea.setVisible(true);
+                		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+                	}
+                });
+                
+                
+                
+                //--CODIGO LAYOUT--
+                GridBagConstraints gbc_btnFichar = new GridBagConstraints();
+                gbc_btnFichar.fill = GridBagConstraints.BOTH;
+                gbc_btnFichar.insets = new Insets(0, 0, 5, 5);
+                gbc_btnFichar.gridx = 1;
+                gbc_btnFichar.gridy = 3;
+                getContentPane().add(btnFichar, gbc_btnFichar);
+                btnDesfichar.setEnabled(false);
+                GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
+                gbc_btnDesfichar.anchor = GridBagConstraints.WEST;
+                gbc_btnDesfichar.fill = GridBagConstraints.VERTICAL;
+                gbc_btnDesfichar.insets = new Insets(0, 0, 5, 5);
+                gbc_btnDesfichar.gridx = 4;
+                gbc_btnDesfichar.gridy = 3;
+                getContentPane().add(btnDesfichar, gbc_btnDesfichar);
+
+                
+                
+                GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
+                gbc_btnVerTareas.fill = GridBagConstraints.BOTH;
+                gbc_btnVerTareas.insets = new Insets(0, 0, 5, 5);
+                gbc_btnVerTareas.gridx = 1;
+                gbc_btnVerTareas.gridy = 5;
+                getContentPane().add(btnVerTareas, gbc_btnVerTareas);
+                GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
+                gbc_btnCerrarSesion.insets = new Insets(0, 0, 5, 5);
+                gbc_btnCerrarSesion.fill = GridBagConstraints.BOTH;
+                gbc_btnCerrarSesion.gridx = 4;
+                gbc_btnCerrarSesion.gridy = 5;
+                getContentPane().add(btnCerrarSesion, gbc_btnCerrarSesion);;
+
 	}
 }
