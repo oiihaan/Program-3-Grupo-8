@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import domain.BDAdmin;
+import domain.BDTarea;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -20,6 +21,8 @@ import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -53,7 +56,7 @@ public class VAsignarTareas extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JList listTareas = new JList();
+		JList listTrabajadores = new JList();
 		GridBagConstraints gbc_listTareas = new GridBagConstraints();
 		gbc_listTareas.fill = GridBagConstraints.BOTH;
 		gbc_listTareas.insets = new Insets(0, 0, 5, 5);
@@ -61,7 +64,7 @@ public class VAsignarTareas extends JFrame {
 		gbc_listTareas.gridy = 1;
 	
 		
-		JList listTrabajadores = new JList();
+		JList listaTareas = new JList();
 		GridBagConstraints gbc_listTrabajadores = new GridBagConstraints();
 		gbc_listTrabajadores.fill = GridBagConstraints.BOTH;
 		gbc_listTrabajadores.insets = new Insets(0, 0, 5, 0);
@@ -121,32 +124,45 @@ public class VAsignarTareas extends JFrame {
 		Centro.add(centroCentro, BorderLayout.CENTER);
 		centroCentro.setLayout(new GridLayout(1, 2, 0, 0));
 		
-		JPanel centroDe = new JPanel();
-		centroCentro.add(centroDe, BorderLayout.EAST);
-		centroDe.setPreferredSize(new Dimension(50, 0)); 
+		JPanel centroIzq = new JPanel();
+		centroCentro.add(centroIzq, BorderLayout.EAST);
+		centroIzq.setPreferredSize(new Dimension(50, 0)); 
 		
-		JScrollPane scrollPaneCentroDe = new JScrollPane();
+		JScrollPane scrollPaneCentroIzq = new JScrollPane();
 		GridBagConstraints gbc_scrollPaneCentroDe = new GridBagConstraints();
 		gbc_scrollPaneCentroDe.fill = GridBagConstraints.BOTH;
 		gbc_scrollPaneCentroDe.gridx = 0;
 		gbc_scrollPaneCentroDe.gridy = 0;
+		SpringLayout sl_centroIzq = new SpringLayout();
+		sl_centroIzq.putConstraint(SpringLayout.NORTH, scrollPaneCentroIzq, 0, SpringLayout.NORTH, centroIzq);
+		sl_centroIzq.putConstraint(SpringLayout.WEST, scrollPaneCentroIzq, 0, SpringLayout.WEST, centroIzq);
+		sl_centroIzq.putConstraint(SpringLayout.SOUTH, scrollPaneCentroIzq, 270, SpringLayout.NORTH, centroIzq);
+		sl_centroIzq.putConstraint(SpringLayout.EAST, scrollPaneCentroIzq, 257, SpringLayout.WEST, centroIzq);
+		centroIzq.setLayout(sl_centroIzq);
+		centroIzq.add(scrollPaneCentroIzq);
+		scrollPaneCentroIzq.setViewportView(listaTareas);
+		
+		JPanel centroDe = new JPanel();
+		centroCentro.add(centroDe);
+		centroDe.setPreferredSize(new Dimension(50, 0));
 		SpringLayout sl_centroDe = new SpringLayout();
+		centroDe.setLayout(sl_centroDe);
+		
+		JScrollPane scrollPaneCentroDe = new JScrollPane();
 		sl_centroDe.putConstraint(SpringLayout.NORTH, scrollPaneCentroDe, 0, SpringLayout.NORTH, centroDe);
 		sl_centroDe.putConstraint(SpringLayout.WEST, scrollPaneCentroDe, 0, SpringLayout.WEST, centroDe);
 		sl_centroDe.putConstraint(SpringLayout.SOUTH, scrollPaneCentroDe, 270, SpringLayout.NORTH, centroDe);
 		sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 257, SpringLayout.WEST, centroDe);
-		centroDe.setLayout(sl_centroDe);
 		centroDe.add(scrollPaneCentroDe);
 		scrollPaneCentroDe.setViewportView(listTrabajadores);
 		
-		JPanel centroIz = new JPanel();
-		centroCentro.add(centroIz);
-		centroIz.setLayout(new GridLayout(0, 1, 0, 0));
-		centroIz.setPreferredSize(new Dimension(50, 0));
 		
-		JScrollPane scrollPaneCentroIz = new JScrollPane();
-		centroIz.add(scrollPaneCentroIz);
-		scrollPaneCentroIz.setViewportView(listTareas);
-
+		//-- LOGICA DE LISTAS--
+		
+		DefaultListModel<BDTarea> modeloListTarea = new DefaultListModel<BDTarea>();
+		for (BDTarea t : VPrincipal.getTareas()) {
+			modeloListTarea.addElement(t);
+		}
+		listaTareas.setModel(modeloListTarea);
 	}
 }

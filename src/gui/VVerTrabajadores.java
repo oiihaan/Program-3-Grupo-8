@@ -85,33 +85,6 @@ public class VVerTrabajadores extends JFrame {
 		gbl_centro.rowWeights = new double[]{1.0};
 		centro.setLayout(gbl_centro);
 		
-		JPanel left = new JPanel();
-		GridBagConstraints gbc_left = new GridBagConstraints();
-		gbc_left.insets = new Insets(0, 0, 0, 5);
-		gbc_left.fill = GridBagConstraints.BOTH;
-		gbc_left.gridx = 0;
-		gbc_left.gridy = 0;
-		centro.add(left, gbc_left);
-		left.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JScrollPane scrollListTrab = new JScrollPane();
-		left.add(scrollListTrab);
-		
-		JList listTrabajadores = new JList();
-		listTrabajadores.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
-				HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
-			}
-		});
-		DefaultListModel<BDTrabajador> modeloTrabajadores = new DefaultListModel<BDTrabajador>();
-		for (BDTrabajador t : VPrincipal.getTrabajadores()) {
-			modeloTrabajadores.addElement(t);
-		}
-		listTrabajadores.setModel(modeloTrabajadores);
-		scrollListTrab.add(listTrabajadores);
-		scrollListTrab.setViewportView(listTrabajadores);
-		
 		JPanel right = new JPanel();
 		GridBagConstraints gbc_right = new GridBagConstraints();
 		gbc_right.fill = GridBagConstraints.VERTICAL;
@@ -128,6 +101,28 @@ public class VVerTrabajadores extends JFrame {
 		DefaultListModel<LocalDate> modelolistFichajes = new DefaultListModel<LocalDate>();
 		listFichajes.setModel(modelolistFichajes);
 		scrollListFichajes.setViewportView(listFichajes);
+		
+		JPanel left = new JPanel();
+		GridBagConstraints gbc_left = new GridBagConstraints();
+		gbc_left.insets = new Insets(0, 0, 0, 5);
+		gbc_left.fill = GridBagConstraints.BOTH;
+		gbc_left.gridx = 0;
+		gbc_left.gridy = 0;
+		centro.add(left, gbc_left);
+		left.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		JScrollPane scrollListTrab = new JScrollPane();
+		left.add(scrollListTrab);
+		
+		JList listTrabajadores = new JList();
+		scrollListTrab.add(listTrabajadores);
+		scrollListTrab.setViewportView(listTrabajadores);
+		DefaultListModel<BDTrabajador> modeloTrabajadores = new DefaultListModel<BDTrabajador>();
+		for (BDTrabajador t : VPrincipal.getTrabajadores()) {
+			modeloTrabajadores.addElement(t);
+		}
+		listTrabajadores.setModel(modeloTrabajadores);
+		
 		
 		JPanel south = new JPanel();
 		GridBagConstraints gbc_south = new GridBagConstraints();
@@ -147,6 +142,48 @@ public class VVerTrabajadores extends JFrame {
 		south.add(btnVolver);
 		
 		
-	}
+	//--- LÓGICA DE LISTAS ---
+		
+		//-- LISTA TRABAJADORES
+		listTrabajadores.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				modelolistFichajes.clear();
+				BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
+				HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
+				for(LocalDate clave : fichajes.keySet()) {
+					modelolistFichajes.addElement(clave);
+				}
+			}
+		});
 
+		
+	
+
+		//-- LISTA FICHAJES --
+		listFichajes.addListSelectionListener(new ListSelectionListener() {
+			
+			public void valueChanged(ListSelectionEvent e) {
+				if (!e.getValueIsAdjusting()) { // ESTO HACE QUE NO ENTRE DOS VECES AL METODO
+				BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
+				HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
+				LocalDate clave = (LocalDate) listFichajes.getSelectedValue();
+				ArrayList<LocalDateTime> valores = fichajes.get(clave);
+				
+				
+				//(Danel): NO SE COMO QUEREIS SACAR LOS DATOS DE ENTRADA Y SALIA DE EL DIA EXACTO, ESTO ES PA SACARLO POR CONSOLA
+				
+				int frasesImprimir = valores.size()/2;
+				int frasesImpresas= 0;
+				int posicionEntrada = 0;
+				int posicionSalida = 1;
+				while (frasesImprimir>frasesImpresas) {
+					System.out.println("El empleado trabajo el dia "+ clave+ " desde: "+valores.get(posicionEntrada)+ " hasta las "+ valores.get(posicionSalida));
+					posicionEntrada+=2;
+					posicionSalida+=2;
+					frasesImpresas+=1;
+				}
+				}
+		}
+	});
+	}
 }

@@ -23,6 +23,7 @@ public class VAdmin1 extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private BDAdmin admin;
+	private VPrincipal parent;  //--(Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE ADMIN--> TRABAJADOR SIN TENER QUE CERRAR EL PROGRAMA
 	/**
 	 * Launch the application.
 	 */
@@ -31,7 +32,7 @@ public class VAdmin1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VAdmin1(BDAdmin admin) {
+	public VAdmin1(VPrincipal parent, BDAdmin admin) {
 		
 		this.admin = admin;
 		setTitle("MENU de Adminisrador");
@@ -115,6 +116,19 @@ public class VAdmin1 extends JFrame {
 			}
 		});
 		centroCenter.add(btnVisualizarEmpleados);
+		
+		JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
+				VAdmin1.this.dispose();
+			}
+		});
+		GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
+		gbc_btnCerrarSesion.insets = new Insets(0, 0, 0, 5);
+		gbc_btnCerrarSesion.gridx = 1;
+		gbc_btnCerrarSesion.gridy = 2;
+		contentPane.add(btnCerrarSesion, gbc_btnCerrarSesion);
 
 	}
 

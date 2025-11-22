@@ -171,14 +171,14 @@ public class VPrincipal extends JFrame {
                 	if(u.getNombre().equals(usuario) && u.getContraseyna().equals(contraseyna) ) {
                 		
                 		if (u instanceof BDTrabajador) {
-                			VTrabajador1 v = new VTrabajador1((BDTrabajador) u);
+                			VTrabajador1 v = new VTrabajador1(VPrincipal.this, (BDTrabajador) u);
                             v.setVisible(true);
-                            VPrincipal.this.dispose();
+                            VPrincipal.this.setVisible(false);
                             entrado = true;
                 		} else if (u instanceof BDAdmin) {
-                			VAdmin1 v = new VAdmin1((BDAdmin) u);
+                			VAdmin1 v = new VAdmin1(VPrincipal.this, (BDAdmin) u);
                             v.setVisible(true);
-                            VPrincipal.this.dispose();	
+                            VPrincipal.this.setVisible(false);	
                             entrado = true;
 
 						}
