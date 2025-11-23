@@ -52,11 +52,14 @@ public class VTrabajador1 extends JFrame {
 	
 	
 	public VTrabajador1(VPrincipal parent, BDTrabajador trabajador) {
+		this.parent = parent;
+		this.trabajador = trabajador;
+		
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         setTitle("Panel del Trabajador");
         setSize(330, 293);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{25, 100, 40, 40, 100, 25, 0};
         gridBagLayout.rowHeights = new int[]{53, 13, 21, 21, 0, 0, 0, 0, 0};
@@ -112,9 +115,9 @@ public class VTrabajador1 extends JFrame {
                 JButton btnCerrarSesion = new JButton("Cerrar Sesion");
                 btnCerrarSesion.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
+                		VTrabajador1.this.dispose();
                 		parent.setVisible(true);
-                		dispose();
-                		VTrabajador1.this.dispose();                		
+                		               		
                 	}
                 });
 

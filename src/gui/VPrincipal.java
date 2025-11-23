@@ -37,28 +37,23 @@ public class VPrincipal extends JFrame {
     private JLabel lblForgot;
     private static HashSet<BDTrabajador> trabajadores;
     private static HashSet<BDTarea> tareas;
-    private static ArrayList<Usuario> personal; //Prueba Unai
-    
+    private static HashSet<Usuario> personal; //Prueba Unai
+    private static HashSet<BDAdmin> admins;
 
     public VPrincipal() {
-        // ==== DATOS DE PRUEBA ==== YA NO SON NECESARIOS PERO BUENO POR SI LOS QUEREIS
-       
-//        BDAdmin juan = new BDAdmin(2,"Juan", "123");
-//
-//        personal.add(juan);
-        
 
-    	personal = new ArrayList<>();  // -- ESTARIA BIEN HACER ESTA LISTA PERO CARGANDOLA DESDE LA BD --
 
         
      // ==== DATOS conectando a BD ====
         BDAdmin julio = new BDAdmin(2,"Julio", "123");
         AdminDAO.insertar(julio);
-        personal.add(julio);
+        admins = new HashSet<BDAdmin>();
+        cargarAdmins();
+        System.out.println(admins);
+        
         
         BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
         TrabajadorDAO.insertar(iker);
-        personal.add(iker);
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
         System.out.println(trabajadores);
@@ -74,21 +69,14 @@ public class VPrincipal extends JFrame {
         cargarTareasBD();
         System.out.println(tareas);
 
-       
-        for (BDTrabajador t : trabajadores) {  
-        	//---Para hacer el logIn---
-        	personal.add(t);
-        	
-        	//--- las tareas las debería asignar el admin ---
-        	t.getTareasAsignadas().add(tarea1);
-        	t.getTareasAsignadas().add(tarea2);
-        	t.getTareasAsignadas().add(tarea3);
-        }
+        personal =new HashSet<Usuario>();
+        cargarPersonal();
+        System.out.println(personal);
         
         
 
      // === Login TITULO ===
-        setTitle("Login");
+    	setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 555, 491);
         setLocationRelativeTo(null);
@@ -204,34 +192,56 @@ public class VPrincipal extends JFrame {
             
         });
     }
-        public static ArrayList<Usuario> getPersonal() {
+ 
+	public static void cargarTrabajadoresBD() {
+        HashSet<BDTrabajador> trabajadoresBD = TrabajadorDAO.getAllTrabajadores();
+        trabajadores.addAll(trabajadoresBD);
+    }
+    
+	public static HashSet<BDTrabajador> getTrabajadores() {
+		return trabajadores;
+	}
+
+	public void setTrabajadores(HashSet<BDTrabajador> trabajadores) {
+		this.trabajadores = trabajadores;
+	}
+    public static void cargarTareasBD() {
+    	HashSet<BDTarea> tareasBD = TareaDAO.getAllTareas();
+    	tareas.addAll(tareasBD);
+    }
+	public static HashSet<BDTarea> getTareas() {
+		return tareas;
+	}
+	public static void setTareas(HashSet<BDTarea> tareas) {
+		VPrincipal.tareas = tareas;
+	}
+    
+	public static void cargarAdmins() {
+        HashSet<BDAdmin> adminsBD = AdminDAO.getAllAdmins();
+        admins.addAll(adminsBD);
+    }
+	public static HashSet<BDAdmin> getAdmins() {
+		return admins;
+	}
+	public static void setAdmins(HashSet<BDAdmin> admins) {
+		VPrincipal.admins = admins;
+	}
+	public static void cargarPersonal() {
+		for (BDTrabajador t : trabajadores) {
+			personal.add(t);
+		}
+		for(BDAdmin a : admins) {
+			personal.add(a);
+		}
+	}
+
+	public static HashSet<Usuario> getPersonal() {
 		return personal;
 	}
-	public static void setPersonal(ArrayList<Usuario> personal) {
+
+	public static void setPersonal(HashSet<Usuario> personal) {
 		VPrincipal.personal = personal;
 	}
-		public void cargarTrabajadoresBD() {
-            HashSet<BDTrabajador> trabajadoresBD = TrabajadorDAO.getAllTrabajadores();
-            trabajadores.addAll(trabajadoresBD);
-        }
-        
-		public static HashSet<BDTrabajador> getTrabajadores() {
-			return trabajadores;
-		}
-
-		public void setTrabajadores(HashSet<BDTrabajador> trabajadores) {
-			this.trabajadores = trabajadores;
-		}
-        public void cargarTareasBD() {
-        	HashSet<BDTarea> tareasBD = TareaDAO.getAllTareas();
-        	tareas.addAll(tareasBD);
-        }
-		public static HashSet<BDTarea> getTareas() {
-			return tareas;
-		}
-		public static void setTareas(HashSet<BDTarea> tareas) {
-			VPrincipal.tareas = tareas;
-		}
-        
-
+	
+	
 }

@@ -1,6 +1,7 @@
 package bd;
 
 import java.sql.*;
+import java.util.HashSet;
 
 import domain.BDAdmin;
 import domain.BDTrabajador;
@@ -97,5 +98,23 @@ public class AdminDAO {
         }
 
         return null;
+    }
+    public static HashSet<BDAdmin> getAllAdmins() {
+    	HashSet<BDAdmin> lista = new HashSet<>();
+        String sql = "SELECT id, nombre, contraseña FROM administrador";
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String contraseña = rs.getString("contraseña");
+                BDAdmin admin = new BDAdmin(id, nombre, contraseña);
+                lista.add(admin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }
