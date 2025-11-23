@@ -8,6 +8,7 @@ import domain.Usuario;
 
 import javax.swing.*;
 
+import bd.AdminDAO;
 import bd.ConexionSQLite;
 import bd.InicializadorBaseDatos;
 import bd.TareaDAO;
@@ -39,17 +40,21 @@ public class VPrincipal extends JFrame {
     
 
     public VPrincipal() {
-        // ==== DATOS DE PRUEBA ====
-        ArrayList<Usuario> personal = new ArrayList<>();
-        BDAdmin juan = new BDAdmin(2,"Juan", "123");
-
-        personal.add(juan);
+        // ==== DATOS DE PRUEBA ==== YA NO SON NECESARIOS PERO BUENO POR SI LOS QUEREIS
+       
+//        BDAdmin juan = new BDAdmin(2,"Juan", "123");
+//
+//        personal.add(juan);
         
 
-       
+    	ArrayList<Usuario> personal = new ArrayList<>();  // -- ESTARIA BIEN HACER ESTA LISTA PERO CARGANDOLA DESDE LA BD --
 
         
      // ==== DATOS conectando a BD ====
+        BDAdmin julio = new BDAdmin(2,"Julio", "123");
+        AdminDAO.insertar(julio);
+        personal.add(julio);
+        
         BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
         TrabajadorDAO.insertar(iker);
         trabajadores = new HashSet<BDTrabajador>();

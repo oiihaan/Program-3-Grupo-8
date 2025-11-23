@@ -3,13 +3,36 @@ package bd;
 import java.sql.*;
 
 import domain.BDAdmin;
+import domain.BDTrabajador;
 
 public class AdminDAO {
+	
+	public static BDAdmin buscarPorNombre(String nombre) {
+	    String sql = "SELECT id, nombre, contraseña FROM administrador WHERE nombre = ?";
+	    try (Connection conn = ConexionSQLite.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, nombre);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return new BDAdmin(rs.getInt("id"),rs.getString("nombre"),
+	                		rs.getString("contraseña"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+	
 
     // INSERTAR administrador
-    public void insertar(BDAdmin a) {
-        String sql = "INSERT INTO administrador(nombre, contraseña) VALUES (?, ?)";
-
+    public static void insertar(BDAdmin a) {
+    	// Comprobar si el nombre ya existe
+	    if (buscarPorNombre(a.getNombre()) != null) {
+	        System.out.println("ERROR: El admin con nombre '" + a.getNombre() + "' ya existe.");
+	        return;
+	    }
+    	String sql = "INSERT INTO administrador(nombre, contraseña) VALUES (?, ?)";
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
