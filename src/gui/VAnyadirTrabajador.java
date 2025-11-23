@@ -6,9 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import bd.TrabajadorDAO;
 import domain.BDAdmin;
+import domain.BDTrabajador;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -117,6 +120,61 @@ public class VAnyadirTrabajador extends JFrame {
 		
 		JButton btnAynadir = new JButton("Añadir");
 		southIz.add(btnAynadir);
+		
+		btnAynadir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String nombre    = txtNombre.getText().trim();
+		        String apellido  = txtApellido.getText().trim();
+		        String username  = txtUsername.getText().trim();
+		        String contrasenya = textField.getText().trim();
+
+		        if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || contrasenya.isEmpty()) {
+		            JOptionPane.showMessageDialog(
+		                    VAnyadirTrabajador.this,
+		                    "Rellena todos los campos.",
+		                    "Error",
+		                    JOptionPane.ERROR_MESSAGE
+		            );
+		            return;
+		        }
+
+		        try {
+		            // Ojo: adapta los parámetros al constructor real de BDTrabajador
+		            BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya);
+		            // Si tu clase tiene nombre/apellido:
+		            // nuevo.setNombre(nombre);
+		            // nuevo.setApellido(apellido);
+
+		            // 1) Insertar en BD
+		            TrabajadorDAO.insertar(nuevo);
+
+		            // 2) Añadir al conjunto estático de VPrincipal
+		            VPrincipal.getTrabajadores().add(nuevo);
+
+		            // 3) Avisar de éxito
+		            JOptionPane.showMessageDialog(
+		                    VAnyadirTrabajador.this,
+		                    "Trabajador añadido correctamente.",
+		                    "OK",
+		                    JOptionPane.INFORMATION_MESSAGE
+		            );
+
+		            // 4) Volver al menú admin
+		            parent.setVisible(true);
+		            VAnyadirTrabajador.this.dispose();
+
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(
+		                    VAnyadirTrabajador.this,
+		                    "Error al insertar el trabajador:\n" + ex.getMessage(),
+		                    "Error",
+		                    JOptionPane.ERROR_MESSAGE
+		            );
+		        }
+		    }
+		});
+
 		
 		JPanel southDe = new JPanel();
 		centro.add(southDe);

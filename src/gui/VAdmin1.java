@@ -7,13 +7,8 @@ import java.awt.*;
 import javax.swing.*;
 
 import domain.BDAdmin;
+import domain.BDTrabajador;
 
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,9 +19,8 @@ public class VAdmin1 extends JFrame {
 	private JPanel contentPane;
 	private BDAdmin admin;
 	private VPrincipal parent;  //--(Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE ADMIN--> TRABAJADOR SIN TENER QUE CERRAR EL PROGRAMA
-	/**
-	 * Launch the application.
-	 */
+	
+	
 
 
 	/**
@@ -131,5 +125,6 @@ public class VAdmin1 extends JFrame {
 		contentPane.add(btnCerrarSesion, gbc_btnCerrarSesion);
 
 	}
+	
 
 }
