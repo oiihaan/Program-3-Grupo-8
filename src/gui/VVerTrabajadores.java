@@ -22,15 +22,18 @@ import java.awt.CardLayout;
 import javax.swing.SpringLayout;
 import domain.BDAdmin;
 import domain.BDTrabajador;
+import domain.Usuario;
 
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JLabel;
 
 public class VVerTrabajadores extends JFrame {
 
@@ -38,7 +41,8 @@ public class VVerTrabajadores extends JFrame {
 	private JPanel contentPane;
 	private VAdmin1 parent;
 	private BDAdmin admin;
-
+	private JLabel lblTrabajador;
+	 DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	/**
 	 * Create the frame.
 	 */
@@ -58,8 +62,16 @@ public class VVerTrabajadores extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0,0.0,0.0};
 		contentPane.setLayout(gbl_contentPane);
 		
+		lblTrabajador = new JLabel("Ningun trabajador selecionado");
+		GridBagConstraints gbc_lblTrabajador = new GridBagConstraints();
+		gbc_lblTrabajador.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTrabajador.gridx = 1;
+		gbc_lblTrabajador.gridy = 0;
+		contentPane.add(lblTrabajador, gbc_lblTrabajador);
+		
 		JPanel principal = new JPanel();
 		GridBagConstraints gbc_principal = new GridBagConstraints();
+		gbc_principal.insets = new Insets(0, 0, 5, 5);
 		gbc_principal.fill = GridBagConstraints.VERTICAL;
 		gbc_principal.gridx = 1;
 		gbc_principal.gridy = 1;
@@ -98,7 +110,7 @@ public class VVerTrabajadores extends JFrame {
 		
 		JList listFichajes = new JList();
 		scrollListFichajes.add(listFichajes);
-		DefaultListModel<LocalDate> modelolistFichajes = new DefaultListModel<LocalDate>();
+		DefaultListModel<String> modelolistFichajes = new DefaultListModel<String>();
 		listFichajes.setModel(modelolistFichajes);
 		scrollListFichajes.setViewportView(listFichajes);
 		
@@ -118,8 +130,12 @@ public class VVerTrabajadores extends JFrame {
 		scrollListTrab.add(listTrabajadores);
 		scrollListTrab.setViewportView(listTrabajadores);
 		DefaultListModel<BDTrabajador> modeloTrabajadores = new DefaultListModel<BDTrabajador>();
-		for (BDTrabajador t : VPrincipal.getTrabajadores()) {
-			modeloTrabajadores.addElement(t);
+
+		for (Usuario t : VPrincipal.getPersonal()) {
+			if ( t instanceof BDTrabajador) {
+				modeloTrabajadores.addElement((BDTrabajador) t);
+			}
+
 		}
 		listTrabajadores.setModel(modeloTrabajadores);
 		
@@ -147,12 +163,37 @@ public class VVerTrabajadores extends JFrame {
 		//-- LISTA TRABAJADORES
 		listTrabajadores.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				modelolistFichajes.clear();
-				BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
-				HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
-				for(LocalDate clave : fichajes.keySet()) {
-					modelolistFichajes.addElement(clave);
-				}
+				
+							modelolistFichajes.clear();
+							if(!listTrabajadores.isSelectionEmpty()) {  // Entra si lo selecionado no es null
+								BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
+								lblTrabajador.setText("Trabajador selecionado : " + trabajador.getNombre());
+								HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
+								for(LocalDate clave : fichajes.keySet()) {
+									ArrayList<LocalDateTime> lista = fichajes.get(clave);
+								    for (int i = 0; i < lista.size(); i += 2) {
+								    	
+								    	if (i + 1 < lista.size()) { // Hay pareja: grupo de dos
+								            String fichaje = lista.get(i).format(formato);
+								            String desfichaje = lista.get(i + 1).format(formato);
+								            modelolistFichajes.addElement(fichaje+ " - " + desfichaje);
+								            
+								        } else {
+								            // Queda uno solo
+								        	System.out.println("Entrado");
+								            String fichaje = lista.get(i).format(formato);
+								            modelolistFichajes.addElement(fichaje+ " - " + "()");
+								        }	
+									}
+	
+								}
+								listFichajes.setModel(modelolistFichajes);
+
+							}else { //Si lo selecionado es null
+								lblTrabajador.setText("Ningun trabajador selecionado");
+
+							}
+
 			}
 		});
 
@@ -160,30 +201,6 @@ public class VVerTrabajadores extends JFrame {
 	
 
 		//-- LISTA FICHAJES --
-		listFichajes.addListSelectionListener(new ListSelectionListener() {
-			
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) { // ESTO HACE QUE NO ENTRE DOS VECES AL METODO
-				BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
-				HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
-				LocalDate clave = (LocalDate) listFichajes.getSelectedValue();
-				ArrayList<LocalDateTime> valores = fichajes.get(clave);
-				
-				
-				//(Danel): NO SE COMO QUEREIS SACAR LOS DATOS DE ENTRADA Y SALIA DE EL DIA EXACTO, ESTO ES PA SACARLO POR CONSOLA
-				
-				int frasesImprimir = valores.size()/2;
-				int frasesImpresas= 0;
-				int posicionEntrada = 0;
-				int posicionSalida = 1;
-				while (frasesImprimir>frasesImpresas) {
-					System.out.println("El empleado trabajo el dia "+ clave+ " desde: "+valores.get(posicionEntrada)+ " hasta las "+ valores.get(posicionSalida));
-					posicionEntrada+=2;
-					posicionSalida+=2;
-					frasesImpresas+=1;
-				}
-				}
-		}
-	});
+
 	}
 }

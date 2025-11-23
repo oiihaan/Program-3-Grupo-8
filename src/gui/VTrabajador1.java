@@ -34,7 +34,23 @@ public class VTrabajador1 extends JFrame {
 	// PORQUE SINO LOS FICHAJES NO SE GUARDAN Y AL ENTRAR COMO ADMIN LA LISTA DE FICHAJES DE LOS TRABAJADORES ESTARIA VACIA
 	// AL INICIAR EL PROGRAMA NO HAY FICHAJES HECHOS (SE PODRIA CREAR UN METODO PARA QUE LEA UN ARCHIVO DE FICHAJES O ASI PARA QUE NO ESTEN VACIOS DE INICIO)
 	
+	public void controlFichaje(BDTrabajador trabajador){
+		
+		if (trabajador.getEntrada() != null) {
+			btnDesfichar.setEnabled(true);
+			btnFichar.setEnabled(false);
 
+
+		}else {
+			btnFichar.setEnabled(true);
+			btnDesfichar.setEnabled(false);
+
+
+		}
+		
+	}
+	
+	
 	public VTrabajador1(VPrincipal parent, BDTrabajador trabajador) {
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         setTitle("Panel del Trabajador");
@@ -66,7 +82,7 @@ public class VTrabajador1 extends JFrame {
         		LocalDateTime entrada = trabajador.getEntrada();
         		btnDesfichar.setEnabled(false);
         		btnFichar.setEnabled(true);
-        		trabajador.metodoFichar();
+        		trabajador.metodoDesfichar();
         		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         		String entradaFormat = entrada.format(formato);
         		String salidaFormtar = LocalDateTime.now().format(formato);
@@ -80,12 +96,12 @@ public class VTrabajador1 extends JFrame {
         
                 // --- BOTÓN FICHAR ---
                 btnFichar = new JButton("Fichar");
+                btnFichar.setEnabled(false);
                 btnFichar.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		LocalDateTime fichaje = LocalDateTime.now();
+                		trabajador.metodoFichar();
                 		btnDesfichar.setEnabled(true);
                 		btnFichar.setEnabled(false);
-                		trabajador.setEntrada(fichaje);
 	
                 	}
                 });
@@ -96,8 +112,9 @@ public class VTrabajador1 extends JFrame {
                 JButton btnCerrarSesion = new JButton("Cerrar Sesion");
                 btnCerrarSesion.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		VTrabajador1.this.dispose();
                 		parent.setVisible(true);
+                		dispose();
+                		VTrabajador1.this.dispose();                		
                 	}
                 });
 
@@ -143,6 +160,9 @@ public class VTrabajador1 extends JFrame {
                 gbc_btnCerrarSesion.gridx = 4;
                 gbc_btnCerrarSesion.gridy = 5;
                 getContentPane().add(btnCerrarSesion, gbc_btnCerrarSesion);;
+                
+                controlFichaje(trabajador);
+
 
 	}
 }

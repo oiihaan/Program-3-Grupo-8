@@ -20,13 +20,20 @@ public class BDTrabajador extends Usuario {
 		this.registrosFichaje = new HashMap<LocalDate, ArrayList<LocalDateTime>>();
 	}
 	
-	public void metodoFichar() {
+	public void metodoDesfichar() {
 		LocalDateTime entrada = this.getEntrada();
 		LocalDateTime salida = LocalDateTime.now();
-		registrosFichaje.putIfAbsent(LocalDate.now(), new ArrayList<LocalDateTime>());
-		registrosFichaje.get(LocalDate.now()).add(entrada);
 		registrosFichaje.get(LocalDate.now()).add(salida);
 		this.setEntrada(null);
+
+	}
+	public void metodoFichar() {
+		LocalDateTime entrada = LocalDateTime.now();
+		this.setEntrada(entrada);
+		registrosFichaje.putIfAbsent(LocalDate.now(), new ArrayList<LocalDateTime>());
+		registrosFichaje.get(LocalDate.now()).add(entrada);
+
+		
 
 	}
 

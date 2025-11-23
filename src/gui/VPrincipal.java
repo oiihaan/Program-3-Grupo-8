@@ -37,6 +37,7 @@ public class VPrincipal extends JFrame {
     private JLabel lblForgot;
     private static HashSet<BDTrabajador> trabajadores;
     private static HashSet<BDTarea> tareas;
+    private static ArrayList<Usuario> personal; //Prueba Unai
     
 
     public VPrincipal() {
@@ -47,7 +48,7 @@ public class VPrincipal extends JFrame {
 //        personal.add(juan);
         
 
-    	ArrayList<Usuario> personal = new ArrayList<>();  // -- ESTARIA BIEN HACER ESTA LISTA PERO CARGANDOLA DESDE LA BD --
+    	personal = new ArrayList<>();  // -- ESTARIA BIEN HACER ESTA LISTA PERO CARGANDOLA DESDE LA BD --
 
         
      // ==== DATOS conectando a BD ====
@@ -57,6 +58,7 @@ public class VPrincipal extends JFrame {
         
         BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
         TrabajadorDAO.insertar(iker);
+        personal.add(iker);
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
         System.out.println(trabajadores);
@@ -165,6 +167,7 @@ public class VPrincipal extends JFrame {
         AppUI.stylePrimaryButton(btnLogin);
         AppUI.styleSubtitle(lblForgot);
 
+
         // === LÓGICA DEL LOGIN ===
         btnLogin.addActionListener(new ActionListener() {
             @Override
@@ -201,7 +204,13 @@ public class VPrincipal extends JFrame {
             
         });
     }
-        public void cargarTrabajadoresBD() {
+        public static ArrayList<Usuario> getPersonal() {
+		return personal;
+	}
+	public static void setPersonal(ArrayList<Usuario> personal) {
+		VPrincipal.personal = personal;
+	}
+		public void cargarTrabajadoresBD() {
             HashSet<BDTrabajador> trabajadoresBD = TrabajadorDAO.getAllTrabajadores();
             trabajadores.addAll(trabajadoresBD);
         }
