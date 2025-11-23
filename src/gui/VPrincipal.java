@@ -138,6 +138,7 @@ public class VPrincipal extends JFrame {
         gbc_btnLogin.insets = new Insets(8, 0, 8, 0);
         gbc_btnLogin.fill = GridBagConstraints.HORIZONTAL;
         card.add(btnLogin, gbc_btnLogin);
+        getRootPane().setDefaultButton(btnLogin); //Para poder entrar haciendo enter tb
 
         // --- LABEL OLVIDÉ CONTRASEÑA ---
         lblForgot = new JLabel("Olvidé mi contraseña");
@@ -149,7 +150,7 @@ public class VPrincipal extends JFrame {
         gbc_lblForgot.fill = GridBagConstraints.HORIZONTAL;
         card.add(lblForgot, gbc_lblForgot);
 
-        // --- Añadimos la card al fondo (centrada) ---
+        // --- La card al fondo (centrada) ---
         GridBagConstraints gbc_card = new GridBagConstraints();
         gbc_card.gridx = 0;
         gbc_card.gridy = 0;
