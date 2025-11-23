@@ -147,7 +147,7 @@ public class VAnyadirTrabajador extends JFrame {
 		            // nuevo.setApellido(apellido);
 
 		            // 1) Insertar en BD
-		            TrabajadorDAO.insertar(nuevo);
+		            TrabajadorDAO.insertarTrabajador(nuevo);
 
 		            // 2) Añadir al conjunto estático de VPrincipal
 		            VPrincipal.getTrabajadores().add(nuevo);

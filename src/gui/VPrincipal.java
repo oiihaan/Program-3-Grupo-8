@@ -46,14 +46,14 @@ public class VPrincipal extends JFrame {
         
      // ==== DATOS conectando a BD ====
         BDAdmin julio = new BDAdmin(2,"Julio", "123");
-        AdminDAO.insertar(julio);
+        AdminDAO.insertarTrabajador(julio);
         admins = new HashSet<BDAdmin>();
         cargarAdmins();
         System.out.println(admins);
         
         
         BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
-        TrabajadorDAO.insertar(iker);
+        TrabajadorDAO.insertarTrabajador(iker);
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
         System.out.println(trabajadores);
@@ -62,9 +62,10 @@ public class VPrincipal extends JFrame {
         BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, trabajadores);
         BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, trabajadores);
         BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, trabajadores);
-        TareaDAO.insertar(tarea1);
-        TareaDAO.insertar(tarea2);
-        TareaDAO.insertar(tarea3);
+        TareaDAO.insertarTarea(tarea1);
+        TareaDAO.insertarTarea(tarea2);
+        TareaDAO.insertarTarea(tarea3);
+        
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);

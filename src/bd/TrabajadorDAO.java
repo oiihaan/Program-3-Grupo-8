@@ -30,7 +30,7 @@ public class TrabajadorDAO {
 	}
 
     // INSERTAR un trabajador a la base de datos
-	public static void insertar(BDTrabajador t) {
+	public static void insertarTrabajador(BDTrabajador t) {
 	    // Comprobar si el nombre ya existe
 	    if (buscarPorNombre(t.getNombre()) != null) {
 	        System.out.println("ERROR: El trabajador con nombre '" + t.getNombre() + "' ya existe.");

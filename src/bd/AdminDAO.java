@@ -27,7 +27,7 @@ public class AdminDAO {
 	
 
     // INSERTAR administrador
-    public static void insertar(BDAdmin a) {
+    public static void insertarTrabajador(BDAdmin a) {
     	// Comprobar si el nombre ya existe
 	    if (buscarPorNombre(a.getNombre()) != null) {
 	        System.out.println("ERROR: El admin con nombre '" + a.getNombre() + "' ya existe.");

@@ -24,7 +24,7 @@ public class TareaDAO {
 	    return null;
 	}
 	
-    public static void insertar(BDTarea t) {
+    public static void insertarTarea(BDTarea t) {
     	// Comprobar si el nombre ya existe
 	    if (buscarTareaPorNombre(t.getNombre()) != null) {
 	        System.out.println("ERROR: La tarea " + t.getNombre() + " ya existe.");
@@ -122,5 +122,25 @@ public class TareaDAO {
             e.printStackTrace();
         }
         return listaTareas;
+    }
+    
+    public static void eliminarPorNombre(String nombre) {
+        String sql = "DELETE FROM tarea WHERE nombre = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            int filasBorradas = ps.executeUpdate();
+
+            if (filasBorradas > 0) {
+                System.out.println("Tarea '" + nombre + "' eliminada correctamente.");
+            } else {
+                System.out.println("No existe ninguna tarea con nombre '" + nombre + "'.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
