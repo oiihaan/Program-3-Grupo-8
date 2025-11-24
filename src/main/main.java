@@ -17,6 +17,7 @@ public class main {
 						VPrincipal VPrincipal = new VPrincipal();
 						VPrincipal.setVisible(true);
 						System.out.println("main");
+						System.out.println("Funciona git de pablo");
 				} catch (Exception e) {
 					e.printStackTrace(); 
 				}
