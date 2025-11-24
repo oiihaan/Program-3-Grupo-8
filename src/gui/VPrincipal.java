@@ -165,6 +165,12 @@ public class VPrincipal extends JFrame {
                 String contraseyna = String.copyValueOf(txtPass.getPassword());
                 Boolean entrado = false;
                 
+                if(usuario.isEmpty() || contraseyna.isEmpty()) {
+                	JOptionPane.showMessageDialog(null, "ERROR, el usuario o contraseña estan vacios");
+                	return;
+                }
+
+                
                 for (Usuario u : personal) {
                 	if(u.getNombre().equals(usuario) && u.getContraseyna().equals(contraseyna) ) {
                 		
