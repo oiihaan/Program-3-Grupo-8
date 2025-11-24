@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import domain.BDAdmin;
 import domain.BDTarea;
+import domain.BDTrabajador;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -23,6 +24,10 @@ import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.BorderLayout;
 
 public class VVerTareas extends JFrame {
 
@@ -30,6 +35,9 @@ public class VVerTareas extends JFrame {
 	private JPanel contentPane;
 	private VAdmin1 parent;
 	private BDAdmin admin;
+	private JLabel lblEstadoVar;
+	private JList listaTareas;
+	private JProgressBar progressBarTarea;
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
@@ -42,6 +50,7 @@ public class VVerTareas extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {100, 299, 100};
@@ -72,8 +81,9 @@ public class VVerTareas extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		left.add(scrollPane);
-		
-		JList listaTareas = new JList();
+		listaTareas = new JList();
+
+		listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaTareas.setLayoutOrientation(JList.VERTICAL_WRAP);
 		DefaultListModel<BDTarea> modeloTareas = new DefaultListModel<BDTarea>();
 		for (BDTarea t : VPrincipal.getTareas()) {
@@ -91,26 +101,36 @@ public class VVerTareas extends JFrame {
 		firstRowCe.setLayout(null);
 		
 		JLabel lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 10, 90, 13);
+		lblEstado.setBounds(10, 10, 127, 13);
 		firstRowCe.add(lblEstado);
 		
-		JLabel lblEstadoVar = new JLabel("\"Estado\"");
+		lblEstadoVar = new JLabel();
 		lblEstadoVar.setBounds(10, 33, 90, 13);
 		firstRowCe.add(lblEstadoVar);
 		
 		JPanel secondRowCe = new JPanel();
 		right.add(secondRowCe);
+		secondRowCe.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		secondRowCe.add(scrollPane_1, BorderLayout.CENTER);
+		
+		JList listaTrabajadores = new JList();
+		scrollPane_1.setViewportView(listaTrabajadores); 
+		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
+		listaTrabajadores.setModel(modeloListaTrabajadores);
+
 		
 		JPanel thirdRowCe = new JPanel();
 		right.add(thirdRowCe);
 		thirdRowCe.setLayout(null);
 		
 		JLabel lblProgreso = new JLabel("Progreso de la tarea:");
-		lblProgreso.setBounds(10, 10, 98, 13);
+		lblProgreso.setBounds(10, 10, 127, 13);
 		thirdRowCe.add(lblProgreso);
 		
-		JProgressBar progressBarTarea = new JProgressBar();
-		progressBarTarea.setBounds(10, 32, 98, 14);
+		progressBarTarea = new JProgressBar();
+		progressBarTarea.setBounds(10, 32, 238, 44);
 		thirdRowCe.add(progressBarTarea);
 		
 		JPanel forthRowCe = new JPanel();
@@ -126,6 +146,39 @@ public class VVerTareas extends JFrame {
 		});
 		btnVolver.setBounds(28, 51, 85, 21);
 		forthRowCe.add(btnVolver);
+		
+		//Aciones 
+		
+		listaTareas.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!listaTareas.isSelectionEmpty()) {
+					BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
+					lblEstadoVar.setText(tarea.getEstado());
+					for (BDTrabajador t : tarea.getTrabajadoresAsignados()) {
+						modeloListaTrabajadores.addElement(t);
+						
+					}
+				}else {
+					
+					modeloListaTrabajadores.clear();
+					lblEstadoVar.setText("");
+					
+				}
+				}
+			
+			
+		});
+
+
+
+	}
+	
+	private void lineaprogresos() {
+		BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
+		progressBarTarea.setMaximum(tarea.getDuracion()/6000);
+		progressBarTarea.setMinimum(0);
+		progressBarTarea.setValue(tarea.getDuracion());
+		
 		
 
 	}

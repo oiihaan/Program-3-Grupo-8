@@ -69,6 +69,7 @@ public class VPrincipal extends JFrame {
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);
+        
 
         personal =new HashSet<Usuario>();
         cargarPersonal();

@@ -34,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
 
 public class VVerTrabajadores extends JFrame {
 
@@ -61,6 +62,7 @@ public class VVerTrabajadores extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0,0.0,0.0};
 		gbl_contentPane.rowWeights = new double[]{0.0,0.0,0.0};
 		contentPane.setLayout(gbl_contentPane);
+		setLocationRelativeTo(null);
 		
 		lblTrabajador = new JLabel("Ningun trabajador selecionado");
 		GridBagConstraints gbc_lblTrabajador = new GridBagConstraints();
@@ -109,6 +111,7 @@ public class VVerTrabajadores extends JFrame {
 		right.add(scrollListFichajes);
 		
 		JList listFichajes = new JList();
+		listFichajes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollListFichajes.add(listFichajes);
 		DefaultListModel<String> modelolistFichajes = new DefaultListModel<String>();
 		listFichajes.setModel(modelolistFichajes);
@@ -127,6 +130,7 @@ public class VVerTrabajadores extends JFrame {
 		left.add(scrollListTrab);
 		
 		JList listTrabajadores = new JList();
+		listTrabajadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollListTrab.add(listTrabajadores);
 		scrollListTrab.setViewportView(listTrabajadores);
 		DefaultListModel<BDTrabajador> modeloTrabajadores = new DefaultListModel<BDTrabajador>();

@@ -41,6 +41,7 @@ public class VAdmin1 extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0};
 		contentPane.setLayout(gbl_contentPane);
+		setLocationRelativeTo(null);
 		
 		JPanel centro = new JPanel();
 		GridBagConstraints gbc_centro = new GridBagConstraints();
