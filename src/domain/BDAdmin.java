@@ -7,6 +7,9 @@ public class BDAdmin extends Usuario{
 		super(id, nombre, contrasenya);
 	}
 
+	
+	
+
 }
 
 	

@@ -75,7 +75,64 @@ public class InicializadorBaseDatos {
 	            st.execute(sqlTarea);
 	        }
 	    }
+	    
+	    // Crea las tablas si no existen
+/*	    private static void crearEsquema() throws SQLException {
+	    	String sqlTrabajador =
+	                "CREATE TABLE IF NOT EXISTS trabajador ("
+	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+	              + "  nombre TEXT NOT NULL UNIQUE,"
+	              + "  contraseña TEXT NOT NULL,"
+	              + "  fichado_desde TEXT" // NULL si no está fichado, TEXT con ISO_DATE_TIME si lo está
+	              + ");";
 
+	        String sqlAdministrador =
+	                "CREATE TABLE IF NOT EXISTS administrador ("
+	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+	              + "  nombre TEXT NOT NULL UNIQUE,"
+	              + "  contraseña TEXT NOT NULL"
+	              + ");";
+
+	        String sqlTarea =
+	                "CREATE TABLE IF NOT EXISTS tarea ("
+	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+	              + "  nombre TEXT NOT NULL,"
+	              + "  duracion INTEGER NOT NULL DEFAULT 0," // Corresponde a duracion
+	              + "  estado TEXT NOT NULL DEFAULT 'pendiente'," // Corresponde a estado
+	              + "  completada INTEGER NOT NULL DEFAULT 0" // Corresponde a completada (0=false, 1=true)
+	              + ");";
+	        
+	        // Tabla para la relación Muchos-a-Muchos (trabajadoresAsignados)
+	        String sqlTareaTrabajadorRelacion =
+	                "CREATE TABLE IF NOT EXISTS tarea_trabajador_relacion ("
+	              + "  tarea_id INTEGER NOT NULL,"
+	              + "  trabajador_id INTEGER NOT NULL,"
+	              + "  PRIMARY KEY (tarea_id, trabajador_id),"
+	              + "  FOREIGN KEY (tarea_id) REFERENCES tarea(id) ON DELETE CASCADE,"
+	              + "  FOREIGN KEY (trabajador_id) REFERENCES trabajador(id) ON DELETE CASCADE"
+	              + ");";
+	              
+	        // Tabla para el historial de fichajes (registrosFichaje)
+	        String sqlRegistroFichaje =
+	                "CREATE TABLE IF NOT EXISTS registro_fichaje ("
+	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+	              + "  trabajador_id INTEGER NOT NULL,"
+	              + "  momento TEXT NOT NULL," 
+	              + "  FOREIGN KEY (trabajador_id) REFERENCES trabajador(id) ON DELETE CASCADE"
+	              + ");";
+
+
+	        try (Connection conn = ConexionSQLite.getConnection();
+	             Statement st = conn.createStatement()) {
+
+	            st.execute(sqlTrabajador);
+	            st.execute(sqlAdministrador);
+	            st.execute(sqlTarea);
+	            st.execute(sqlTareaTrabajadorRelacion);
+	            st.execute(sqlRegistroFichaje); 
+	        }
+	    }
+*/
 	    // Datos de prueba para que todos tengáis la misma base inicial
 	    private static void insertarDatosIniciales() throws SQLException {
 

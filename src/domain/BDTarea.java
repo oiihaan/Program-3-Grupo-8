@@ -8,12 +8,53 @@ public class BDTarea {
     private String nombre;
     private int duracion; // En minutos
 	private String estado; // Opciones : pendiente (Si no se ha iniciado) , ejecutando (Si se ha iniciado el hilo) y finalizado (Si el hilo se ha finalizado)
-	private Boolean completada; // Por si es necesario para algo luego
+	private Boolean completada; // Por si es necesario para algo luego -->(UNAI ) YO LO QUITABA
 	private HashSet<BDTrabajador> trabajadoresAsignados;
 	private Thread hilo;
 	
+	//NUEVO
 	
+	public BDTarea(int id, String nombre, int duracion, String estado, Boolean completada,
+			HashSet<BDTrabajador> trabajadoresAsignados) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.estado = estado;
+		this.completada = completada;
+		this.trabajadoresAsignados = trabajadoresAsignados;
+		this.hilo =   new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				setEstado("ejecutando");
+				setEjecucion(true);
+				System.out.println("Tarea Iniciada " + nombre);
 
+				try {
+					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
+				} catch (InterruptedException e) {
+					System.out.println("hilo terminado" + nombre);
+					setEjecucion(null);
+					setEstado("finalizado");
+					return;
+				}
+				System.out.println("Tarea finalizada " + nombre);
+				setEjecucion(null);
+				setEstado("finalizado");
+				
+				
+			}
+		});
+	}
+
+
+
+
+	//vIEJO
+	
+	
 	public BDTarea(int id, String nombre, int duracion, Boolean completada) {  //---Para crear una tarea antes de asociarle trabajadores---
 		super();
 		this.id = id;
@@ -45,7 +86,7 @@ public class BDTarea {
 				
 				
 			}
-		});;
+		});
 	}
 	
 

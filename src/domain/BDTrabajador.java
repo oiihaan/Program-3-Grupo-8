@@ -12,7 +12,7 @@ public class BDTrabajador extends Usuario {
 	private LocalDateTime entrada; //formateador DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	private HashMap<LocalDate, ArrayList<LocalDateTime>> registrosFichaje;
 	
-	
+	//Constructor viejo
 	public BDTrabajador(int id, String nombre,  String contrasenya) {
 		super(id, nombre, contrasenya);
 		this.tareasAsignadas = new HashSet<BDTarea>();
@@ -20,6 +20,18 @@ public class BDTrabajador extends Usuario {
 		this.registrosFichaje = new HashMap<LocalDate, ArrayList<LocalDateTime>>();
 	}
 	
+	//NUEVO
+	
+	public BDTrabajador(int id, String nombre, String contraseyna, HashSet<BDTarea> tareasAsignadas,
+			LocalDateTime entrada, HashMap<LocalDate, ArrayList<LocalDateTime>> registrosFichaje) {
+		super(id, nombre, contraseyna);
+		this.tareasAsignadas = tareasAsignadas;
+		this.entrada = entrada;
+		this.registrosFichaje = registrosFichaje;
+	}
+
+
+
 	public void metodoDesfichar() {
 		LocalDateTime entrada = this.getEntrada();
 		LocalDateTime salida = LocalDateTime.now();
