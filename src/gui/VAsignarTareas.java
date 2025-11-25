@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import domain.BDAdmin;
 import domain.BDTarea;
+import domain.BDTrabajador;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpringLayout;
+import javax.swing.ListSelectionModel;
 
 public class VAsignarTareas extends JFrame {
 
@@ -62,9 +64,11 @@ public class VAsignarTareas extends JFrame {
 		gbc_listTareas.insets = new Insets(0, 0, 5, 5);
 		gbc_listTareas.gridx = 0;
 		gbc_listTareas.gridy = 1;
+
 	
 		
 		JList listaTareas = new JList();
+		listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		GridBagConstraints gbc_listTrabajadores = new GridBagConstraints();
 		gbc_listTrabajadores.fill = GridBagConstraints.BOTH;
 		gbc_listTrabajadores.insets = new Insets(0, 0, 5, 0);
@@ -164,5 +168,10 @@ public class VAsignarTareas extends JFrame {
 			modeloListTarea.addElement(t);
 		}
 		listaTareas.setModel(modeloListTarea);
+		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new  DefaultListModel<BDTrabajador>();
+		for ( BDTrabajador t : VPrincipal.getTrabajadores()) {
+			modeloListaTrabajadores.addElement(t);
+		}
+		listTrabajadores.setModel(modeloListaTrabajadores);
 	}
 }

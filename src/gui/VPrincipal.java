@@ -45,27 +45,27 @@ public class VPrincipal extends JFrame {
 
         
      // ==== DATOS conectando a BD ====
+    	//las cosas en comentarios es q
+    	/*
         BDAdmin julio = new BDAdmin(2,"Julio", "123");
-        AdminDAO.insertarTrabajador(julio);
+        AdminDAO.insertarAdmin(julio);*/
         admins = new HashSet<BDAdmin>();
         cargarAdmins();
-        System.out.println(admins);
         
-        
-        BDTrabajador iker = new BDTrabajador(5,"Iker", "123");
-        TrabajadorDAO.insertarTrabajador(iker);
+       /* 
+        BDTrabajador iker = new BDTrabajador(5,"Iker", "123", null, null, null);
+        TrabajadorDAO.insertarTrabajador(iker);*/
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
-        System.out.println(trabajadores);
         
         
-        BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, trabajadores);
-        BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, trabajadores);
-        BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, trabajadores);
+       /* BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, "pendiente", trabajadores);
+        BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, "pendiente", trabajadores);
+        BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, "pendiente", trabajadores);
         TareaDAO.insertarTarea(tarea1);
         TareaDAO.insertarTarea(tarea2);
         TareaDAO.insertarTarea(tarea3);
-        
+        */
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);
@@ -73,7 +73,15 @@ public class VPrincipal extends JFrame {
 
         personal =new HashSet<Usuario>();
         cargarPersonal();
-        System.out.println(personal);
+        for ( Usuario u : personal) {
+        	
+        	if (u instanceof BDTrabajador) {
+        	System.out.println(u.getNombre() +" - "+ u.getContraseyna());}
+        	else {
+            	System.out.println(u.getNombre() +" - "+ u.getContraseyna() + "- admin");}
+
+        	}
+        
         
         
 

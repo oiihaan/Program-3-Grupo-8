@@ -141,7 +141,7 @@ public class VAnyadirTrabajador extends JFrame {
 
 		        try {
 		            // Ojo: adapta los parámetros al constructor real de BDTrabajador
-		            BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya);
+		            BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya, null, null, null);
 		            // Si tu clase tiene nombre/apellido:
 		            // nuevo.setNombre(nombre);
 		            // nuevo.setApellido(apellido);

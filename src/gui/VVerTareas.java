@@ -84,7 +84,6 @@ public class VVerTareas extends JFrame {
 		listaTareas = new JList();
 
 		listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listaTareas.setLayoutOrientation(JList.VERTICAL_WRAP);
 		DefaultListModel<BDTarea> modeloTareas = new DefaultListModel<BDTarea>();
 		for (BDTarea t : VPrincipal.getTareas()) {
 			modeloTareas.addElement(t);

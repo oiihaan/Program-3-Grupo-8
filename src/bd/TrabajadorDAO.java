@@ -18,7 +18,7 @@ public class TrabajadorDAO {
 
         int id = rs.getInt("id");
         String nombre = rs.getString("nombre");
-        String contrasenya = rs.getString("contraseyna");
+        String contrasenya = rs.getString("contrasenya");
 
         // Estos datos no los recoge la base de datos (son una relación que se hace despues)así que los iniciamos vacíos
         HashSet<BDTarea> tareasAsignadas = new HashSet<>();
@@ -141,7 +141,7 @@ public class TrabajadorDAO {
     public static HashSet<BDTrabajador> getAllTrabajadores() {
 
         HashSet<BDTrabajador> lista = new HashSet<>();
-        String sql = "SELECT id, nombre, contraseyna FROM trabajador";
+        String sql = "SELECT id, nombre, contrasenya FROM trabajador";
 
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);

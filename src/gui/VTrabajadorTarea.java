@@ -137,7 +137,7 @@ public class VTrabajadorTarea extends JFrame {
 			BDTarea tareaselect = (BDTarea) list.getSelectedValue();
 	
 				if(!list.isSelectionEmpty()) {
-					if (tareaselect.getEjecucion() == true) { //Se esta ejecutando
+					if (tareaselect.getEstado().equals("pendiente") ) { //Se esta ejecutando
 						btnEmpezarTarea.setEnabled(false);
 						btnFinalizarTarea.setEnabled(true);
 					} else {

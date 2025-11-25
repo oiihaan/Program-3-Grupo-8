@@ -27,7 +27,7 @@ public class InicializadorBaseDatos {
 	            crearEsquema();                // Crea tablas si no existen
 
 	            if (!existiaAntes) {           // Solo la primera vez
-	                insertarDatosIniciales();  // Opcional: datos de ejemplo
+	               // insertarDatosIniciales();  // Opcional: datos de ejemplo
 	            }
 
 	            System.out.println("Base de datos lista en: " + dbFile.getAbsolutePath());
@@ -134,7 +134,7 @@ public class InicializadorBaseDatos {
 	    }
 */
 	    // Datos de prueba para que todos tengáis la misma base inicial
-	    private static void insertarDatosIniciales() throws SQLException {
+	/**    private static void insertarDatosIniciales() throws SQLException {
 
 	        try (Connection conn = ConexionSQLite.getConnection()) {
 
@@ -155,7 +155,7 @@ public class InicializadorBaseDatos {
 
 	            // Trabajadores
 	            try (PreparedStatement ps = conn.prepareStatement(
-	                    "INSERT OR IGNORE INTO trabajador(id, nombre, contraseña) VALUES (?, ?, ?)")) {
+	                    "INSERT OR IGNORE INTO trabajador(id, nombre, contrasenya) VALUES (?, ?, ?)")) {
 
 	                ps.setInt(1, 1);
 	                ps.setString(2, "ana");
@@ -202,7 +202,7 @@ public class InicializadorBaseDatos {
 	            }
 	        }
 	    }
-
+**/
 	    // Para probar solo la inicialización
 	    public static void main(String[] args) {
 	        init();
