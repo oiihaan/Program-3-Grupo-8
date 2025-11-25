@@ -1,85 +1,121 @@
 package bd;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 import domain.BDTrabajador;
+import domain.BDTarea;
 
 public class TrabajadorDAO {
 
-	public static BDTrabajador buscarPorNombre(String nombre) {
-	    String sql = "SELECT id, nombre, contraseña FROM trabajador WHERE nombre = ?";
-	    try (Connection conn = ConexionSQLite.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, nombre);
-	        try (ResultSet rs = ps.executeQuery()) {
-	            if (rs.next()) {
-	                return new BDTrabajador(rs.getInt("id"),rs.getString("nombre"),
-	                		rs.getString("contraseña"));
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return null;
-	}
 
-    // INSERTAR un trabajador a la base de datos
-	public static void insertarTrabajador(BDTrabajador t) {
-	    // Comprobar si el nombre ya existe
-	    if (buscarPorNombre(t.getNombre()) != null) {
-	        System.out.println("ERROR: El trabajador con nombre '" + t.getNombre() + "' ya existe.");
-	        return;
-	    }
-	    
-	    String sql = "INSERT INTO trabajador(nombre, contraseña) VALUES (?, ?)";
-	    try (Connection conn = ConexionSQLite.getConnection();
-	         PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, t.getNombre());
-	        ps.setString(2, t.getContraseyna());
-	        ps.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	}
+    //crea BDTrabajador desde la tabla de la BBDD
+    private static BDTrabajador crearTrabajadorDesdeResultSet(ResultSet rs) throws SQLException {
+
+        int id = rs.getInt("id");
+        String nombre = rs.getString("nombre");
+        String contrasenya = rs.getString("contraseyna");
+
+        // Estos datos no los recoge la base de datos (son una relación que se hace despues)así que los iniciamos vacíos
+        HashSet<BDTarea> tareasAsignadas = new HashSet<>();
+        LocalDateTime entrada = null;
+        HashMap<LocalDate, ArrayList<LocalDateTime>> registrosFichaje = new HashMap<>();
+
+        return new BDTrabajador(
+                id,
+                nombre,
+                contrasenya,
+                tareasAsignadas,
+                entrada,
+                registrosFichaje
+        );
+    }
 
 
-    // LOGIN: buscar trabajador por nombre y contraseña
-    public BDTrabajador login(String nombre, String contraseña) {
-        String sql = "SELECT id, nombre, contraseña FROM trabajador "
-                   + "WHERE nombre = ? AND contraseña = ?";
+
+    // BUSCAR TRABAJADOR POR NOMBRE
+    public static BDTrabajador buscarPorNombre(String nombre) {
+
+        String sql = "SELECT id, nombre, contrasenya FROM trabajador WHERE nombre = ?";
 
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, nombre);
-            ps.setString(2, contraseña);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new BDTrabajador(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("contraseña")
-                    );
+                    return crearTrabajadorDesdeResultSet(rs);
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); //aquí estaria bien sacar esto en una ventana nueva de error si nos da tiempo
+            e.printStackTrace();
         }
 
         return null;
     }
 
-    // BUSCAR por ID en la BBDD
+
+    // INSERTAR TRABAJADOR
+    public static void insertarTrabajador(BDTrabajador t) {
+
+        if (buscarPorNombre(t.getNombre()) != null) {
+            System.out.println("ERROR: El trabajador '" + t.getNombre() + "' ya existe.");
+            return;
+        }
+
+        String sql = "INSERT INTO trabajador (nombre, contrasenya) VALUES (?, ?)";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, t.getNombre());
+            ps.setString(2, t.getContraseyna());
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    // LOGIN TRABAJADOR
+    public BDTrabajador login(String nombre, String contrasenya) {
+
+        String sql = "SELECT id, nombre, contraseyna FROM trabajador WHERE nombre = ? AND contrasenya = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ps.setString(2, contrasenya);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return crearTrabajadorDesdeResultSet(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+
+    // BUSCAR POR ID
     public BDTrabajador buscarPorId(int id) {
-        String sql = "SELECT id, nombre, contraseña FROM trabajador WHERE id = ?";
+
+        String sql = "SELECT id, nombre, contraseyna FROM trabajador WHERE id = ?";
 
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -88,11 +124,7 @@ public class TrabajadorDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new BDTrabajador(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("contraseña")
-                    );
+                    return crearTrabajadorDesdeResultSet(rs);
                 }
             }
 
@@ -102,25 +134,51 @@ public class TrabajadorDAO {
 
         return null;
     }
+
+
+
+    // OBTENER TODOS LOS TRABAJADORES
     public static HashSet<BDTrabajador> getAllTrabajadores() {
-    	HashSet<BDTrabajador> lista = new HashSet<>();
-        String sql = "SELECT id, nombre, contraseña FROM trabajador";
+
+        HashSet<BDTrabajador> lista = new HashSet<>();
+        String sql = "SELECT id, nombre, contraseyna FROM trabajador";
+
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                String contraseña = rs.getString("contraseña");
-                BDTrabajador t = new BDTrabajador(id, nombre, contraseña);
-                lista.add(t);
+                lista.add(crearTrabajadorDesdeResultSet(rs));
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return lista;
     }
 
+
+
+    // ELIMINAR TRABAJADOR POR NOMBRE
+    public static void eliminarPorNombre(String nombre) {
+
+        String sql = "DELETE FROM trabajador WHERE nombre = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+
+            int filas = ps.executeUpdate();
+
+            if (filas > 0)
+                System.out.println("Trabajador '" + nombre + "' eliminado.");
+            else
+                System.out.println("No existe trabajador con nombre '" + nombre + "'.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
-
+}

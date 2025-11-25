@@ -17,8 +17,6 @@ public abstract class Usuario {
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		//this.apellido = apellido;
-		//this.usuario = usuario;
 		this.contrasenya = contraseyna;
 	}
 
