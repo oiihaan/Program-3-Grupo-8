@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
@@ -33,6 +35,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import bd.TrabajadorDAO;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
@@ -44,6 +49,8 @@ public class VVerTrabajadores extends JFrame {
 	private VAdmin1 parent;
 	private BDAdmin admin;
 	private JLabel lblTrabajador;
+	private JList<BDTrabajador> listTrabajadores;
+	private DefaultListModel<BDTrabajador> modeloTrabajadores;
 	 DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	/**
 	 * Create the frame.
@@ -130,16 +137,15 @@ public class VVerTrabajadores extends JFrame {
 		JScrollPane scrollListTrab = new JScrollPane();
 		left.add(scrollListTrab);
 		
-		JList listTrabajadores = new JList();
+		listTrabajadores = new JList();
 		listTrabajadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollListTrab.add(listTrabajadores);
 		scrollListTrab.setViewportView(listTrabajadores);
-		DefaultListModel<BDTrabajador> modeloTrabajadores = new DefaultListModel<BDTrabajador>();
+		modeloTrabajadores = new DefaultListModel<BDTrabajador>();
 
-		for (Usuario t : VPrincipal.getPersonal()) {
-			if ( t instanceof BDTrabajador) {
-				modeloTrabajadores.addElement((BDTrabajador) t);
-			}
+		for (BDTrabajador t : VPrincipal.getTrabajadores()) {
+				modeloTrabajadores.addElement(t);
+			//QUE COJA LOS ELEMENTOS DE LA BASE DE DATOS MEJOR
 
 		}
 		listTrabajadores.setModel(modeloTrabajadores);
@@ -160,7 +166,60 @@ public class VVerTrabajadores extends JFrame {
 				VVerTrabajadores.this.dispose();
 			}
 		});
+		
+		JButton btnDespedir = new JButton("Despedir");
+		btnDespedir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    BDTrabajador seleccionado = listTrabajadores.getSelectedValue();
+
+			    if (seleccionado == null) {
+			        JOptionPane.showMessageDialog(
+			                VVerTrabajadores.this,
+			                "Selecciona primero un trabajador de la lista.",
+			                "Ningún trabajador seleccionado",
+			                JOptionPane.WARNING_MESSAGE
+			        );
+			        return;
+			    }
+
+			    // 2) Confirmar
+			    int opcion = JOptionPane.showConfirmDialog(
+			            VVerTrabajadores.this,
+			            "¿Seguro que quieres despedir a '" + seleccionado.getNombre() + "'?",
+			            "Confirmar despido",
+			            JOptionPane.YES_NO_OPTION,
+			            JOptionPane.WARNING_MESSAGE
+			    );
+
+			    if (opcion != JOptionPane.YES_OPTION) {
+			        return; // el usuario se ha echado atrás
+			    }
+
+			    // 3) Borrar de la base de datos
+			    // Usamos el DAO 
+			    TrabajadorDAO.eliminarPorNombre(seleccionado.getNombre());
+
+			    // 4) Borrar de las estructuras en memoria de VPrincipal
+			    VPrincipal.getTrabajadores().remove(seleccionado);
+			    VPrincipal.getPersonal().remove(seleccionado); // si tienes getter, o vuelve a cargarPersonal()
+
+			    // 5) Borrar del modelo de la JList
+			    modeloTrabajadores.removeElement(seleccionado);
+
+			    // 6) Avisar
+			    JOptionPane.showMessageDialog(
+			            VVerTrabajadores.this,
+			            "Trabajador despedido correctamente.",
+			            "Despedido",
+			            JOptionPane.INFORMATION_MESSAGE
+			    );
+			}
+		});
+		
+		south.add(btnDespedir);
 		south.add(btnVolver);
+		
 		
 		
 	//--- LÓGICA DE LISTAS ---
