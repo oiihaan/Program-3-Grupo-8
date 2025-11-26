@@ -38,7 +38,6 @@ public class VVerTareas extends JFrame {
 	private BDAdmin admin;
 	private JLabel lblEstadoVar;
 	private JList listaTareas;
-	private JProgressBar progressBarTarea;
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
@@ -123,15 +122,6 @@ public class VVerTareas extends JFrame {
 		
 		JPanel thirdRowCe = new JPanel();
 		right.add(thirdRowCe);
-		thirdRowCe.setLayout(null);
-		
-		JLabel lblProgreso = new JLabel("Progreso de la tarea:");
-		lblProgreso.setBounds(10, 10, 127, 13);
-		thirdRowCe.add(lblProgreso);
-		
-		progressBarTarea = new JProgressBar();
-		progressBarTarea.setBounds(10, 32, 238, 44);
-		thirdRowCe.add(progressBarTarea);
 		
 		JPanel forthRowCe = new JPanel();
 		right.add(forthRowCe);
@@ -169,34 +159,52 @@ public class VVerTareas extends JFrame {
 			
 		});
 
-		//Estilo AppUI
-		AppUI.styleBackground(contentPane);
-		AppUI.styleCard(centro);
-
-		AppUI.styleTransparent(left);
-		AppUI.styleTransparent(right);
-		AppUI.styleTransparent(firstRowCe);
-		AppUI.styleTransparent(secondRowCe);
-		AppUI.styleTransparent(thirdRowCe);
-		AppUI.styleTransparent(forthRowCe);
-
-		AppUI.styleLabel(lblEstado);
-		AppUI.styleLabel(lblEstadoVar);
-		AppUI.styleLabel(lblProgreso);
-
-		AppUI.styleList(listaTareas);
-		AppUI.styleList(listaTrabajadores);
-
-		AppUI.stylePrimaryButton(btnVolver);
-	}
-	
-	
-	private void lineaprogresos() {
-		BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
-		progressBarTarea.setMaximum(tarea.getDuracion()/6000);
-		progressBarTarea.setMinimum(0);
-		progressBarTarea.setValue(tarea.getDuracion());
 		
+		
+		//Boton Paso de Ventana a ASIGNAR_TAREA
+		JButton btnAsignarTareas = new JButton("AsignarTareas");
+		btnAsignarTareas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VAsignarTareas VAsignarTareas = new VAsignarTareas (VVerTareas.this, admin);
+				VAsignarTareas.setVisible(true);
+				VVerTareas.this.setVisible(false);
+				
+			}
+		});
+		GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
+		gbc_btnAsignarTareas.gridx = 0;
+		gbc_btnAsignarTareas.gridy = 0;
+		thirdRowCe.add(btnAsignarTareas, gbc_btnAsignarTareas);
+
+		//Estilo AppUI
+				AppUI.styleBackground(contentPane);
+				AppUI.styleCard(centro);
+
+				AppUI.styleTransparent(left);
+				AppUI.styleTransparent(right);
+				AppUI.styleTransparent(firstRowCe);
+				AppUI.styleTransparent(secondRowCe);
+				AppUI.styleTransparent(thirdRowCe);
+				AppUI.styleTransparent(forthRowCe);
+
+				AppUI.styleLabel(lblEstado);
+				AppUI.styleLabel(lblEstadoVar);
+				GridBagLayout gbl_thirdRowCe = new GridBagLayout();
+				gbl_thirdRowCe.columnWidths = new int[]{258, 0};
+				gbl_thirdRowCe.rowHeights = new int[]{130, 0};
+				gbl_thirdRowCe.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+				gbl_thirdRowCe.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+				thirdRowCe.setLayout(gbl_thirdRowCe);
+				
+				AppUI.styleList(listaTareas);
+				AppUI.styleList(listaTrabajadores);
+
+				AppUI.stylePrimaryButton(btnVolver);
+				AppUI.stylePrimaryButton(btnAsignarTareas);
 	}
 	
+	
+
 }

@@ -72,16 +72,19 @@ public class VAdmin1 extends JFrame {
 		centro.add(centroCenter, BorderLayout.CENTER);
 		centroCenter.setLayout(new GridLayout(2, 2, 10, 30));
 		
+		
+		//Boton AÑADIR TAREAS
 		JButton btnAnyadirTareas = new JButton("Añadir Tareas");
 		btnAnyadirTareas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VAsignarTareas VAsignarTareas = new VAsignarTareas (VAdmin1.this, admin);
-				VAsignarTareas.setVisible(true);
+				VAnyadirTareas VAnyadirTareas = new VAnyadirTareas (VAdmin1.this, admin);
+				VAnyadirTareas.setVisible(true);
 				VAdmin1.this.setVisible(false);
 			}
 		});
 		centroCenter.add(btnAnyadirTareas);
 		btnAnyadirTareas.setHorizontalAlignment(SwingConstants.LEFT);
+		
 		
 		JButton btnAnyadirEmpleados = new JButton("Añadir Empleados");
 		btnAnyadirEmpleados.addActionListener(new ActionListener() {
@@ -93,6 +96,7 @@ public class VAdmin1 extends JFrame {
 		});
 		centroCenter.add(btnAnyadirEmpleados);
 		
+		//Boton VERTAREAS
 		JButton btnVerTareas = new JButton("Ver Tareas");
 		btnVerTareas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

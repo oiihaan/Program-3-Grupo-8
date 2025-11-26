@@ -36,13 +36,13 @@ public class VAsignarTareas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private VAdmin1 parent;
+	private VVerTareas parent;
 	private BDAdmin admin;
 
 	/**
 	 * Create the frame.
 	 */
-	public VAsignarTareas(VAdmin1 parent, BDAdmin admin) {
+	public VAsignarTareas(VVerTareas parent, BDAdmin admin) {
 		this.parent = parent;
 		this.admin = admin;
 		
