@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import domain.BDAdmin;
 import domain.BDTrabajador;
+import gui.ui.*;
 
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
@@ -124,6 +125,22 @@ public class VAdmin1 extends JFrame {
 		gbc_btnCerrarSesion.gridx = 1;
 		gbc_btnCerrarSesion.gridy = 2;
 		contentPane.add(btnCerrarSesion, gbc_btnCerrarSesion);
+
+		
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(centro);
+
+		AppUI.styleTransparent(centroNorth);
+		AppUI.styleTransparent(centroCenter);
+
+		AppUI.styleSubtitle(lblBienvenida);
+		AppUI.styleTitle(lblNombreAdmin);
+
+		AppUI.stylePrimaryButton(btnAnyadirTareas);
+		AppUI.stylePrimaryButton(btnAnyadirEmpleados);
+		AppUI.stylePrimaryButton(btnVerTareas);
+		AppUI.stylePrimaryButton(btnVisualizarEmpleados);
+		AppUI.stylePrimaryButton(btnCerrarSesion);
 
 	}
 	

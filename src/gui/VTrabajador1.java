@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import domain.BDTrabajador;
+import gui.ui.AppUI;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -66,7 +67,6 @@ public class VTrabajador1 extends JFrame {
         gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         getContentPane().setLayout(gridBagLayout);
-                          
         
 			// --- LABEL BIENVENIDO ---
         JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
@@ -76,7 +76,7 @@ public class VTrabajador1 extends JFrame {
         gbc_lbl.gridwidth = 6;
         gbc_lbl.gridx = 0;
         gbc_lbl.gridy = 1;
-        getContentPane().add(lbl, gbc_lbl);                                 
+        getContentPane().add(lbl, gbc_lbl);   
                                               
         // --- BOTÓN DESFICHAR ---
         btnDesfichar = new JButton("Desfichar");
@@ -166,6 +166,13 @@ public class VTrabajador1 extends JFrame {
                 
                 controlFichaje(trabajador);
 
+                //ESTILO CON AppUI
+                AppUI.styleBackground((JPanel) getContentPane());
+                AppUI.styleTitle(lbl);
+                AppUI.stylePrimaryButton(btnFichar);
+                AppUI.stylePrimaryButton(btnDesfichar);
+                AppUI.stylePrimaryButton(btnVerTareas);
+                AppUI.stylePrimaryButton(btnCerrarSesion);
 
 	}
 }

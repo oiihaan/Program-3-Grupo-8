@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import domain.BDAdmin;
 import domain.BDTarea;
 import domain.BDTrabajador;
+import gui.ui.AppUI;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -173,5 +174,25 @@ public class VAsignarTareas extends JFrame {
 			modeloListaTrabajadores.addElement(t);
 		}
 		listTrabajadores.setModel(modeloListaTrabajadores);
+		
+		
+		//Estilo AppUI
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(Centro);
+
+		AppUI.styleTransparent(centroNorth);
+		AppUI.styleTransparent(centroSouth);
+		AppUI.styleTransparent(centroCentro);
+		AppUI.styleTransparent(centroIzq);
+		AppUI.styleTransparent(centroDe);
+
+		AppUI.styleTitle(lblTareas);
+		AppUI.styleTitle(lblTrabajadores);
+
+		AppUI.stylePrimaryButton(btnAsignarTarea);
+		AppUI.stylePrimaryButton(btnVolver);
+
+		AppUI.styleList(listaTareas);
+		AppUI.styleList(listTrabajadores);
 	}
 }

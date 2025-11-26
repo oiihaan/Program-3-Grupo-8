@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import bd.TrabajadorDAO;
 import domain.BDAdmin;
 import domain.BDTrabajador;
+import gui.ui.*;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -189,5 +190,30 @@ public class VAnyadirTrabajador extends JFrame {
 		});
 		southDe.add(btnVolver);
 
+		//Estilo AppUI
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(centro);
+
+		AppUI.styleTransparent(northIz);
+		AppUI.styleTransparent(northDe);
+		AppUI.styleTransparent(centroIz);
+		AppUI.styleTransparent(centroDe);
+		AppUI.styleTransparent(southIz);
+		AppUI.styleTransparent(southDe);
+
+		AppUI.styleLabel(lblNombre);
+		AppUI.styleLabel(lblApellido);
+		AppUI.styleLabel(lblUsername);
+		AppUI.styleLabel(lblContrasenya);
+
+		AppUI.styleTextField(txtNombre);
+		AppUI.styleTextField(txtApellido);
+		AppUI.styleTextField(txtUsername);
+		AppUI.styleTextField(textField);
+
+		AppUI.stylePrimaryButton(btnAynadir);
+		AppUI.stylePrimaryButton(btnVolver);
 	}
+	
+	
 }

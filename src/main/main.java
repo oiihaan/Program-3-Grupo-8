@@ -2,7 +2,7 @@ package main;
 
 import bd.InicializadorBaseDatos;
 import java.awt.EventQueue;
-
+import gui.ui.*;
 import gui.VPrincipal;
 
 public class main {
@@ -10,7 +10,7 @@ public class main {
 		 * Launch the application.
 		 */
 	public static void main(String[] args) {
-		bd.InicializadorBaseDatos.init();			//Asegura que la base de datos este creada
+		InicializadorBaseDatos.init();			//Asegura que la base de datos este creada
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 					try {

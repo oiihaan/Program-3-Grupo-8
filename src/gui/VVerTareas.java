@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import domain.BDAdmin;
 import domain.BDTarea;
 import domain.BDTrabajador;
+import gui.ui.AppUI;
 
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -168,9 +169,27 @@ public class VVerTareas extends JFrame {
 			
 		});
 
+		//Estilo AppUI
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(centro);
 
+		AppUI.styleTransparent(left);
+		AppUI.styleTransparent(right);
+		AppUI.styleTransparent(firstRowCe);
+		AppUI.styleTransparent(secondRowCe);
+		AppUI.styleTransparent(thirdRowCe);
+		AppUI.styleTransparent(forthRowCe);
 
+		AppUI.styleLabel(lblEstado);
+		AppUI.styleLabel(lblEstadoVar);
+		AppUI.styleLabel(lblProgreso);
+
+		AppUI.styleList(listaTareas);
+		AppUI.styleList(listaTrabajadores);
+
+		AppUI.stylePrimaryButton(btnVolver);
 	}
+	
 	
 	private void lineaprogresos() {
 		BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
@@ -178,7 +197,6 @@ public class VVerTareas extends JFrame {
 		progressBarTarea.setMinimum(0);
 		progressBarTarea.setValue(tarea.getDuracion());
 		
-		
-
 	}
+	
 }

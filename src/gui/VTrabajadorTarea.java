@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import domain.BDTarea;
 import domain.BDTrabajador;
+import gui.ui.AppUI;
 
 import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
@@ -224,7 +225,18 @@ public class VTrabajadorTarea extends JFrame {
 		});
 
 		
+		//Estilo AppUI
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(Centro);
 
+		AppUI.styleTransparent(centroIz);
+		AppUI.styleTransparent(centroDe);
+
+		AppUI.styleList(list);
+
+		AppUI.stylePrimaryButton(btnEmpezarTarea);
+		AppUI.stylePrimaryButton(btnFinalizarTarea);
+		AppUI.stylePrimaryButton(btnVolver);
 	
 	}
 }

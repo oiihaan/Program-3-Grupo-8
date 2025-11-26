@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 import gui.VPrincipal;
+import gui.ui.AppUI;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -200,8 +201,22 @@ public class VVerTrabajadores extends JFrame {
 
 			}
 		});
-
 		
+		//Estilo AppUI
+		AppUI.styleBackground(contentPane);
+		AppUI.styleCard(principal);
+
+		AppUI.styleTransparent(centro);
+		AppUI.styleTransparent(left);
+		AppUI.styleTransparent(right);
+		AppUI.styleTransparent(south);
+
+		AppUI.styleLabel(lblTrabajador);
+
+		AppUI.styleList(listTrabajadores);
+		AppUI.styleList(listFichajes);
+
+		AppUI.stylePrimaryButton(btnVolver);
 	
 
 		//-- LISTA FICHAJES --

@@ -156,7 +156,7 @@ public class VPrincipal extends JFrame {
         gbc_card.gridy = 0;
         contentPane.add(card, gbc_card);
 
-        // === ESTILO CON AppUI (solo “maquillaje”) ===
+        // ESTILO CON AppUI
         AppUI.styleBackground(contentPane);
         AppUI.styleCard(card);
         AppUI.styleTitle(lblTitle);
