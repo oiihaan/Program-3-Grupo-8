@@ -127,7 +127,7 @@ public class VAnyadirTareas extends JFrame {
 				}
 				BDTarea tarea = new BDTarea(  nombre, duracion, "pendiente");
 				TareaDAO.insertarTarea(tarea);
-				JOptionPane.showMessageDialog(null, "Tarea " + tarea.getNombre() +"ha sido guardada correctamente");
+				JOptionPane.showMessageDialog(null, "Tarea " + tarea.getNombre() +" ha sido guardada correctamente");
 				txtDuracion.setText("");
 				txtNombreTarea.setText("");
 				btnGuardar.setEnabled(false);

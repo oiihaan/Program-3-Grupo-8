@@ -13,6 +13,7 @@ import domain.BDTrabajador;
 import gui.ui.AppUI;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JButton;
@@ -27,8 +28,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
+
+import bd.TareaDAO;
+import bd.TrabajadorDAO;
+
+
 import javax.swing.event.ListSelectionEvent;
 import java.awt.BorderLayout;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VVerTareas extends JFrame {
 
@@ -38,6 +49,10 @@ public class VVerTareas extends JFrame {
 	private BDAdmin admin;
 	private JLabel lblEstadoVar;
 	private JList listaTareas;
+	private JTextField txtBuscadorTareas;
+	private JLabel buscadorTareas;
+	private JLabel lblTrabajadoresAsignados;
+	private JLabel lblEstado;
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
@@ -46,7 +61,7 @@ public class VVerTareas extends JFrame {
 		
 		setTitle("Ver Tareas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 482);
+		setBounds(100, 100, 747, 593);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -85,7 +100,7 @@ public class VVerTareas extends JFrame {
 
 		listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		DefaultListModel<BDTarea> modeloTareas = new DefaultListModel<BDTarea>();
-		for (BDTarea t : VPrincipal.getTareas()) {
+		for (BDTarea t : TareaDAO.getAllTareas()) {
 			modeloTareas.addElement(t);
 		}
 		listaTareas.setModel(modeloTareas);
@@ -98,30 +113,51 @@ public class VVerTareas extends JFrame {
 		JPanel firstRowCe = new JPanel();
 		right.add(firstRowCe);
 		firstRowCe.setLayout(null);
+		buscadorTareas = new JLabel("Buscador de tareas: ");
+		buscadorTareas.setBounds(10, 11, 127, 13);
+		firstRowCe.add(buscadorTareas);
 		
-		JLabel lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 10, 127, 13);
-		firstRowCe.add(lblEstado);
+		txtBuscadorTareas = new JTextField();
+
+		txtBuscadorTareas.setBounds(20, 44, 222, 43);
+		firstRowCe.add(txtBuscadorTareas);
 		
-		lblEstadoVar = new JLabel();
-		lblEstadoVar.setBounds(10, 33, 90, 13);
-		firstRowCe.add(lblEstadoVar);
+
 		
 		JPanel secondRowCe = new JPanel();
 		right.add(secondRowCe);
 		secondRowCe.setLayout(new BorderLayout(0, 0));
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		secondRowCe.add(scrollPane_1, BorderLayout.CENTER);
+		lblEstado = new JLabel("Estado de la tarea: ");
+		lblEstado.setBounds(10, 10, 127, 13);
+		secondRowCe.add(lblEstado);
 		
-		JList listaTrabajadores = new JList();
-		scrollPane_1.setViewportView(listaTrabajadores); 
-		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
-		listaTrabajadores.setModel(modeloListaTrabajadores);
+		lblEstadoVar = new JLabel();
+		lblEstadoVar.setBounds(10, 33, 90, 13);
+		secondRowCe.add(lblEstadoVar);
 
 		
 		JPanel thirdRowCe = new JPanel();
+		
 		right.add(thirdRowCe);
+		thirdRowCe.setLayout(null);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 22, 258, 87);
+		thirdRowCe.add(scrollPane_1);
+		
+		JList listaTrabajadores = new JList();
+
+		scrollPane_1.setViewportView(listaTrabajadores); 
+		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
+		
+		listaTrabajadores.setModel(modeloListaTrabajadores);
+		
+		lblTrabajadoresAsignados = new JLabel("Trabajadores asignados:");
+		lblTrabajadoresAsignados.setBounds(10, 0, 127, 13);
+		thirdRowCe.add(lblTrabajadoresAsignados);
+
+		
+		
 		
 		JPanel forthRowCe = new JPanel();
 		right.add(forthRowCe);
@@ -134,7 +170,7 @@ public class VVerTareas extends JFrame {
 				VVerTareas.this.dispose();
 			}
 		});
-		btnVolver.setBounds(28, 51, 85, 21);
+		btnVolver.setBounds(10, 51, 87, 21);
 		forthRowCe.add(btnVolver);
 		
 		//Aciones 
@@ -144,8 +180,13 @@ public class VVerTareas extends JFrame {
 				if(!listaTareas.isSelectionEmpty()) {
 					BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
 					lblEstadoVar.setText(tarea.getEstado());
+
+					
 					for (BDTrabajador t : tarea.getTrabajadoresAsignados()) {
 						modeloListaTrabajadores.addElement(t);
+						
+						
+
 						
 					}
 				}else {
@@ -158,53 +199,98 @@ public class VVerTareas extends JFrame {
 			
 			
 		});
+		
+		txtBuscadorTareas.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				String busqueda = txtBuscadorTareas.getText().trim();
+				modeloTareas.clear();
+				if(busqueda.equals("")) {
+					for (BDTarea t : TareaDAO.getAllTareas()) {
+						modeloTareas.addElement(t);
+					}
+					listaTareas.setModel(modeloTareas);
+					
+					
+				}else {
+					for (BDTarea t : TareaDAO.buscarTareasPorNombre(busqueda)) {
+						modeloTareas.addElement(t);
+					}
+					listaTareas.setModel(modeloTareas);
+					
+			}
+			}
+		});
+		
+		listaTrabajadores.addMouseListener(new java.awt.event.MouseAdapter() {
+			 public void mouseClicked(java.awt.event.MouseEvent evt) {
+				 if (evt.getClickCount() == 2) {
+					 int index = listaTrabajadores.locationToIndex(evt.getPoint());
+	                    if (index >= 0) {
+	                        BDTrabajador seleccionado = (BDTrabajador) listaTrabajadores.getSelectedValue();
+	                        VVerTrabajadores ventanaVertrabajadores = new  VVerTrabajadores(parent, admin , seleccionado.getId());
+	                        ventanaVertrabajadores.setVisible(true);
+	                        dispose();
+	                    }
+					 
+					 
+				 }
+			}
+		});
 
 		
 		
 		//Boton Paso de Ventana a ASIGNAR_TAREA
+
+		
 		JButton btnAsignarTareas = new JButton("AsignarTareas");
 		btnAsignarTareas.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VAsignarTareas VAsignarTareas = new VAsignarTareas (VVerTareas.this, admin);
-				VAsignarTareas.setVisible(true);
-				VVerTareas.this.setVisible(false);
 				
-			}
-		});
-		GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
-		gbc_btnAsignarTareas.gridx = 0;
-		gbc_btnAsignarTareas.gridy = 0;
-		thirdRowCe.add(btnAsignarTareas, gbc_btnAsignarTareas);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					VAsignarTareas VAsignarTareas = new VAsignarTareas (VVerTareas.this, admin);
+					VAsignarTareas.setVisible(true);
+					VVerTareas.this.setVisible(false);
+					
+				}
+			});
+		btnAsignarTareas.setBounds(107, 50, 103, 23);
+		forthRowCe.add(btnAsignarTareas);
+	//	GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
+	//	gbc_btnAsignarTareas.gridx = 0;
+	//	gbc_btnAsignarTareas.gridy = 0;
+		// thirdRowCe.add(btnAsignarTareas, gbc_btnAsignarTareas);
 
 		//Estilo AppUI
 				AppUI.styleBackground(contentPane);
 				AppUI.styleCard(centro);
-
 				AppUI.styleTransparent(left);
 				AppUI.styleTransparent(right);
 				AppUI.styleTransparent(firstRowCe);
+				
+
+				txtBuscadorTareas.setColumns(10);
 				AppUI.styleTransparent(secondRowCe);
 				AppUI.styleTransparent(thirdRowCe);
 				AppUI.styleTransparent(forthRowCe);
 
 				AppUI.styleLabel(lblEstado);
 				AppUI.styleLabel(lblEstadoVar);
-				GridBagLayout gbl_thirdRowCe = new GridBagLayout();
-				gbl_thirdRowCe.columnWidths = new int[]{258, 0};
-				gbl_thirdRowCe.rowHeights = new int[]{130, 0};
-				gbl_thirdRowCe.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-				gbl_thirdRowCe.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-				thirdRowCe.setLayout(gbl_thirdRowCe);
-				
+				AppUI.styleLabel(lblTrabajadoresAsignados);
+				AppUI.styleLabel(buscadorTareas);
+				AppUI.styleTextField(txtBuscadorTareas);
+
+
 				AppUI.styleList(listaTareas);
 				AppUI.styleList(listaTrabajadores);
+				
+
 
 				AppUI.stylePrimaryButton(btnVolver);
 				AppUI.stylePrimaryButton(btnAsignarTareas);
-	}
-	
-	
+				
+				
 
+	}
 }

@@ -110,7 +110,7 @@ public class VAdmin1 extends JFrame {
 		JButton btnVisualizarEmpleados = new JButton("Ver Empleados");
 		btnVisualizarEmpleados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VVerTrabajadores VVerTrabajadores = new VVerTrabajadores(VAdmin1.this, admin);
+				VVerTrabajadores VVerTrabajadores = new VVerTrabajadores(VAdmin1.this, admin , null);
 				VVerTrabajadores.setVisible(true);
 				VAdmin1.this.setVisible(false);
 			}

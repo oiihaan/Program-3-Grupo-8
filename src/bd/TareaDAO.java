@@ -39,6 +39,31 @@ public class TareaDAO {
         }
         return null;
     }
+    //Buscar tareas por nombre
+    public static List<BDTarea> buscarTareasPorNombre(String nombre) {
+        String sql = "SELECT id, nombre, duracion, estado FROM tarea WHERE nombre LIKE ?";
+
+        ArrayList<BDTarea> tareas = new ArrayList<>();
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+
+            ps.setString(1, "%" + nombre + "%"); // Saca las que contengan nombre
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tareas.add(crearTareaDesdeResultSet(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tareas;
+    }
+
 
    
     // INSERTAR TAREA
@@ -93,7 +118,7 @@ public class TareaDAO {
 
 
     // ACTUALIZAR ESTADO A FINALIZADO
-    public void marcarCompletada(int id) {
+    public static void marcarCompletada(int id) {
         String sql = "UPDATE tarea SET estado = 'finalizado' WHERE id = ?";
 
         try (Connection conn = ConexionSQLite.getConnection();

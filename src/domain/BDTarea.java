@@ -3,6 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import bd.TareaDAO;
+
 public class BDTarea {
     private int id;
     private String nombre;
@@ -37,12 +39,12 @@ public class BDTarea {
 				} catch (InterruptedException e) {
 					System.out.println("hilo terminado" + nombre);
 //					setEjecucion(null);
-					setEstado("finalizado");
+					TareaDAO.marcarCompletada(BDTarea.this.getId());
 					return;
 				}
 				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
-				setEstado("finalizado");
+				TareaDAO.marcarCompletada(BDTarea.this.getId());
 				
 				
 			}
@@ -71,12 +73,12 @@ public class BDTarea {
 				} catch (InterruptedException e) {
 					System.out.println("hilo terminado" + nombre);
 //					setEjecucion(null);
-					setEstado("finalizado");
+					TareaDAO.marcarCompletada(BDTarea.this.getId());
 					return;
 				}
 				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
-				setEstado("finalizado");
+				TareaDAO.marcarCompletada(BDTarea.this.getId());
 				
 				
 			}

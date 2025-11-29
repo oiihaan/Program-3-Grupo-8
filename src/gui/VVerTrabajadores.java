@@ -55,7 +55,7 @@ public class VVerTrabajadores extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VVerTrabajadores(VAdmin1 parent, BDAdmin admin) {
+	public VVerTrabajadores(VAdmin1 parent, BDAdmin admin , Integer trabajador) {
 		this.parent = parent;
 		this.admin = admin;
 		
@@ -143,12 +143,27 @@ public class VVerTrabajadores extends JFrame {
 		scrollListTrab.setViewportView(listTrabajadores);
 		modeloTrabajadores = new DefaultListModel<BDTrabajador>();
 
-		for (BDTrabajador t : VPrincipal.getTrabajadores()) {
+		for (BDTrabajador t : TrabajadorDAO.getAllTrabajadores()) {
 				modeloTrabajadores.addElement(t);
 			//QUE COJA LOS ELEMENTOS DE LA BASE DE DATOS MEJOR
 
 		}
 		listTrabajadores.setModel(modeloTrabajadores);
+		
+		if(trabajador == null) {
+			listTrabajadores.setSelectedIndex(-1);
+		}else {
+			for (Object t: modeloTrabajadores.toArray()) {
+				BDTrabajador tra = (BDTrabajador) t;
+				if(tra.getId() == trabajador ) {
+					Integer index = modeloTrabajadores.indexOf(tra);
+					System.out.println(index);
+					listTrabajadores.setSelectedIndex(index);
+				}
+			}
+
+		}
+
 		
 		
 		JPanel south = new JPanel();
