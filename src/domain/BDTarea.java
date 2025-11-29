@@ -48,6 +48,42 @@ public class BDTarea {
 			}
 		});
 	}
+	//Constructor para insetar a la base de datos
+	public BDTarea( String nombre, int duracion, String estado) {
+		super();
+//		this.id = (Integer) null;
+		this.nombre = nombre;
+		this.duracion = duracion;
+		this.estado = estado;
+//		this.completada = completada;
+//		this.trabajadoresAsignados = null;
+		this.hilo =   new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				setEstado("ejecutando");
+//				setEjecucion(true);
+				System.out.println("Tarea Iniciada " + nombre);
+
+				try {
+					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
+				} catch (InterruptedException e) {
+					System.out.println("hilo terminado" + nombre);
+//					setEjecucion(null);
+					setEstado("finalizado");
+					return;
+				}
+				System.out.println("Tarea finalizada " + nombre);
+//				setEjecucion(null);
+				setEstado("finalizado");
+				
+				
+			}
+		});
+	}
+	
+	
 
 
 

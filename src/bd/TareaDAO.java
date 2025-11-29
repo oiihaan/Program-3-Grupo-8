@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import domain.BDTarea;
 import domain.BDTrabajador;
 
@@ -44,8 +46,11 @@ public class TareaDAO {
 
         // Comprobar duplicados
         if (buscarTareaPorNombre(t.getNombre()) != null) {
-            System.out.println("ERROR: La tarea '" + t.getNombre() + "' ya existe.");
-            return;
+        	JOptionPane.showMessageDialog(null, 
+        		    "ERROR: La tarea '" + t.getNombre() + "' ya existe.", 
+        		    "Tarea Duplicada", 
+        		    JOptionPane.ERROR_MESSAGE);
+        		return;
         }
 
         String sql = "INSERT INTO tarea (nombre, duracion, estado) VALUES (?, ?, ?)";
