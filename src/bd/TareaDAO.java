@@ -192,4 +192,33 @@ public class TareaDAO {
 
         return t;
     }
+    
+    // PARA SACAR LAS TAREAS QUE TIENE UN TRABAJADOR, PARA PONERLO EN LA JLIST DE V VER TRATABAJADORES, AL CLICKAR.
+    public static ArrayList<BDTarea> getTareasDeTrabajador(int idTrabajador) {
+        ArrayList<BDTarea> tareas = new ArrayList<>();
+
+        String sql = 
+            "SELECT t.id, t.nombre, t.duracion, t.estado " +
+            "FROM tarea t " +
+            "JOIN tarea_trabajador tt ON t.id = tt.id_tarea " +
+            "WHERE tt.id_trabajador = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idTrabajador);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tareas.add(crearTareaDesdeResultSet(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tareas;
+    }
+
 }

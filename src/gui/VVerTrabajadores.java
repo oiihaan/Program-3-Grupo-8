@@ -24,6 +24,7 @@ import javax.swing.DefaultListModel;
 import java.awt.CardLayout;
 import javax.swing.SpringLayout;
 import domain.BDAdmin;
+import domain.BDTarea;
 import domain.BDTrabajador;
 import domain.Usuario;
 
@@ -36,6 +37,7 @@ import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import bd.TareaDAO;
 import bd.TrabajadorDAO;
 
 import javax.swing.event.ListSelectionEvent;
@@ -51,6 +53,9 @@ public class VVerTrabajadores extends JFrame {
 	private JLabel lblTrabajador;
 	private JList<BDTrabajador> listTrabajadores;
 	private DefaultListModel<BDTrabajador> modeloTrabajadores;
+	private JList<BDTarea> listTareas;
+	private DefaultListModel<BDTarea> modeloTareas;
+
 	 DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 	/**
 	 * Create the frame.
@@ -101,9 +106,9 @@ public class VVerTrabajadores extends JFrame {
 		gbc_centro.gridy = 0;
 		principal.add(centro, gbc_centro);
 		GridBagLayout gbl_centro = new GridBagLayout();
-		gbl_centro.columnWidths = new int[] {130, 1, 130};
+		gbl_centro.columnWidths = new int[] {150, 10, 300};
 		gbl_centro.rowHeights = new int[] {270};
-		gbl_centro.columnWeights = new double[]{1.0,0.0,0.0};
+		gbl_centro.columnWeights = new double[]{0.3,0.0,0.7};
 		gbl_centro.rowWeights = new double[]{1.0};
 		centro.setLayout(gbl_centro);
 		
@@ -115,15 +120,15 @@ public class VVerTrabajadores extends JFrame {
 		centro.add(right, gbc_right);
 		right.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JScrollPane scrollListFichajes = new JScrollPane();
-		right.add(scrollListFichajes);
-		
-		JList listFichajes = new JList();
-		listFichajes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollListFichajes.add(listFichajes);
-		DefaultListModel<String> modelolistFichajes = new DefaultListModel<String>();
-		listFichajes.setModel(modelolistFichajes);
-		scrollListFichajes.setViewportView(listFichajes);
+		JScrollPane scrollListTareas = new JScrollPane();
+		right.add(scrollListTareas);
+
+		modeloTareas = new DefaultListModel<>();
+		listTareas = new JList<>(modeloTareas);
+		listTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		scrollListTareas.setViewportView(listTareas);
+
 		
 		JPanel left = new JPanel();
 		GridBagConstraints gbc_left = new GridBagConstraints();
@@ -241,40 +246,29 @@ public class VVerTrabajadores extends JFrame {
 		
 		//-- LISTA TRABAJADORES
 		listTrabajadores.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				
-							modelolistFichajes.clear();
-							if(!listTrabajadores.isSelectionEmpty()) {  // Entra si lo selecionado no es null
-								BDTrabajador trabajador = (BDTrabajador) listTrabajadores.getSelectedValue();
-								lblTrabajador.setText("Trabajador selecionado : " + trabajador.getNombre());
-								HashMap<LocalDate, ArrayList<LocalDateTime>> fichajes = trabajador.getRegistrosFichaje();
-								for(LocalDate clave : fichajes.keySet()) {
-									ArrayList<LocalDateTime> lista = fichajes.get(clave);
-								    for (int i = 0; i < lista.size(); i += 2) {
-								    	
-								    	if (i + 1 < lista.size()) { // Hay pareja: grupo de dos
-								            String fichaje = lista.get(i).format(formato);
-								            String desfichaje = lista.get(i + 1).format(formato);
-								            modelolistFichajes.addElement(fichaje+ " - " + desfichaje);
-								            
-								        } else {
-								            // Queda uno solo
-								        	System.out.println("Entrado");
-								            String fichaje = lista.get(i).format(formato);
-								            modelolistFichajes.addElement(fichaje+ " - " + "()");
-								        }	
-									}
-	
-								}
-								listFichajes.setModel(modelolistFichajes);
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        if (e.getValueIsAdjusting()) {
+		            return; // evitar dobles disparos
+		        }
 
-							}else { //Si lo selecionado es null
-								lblTrabajador.setText("Ningun trabajador selecionado");
+		        modeloTareas.clear();
 
-							}
+		        BDTrabajador trabajadorSeleccionado = listTrabajadores.getSelectedValue();
 
-			}
+		        if (trabajadorSeleccionado != null) {
+		            lblTrabajador.setText("Trabajador seleccionado: " + trabajadorSeleccionado.getNombre());
+
+		            // Cargar tareas desde BD usando la tabla tarea_trabajador
+		            for (BDTarea t : TareaDAO.getTareasDeTrabajador(trabajadorSeleccionado.getId())) {
+		                modeloTareas.addElement(t);
+		            }
+		        } else {
+		            lblTrabajador.setText("Ningún trabajador seleccionado");
+		        }
+		    }
 		});
+
 		
 		//Estilo AppUI
 		AppUI.styleBackground(contentPane);
@@ -288,7 +282,7 @@ public class VVerTrabajadores extends JFrame {
 		AppUI.styleLabel(lblTrabajador);
 
 		AppUI.styleList(listTrabajadores);
-		AppUI.styleList(listFichajes);
+		AppUI.styleList(listTareas);
 
 		AppUI.stylePrimaryButton(btnVolver);
 		AppUI.stylePrimaryButton(btnDespedir);
