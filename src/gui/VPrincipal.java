@@ -71,7 +71,7 @@ public class VPrincipal extends JFrame {
         for ( Usuario u : personal) {
         	
         	if (u instanceof BDTrabajador) {
-        	System.out.println(u.getNombre() +" - "+ u.getContraseyna());}
+        	System.out.println(u.getNombre() +" - "+ u.getContraseyna() +" " + u.getId() );}
         	else {
             	System.out.println(u.getNombre() +" - "+ u.getContraseyna() + "- admin");}
 

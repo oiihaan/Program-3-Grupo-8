@@ -131,6 +131,21 @@ public class TareaDAO {
             e.printStackTrace();
         }
     }
+    
+    // ACTUALIZAR ESTADO A FINALIZADO
+    public static void marcarEjecutando(int id) {
+        String sql = "UPDATE tarea SET estado = 'ejecutando' WHERE id = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     // OBTENER TODAS LAS TAREAS

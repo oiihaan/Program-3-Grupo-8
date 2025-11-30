@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import bd.TareaDAO;
 import domain.BDTarea;
 import domain.BDTrabajador;
 import gui.ui.AppUI;
@@ -113,13 +114,15 @@ public class VTrabajadorTarea extends JFrame {
 		//Creamos el modelo de la lista , le añadimos las tareas del trabajador y añadimos el modelo a la lista
 		DefaultListModel<BDTarea> modelo = new DefaultListModel<>();
 		
-		for (BDTarea tarea : trabajador.getTareasAsignadas()) {
-			if(tarea.getEstado().equals("finalizado")) {  //Los finalizados no los metemos al modelo pero siguien en sus tareas para que el jefe pueda verlos
+		 // Cargar tareas desde BD usando la tabla tarea_trabajador
+        for (BDTarea t : TareaDAO.getTareasDeTrabajador(trabajador.getId())) {
+        	if(t.getEstado().equals("finalizado")) {  //Los finalizados no los metemos al modelo pero siguien en sus tareas para que el jefe pueda verlos
 			} else {
-				modelo.addElement(tarea);
+				modelo.addElement(t);
 			}
-			
-		}
+        	
+        }
+
 		list.setModel(modelo);
 		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Para que solo pueda selecionar una opcion 
@@ -236,4 +239,4 @@ public class VTrabajadorTarea extends JFrame {
 		AppUI.stylePrimaryButton(btnVolver);
 	
 	}
-}
+	}

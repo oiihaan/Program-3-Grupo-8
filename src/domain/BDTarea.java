@@ -33,18 +33,19 @@ public class BDTarea {
 				setEstado("ejecutando");
 //				setEjecucion(true);
 				System.out.println("Tarea Iniciada " + nombre);
+				TareaDAO.marcarEjecutando(id);
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
 					System.out.println("hilo terminado" + nombre);
 //					setEjecucion(null);
-					TareaDAO.marcarCompletada(BDTarea.this.getId());
+					TareaDAO.marcarCompletada(id);
 					return;
 				}
 				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
-				TareaDAO.marcarCompletada(BDTarea.this.getId());
+				TareaDAO.marcarCompletada(id);
 				
 				
 			}
@@ -67,18 +68,19 @@ public class BDTarea {
 				setEstado("ejecutando");
 //				setEjecucion(true);
 				System.out.println("Tarea Iniciada " + nombre);
+				TareaDAO.marcarEjecutando(id);
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-					System.out.println("hilo terminado" + nombre);
+					System.out.println(id);
 //					setEjecucion(null);
 					TareaDAO.marcarCompletada(BDTarea.this.getId());
 					return;
 				}
 				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
-				TareaDAO.marcarCompletada(BDTarea.this.getId());
+				TareaDAO.marcarCompletada(id);
 				
 				
 			}
