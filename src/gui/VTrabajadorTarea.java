@@ -135,11 +135,11 @@ public class VTrabajadorTarea extends JFrame {
 	
 				if(!list.isSelectionEmpty()) {
 					if (tareaselect.getEstado().equals("pendiente") ) { //Se esta ejecutando
-						btnEmpezarTarea.setEnabled(false);
-						btnFinalizarTarea.setEnabled(true);
-					} else {
 						btnEmpezarTarea.setEnabled(true);
 						btnFinalizarTarea.setEnabled(false);
+					} else {
+						btnEmpezarTarea.setEnabled(false);
+						btnFinalizarTarea.setEnabled(true);
 
 
 					}
@@ -173,6 +173,7 @@ public class VTrabajadorTarea extends JFrame {
 		btnFinalizarTarea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BDTarea tareaselect = (BDTarea) list.getSelectedValue();
+				TareaDAO.marcarCompletada(tareaselect.getId());
 				tareaselect.getHilo().interrupt();
 				btnFinalizarTarea.setEnabled(false);
 				btnEmpezarTarea.setEnabled(false);

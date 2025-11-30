@@ -57,14 +57,16 @@ public class VPrincipal extends JFrame {
         TrabajadorDAO.insertarTrabajador(iker);*/
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
-        
+
         
        
         
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);
-        
+        for ( BDTarea t : tareas) {
+        	System.out.println( t + " " + t.getDuracion());
+        }
 
         personal =new HashSet<Usuario>();
         cargarPersonal();
