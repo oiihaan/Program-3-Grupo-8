@@ -203,10 +203,13 @@ public class InicializadorBaseDatos {
 	        }
 	    }
 **/
+	    /*
+	     * ACTIVAR SOLO SI ES NECESARIO, NOS ESTA CREANDO UNA TABLA DE ADMINISTRADOR.
 	    // Para probar solo la inicialización
 	    public static void main(String[] args) {
 	        init();
 	    }
+	    */ 
 	
 
 }

@@ -291,6 +291,7 @@ public class VVerTrabajadores extends JFrame {
 		AppUI.styleList(listFichajes);
 
 		AppUI.stylePrimaryButton(btnVolver);
+		AppUI.stylePrimaryButton(btnDespedir);
 	
 
 		//-- LISTA FICHAJES --
