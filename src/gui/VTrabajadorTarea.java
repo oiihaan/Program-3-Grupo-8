@@ -53,17 +53,17 @@ public class VTrabajadorTarea extends JFrame {
 
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[] {150, 300, 150};
+		gbl_contentPane.columnWidths = new int[] {300};
 		gbl_contentPane.rowHeights = new int[] {50, 300, 50};
-		gbl_contentPane.columnWeights = new double[]{0.0,0.0,0.0};
-		gbl_contentPane.rowWeights = new double[]{0.0,0.0,0.0};
+		gbl_contentPane.columnWeights = new double[]{0.0};
+		gbl_contentPane.rowWeights = new double[]{0.0,0.0, 0.0};
 		contentPane.setLayout(gbl_contentPane);
 		
 		JPanel Centro = new JPanel();
 		GridBagConstraints gbc_Centro = new GridBagConstraints();
-		gbc_Centro.insets = new Insets(0, 0, 5, 5);
+		gbc_Centro.insets = new Insets(0, 0, 5, 0);
 		gbc_Centro.fill = GridBagConstraints.BOTH;
-		gbc_Centro.gridx = 1;
+		gbc_Centro.gridx = 0;
 		gbc_Centro.gridy = 1;
 		contentPane.add(Centro, gbc_Centro);
 		GridBagLayout gbl_Centro = new GridBagLayout();
@@ -101,20 +101,13 @@ public class VTrabajadorTarea extends JFrame {
 		
 		JButton btnEmpezarTarea = new JButton("Empezar Tarea");
 		btnEmpezarTarea.setEnabled(false);
-		btnEmpezarTarea.setBounds(21, 63, 103, 21);
+		btnEmpezarTarea.setBounds(10, 36, 130, 21);
 		centroDe.add(btnEmpezarTarea);
 		
 		JButton btnFinalizarTarea = new JButton("Finalizar Tarea");
 		btnFinalizarTarea.setEnabled(false);
-		btnFinalizarTarea.setBounds(21, 120, 101, 21);
+		btnFinalizarTarea.setBounds(10, 68, 130, 21);
 		centroDe.add(btnFinalizarTarea);
-		
-		JButton btnVolver = new JButton("Volver");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 1;
-		gbc_btnNewButton.gridy = 2;
-		contentPane.add(btnVolver, gbc_btnNewButton);
 		
 		////////////////////////////////////////////////// ACIONES
 		//Creamos el modelo de la lista , le añadimos las tareas del trabajador y añadimos el modelo a la lista
@@ -212,17 +205,6 @@ public class VTrabajadorTarea extends JFrame {
 			}
 		});
 		HiloTiempo.start();
-		
-		//Volver a la pestaña de atras
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VTrabajadorTarea.this.parent.setVisible(true);
-				VTrabajadorTarea.this.parent.repaint();
-				VTrabajadorTarea.this.dispose();
-
-
-			}
-		});
 
 		
 		//Estilo AppUI
@@ -236,6 +218,21 @@ public class VTrabajadorTarea extends JFrame {
 
 		AppUI.stylePrimaryButton(btnEmpezarTarea);
 		AppUI.stylePrimaryButton(btnFinalizarTarea);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setBounds(10, 161, 130, 23);
+		centroDe.add(btnVolver);
+		
+		//Volver a la pestaña de atras
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VTrabajadorTarea.this.parent.setVisible(true);
+				VTrabajadorTarea.this.parent.repaint();
+				VTrabajadorTarea.this.dispose();
+
+
+			}
+		});
 		AppUI.stylePrimaryButton(btnVolver);
 	
 	}

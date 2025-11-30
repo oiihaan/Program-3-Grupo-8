@@ -22,6 +22,10 @@ import java.awt.Insets;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class VAnyadirTrabajador extends JFrame {
 
@@ -48,8 +52,8 @@ public class VAnyadirTrabajador extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowHeights = new int[] {30, 400, 50};
-		gbl_contentPane.columnWidths = new int[] {170, 282, 170};
+		gbl_contentPane.rowHeights = new int[] {30, 400, 30};
+		gbl_contentPane.columnWidths = new int[] {20, 422, 3};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0};
 		gbl_contentPane.rowWeights = new double[]{0.0,0.0,0.0};
 		contentPane.setLayout(gbl_contentPane);
@@ -94,7 +98,7 @@ public class VAnyadirTrabajador extends JFrame {
 		centroIz.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Nombre de usuario: ");
-		lblUsername.setBounds(10, 21, 94, 31);
+		lblUsername.setBounds(10, 21, 164, 31);
 		centroIz.add(lblUsername);
 		
 		txtUsername = new JTextField();
@@ -107,7 +111,7 @@ public class VAnyadirTrabajador extends JFrame {
 		centroDe.setLayout(null);
 		
 		JLabel lblContrasenya = new JLabel("Contraseña: ");
-		lblContrasenya.setBounds(10, 21, 59, 31);
+		lblContrasenya.setBounds(10, 21, 145, 31);
 		centroDe.add(lblContrasenya);
 		
 		textField = new JTextField();
@@ -117,75 +121,10 @@ public class VAnyadirTrabajador extends JFrame {
 		
 		JPanel southIz = new JPanel();
 		centro.add(southIz);
-		southIz.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton btnAynadir = new JButton("Añadir");
-		southIz.add(btnAynadir);
-		
-		btnAynadir.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        String nombre    = txtNombre.getText().trim();
-		        String apellido  = txtApellido.getText().trim();
-		        String username  = txtUsername.getText().trim();
-		        String contrasenya = textField.getText().trim();
-
-		        if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || contrasenya.isEmpty()) {
-		            JOptionPane.showMessageDialog(
-		                    VAnyadirTrabajador.this,
-		                    "Rellena todos los campos.",
-		                    "Error",
-		                    JOptionPane.ERROR_MESSAGE
-		            );
-		            return;
-		        }
-
-		        try {
-		            BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya, null, null, null);
-		           
-
-		            // 1) Insertar en BD
-		            TrabajadorDAO.insertarTrabajador(nuevo);
-
-		            // 2) Añadir al conjunto estático de VPrincipal
-		            VPrincipal.getTrabajadores().add(nuevo);
-
-		            // 3) Avisar de éxito
-		            JOptionPane.showMessageDialog(
-		                    VAnyadirTrabajador.this,
-		                    "Trabajador añadido correctamente.",
-		                    "OK",
-		                    JOptionPane.INFORMATION_MESSAGE
-		            );
-
-		            // 4) Volver al menú admin
-		            parent.setVisible(true);
-		            VAnyadirTrabajador.this.dispose();
-
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(
-		                    VAnyadirTrabajador.this,
-		                    "Error al insertar el trabajador:\n" + ex.getMessage(),
-		                    "Error",
-		                    JOptionPane.ERROR_MESSAGE
-		            );
-		        }
-		    }
-		});
 
 		
 		JPanel southDe = new JPanel();
 		centro.add(southDe);
-		southDe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.setVisible(true);
-				VAnyadirTrabajador.this.dispose();
-			}
-		});
-		southDe.add(btnVolver);
 
 		//Estilo AppUI
 		AppUI.styleBackground(contentPane);
@@ -207,8 +146,73 @@ public class VAnyadirTrabajador extends JFrame {
 		AppUI.styleTextField(txtApellido);
 		AppUI.styleTextField(txtUsername);
 		AppUI.styleTextField(textField);
+		southIz.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+														
+		JButton btnAynadir = new JButton("Añadir");
+		southIz.add(btnAynadir);
+														
+		btnAynadir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nombre    = txtNombre.getText().trim();
+				String apellido  = txtApellido.getText().trim();
+				String username  = txtUsername.getText().trim();
+				String contrasenya = textField.getText().trim();
 
+				if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || contrasenya.isEmpty()) {
+					JOptionPane.showMessageDialog(
+							VAnyadirTrabajador.this,
+							"Rellena todos los campos.",
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+							);
+					return;
+				}
+
+				try {
+					BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya, null, null, null);
+														           
+
+					// 1) Insertar en BD
+					TrabajadorDAO.insertarTrabajador(nuevo);
+
+					// 2) Añadir al conjunto estático de VPrincipal
+					VPrincipal.getTrabajadores().add(nuevo);
+
+					// 3) Avisar de éxito
+					JOptionPane.showMessageDialog(
+							VAnyadirTrabajador.this,
+							"Trabajador añadido correctamente.",
+							"OK",
+							JOptionPane.INFORMATION_MESSAGE
+							);
+
+					// 4) Volver al menú admin
+					parent.setVisible(true);
+					VAnyadirTrabajador.this.dispose();
+
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(
+							VAnyadirTrabajador.this,
+							"Error al insertar el trabajador:\n" + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE
+														            );
+				}
+			}
+		});
+														
 		AppUI.stylePrimaryButton(btnAynadir);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
+				VAnyadirTrabajador.this.dispose();
+			}
+		});
+		southDe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		southDe.add(btnVolver);
 		AppUI.stylePrimaryButton(btnVolver);
 	}
 	

@@ -40,6 +40,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.FlowLayout;
 
 public class VVerTareas extends JFrame {
 
@@ -68,18 +69,17 @@ public class VVerTareas extends JFrame {
 		setLocationRelativeTo(null);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {100, 299, 100};
-		gridBagLayout.rowHeights = new int[] {50, 300, 50};
-		gridBagLayout.columnWeights = new double[]{0.0,0.0,0.0};
-		gridBagLayout.rowWeights = new double[]{0.0,1.0,0.0};
+		gridBagLayout.columnWidths = new int[] {299};
+		gridBagLayout.rowHeights = new int[] {300};
+		gridBagLayout.columnWeights = new double[]{0.0};
+		gridBagLayout.rowWeights = new double[]{1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
 		JPanel centro = new JPanel();
 		GridBagConstraints gbc_centro = new GridBagConstraints();
-		gbc_centro.insets = new Insets(0, 0, 5, 5);
 		gbc_centro.fill = GridBagConstraints.BOTH;
-		gbc_centro.gridx = 1;
-		gbc_centro.gridy = 1;
+		gbc_centro.gridx = 0;
+		gbc_centro.gridy = 0;
 		getContentPane().add(centro, gbc_centro);
 		centro.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -126,7 +126,7 @@ public class VVerTareas extends JFrame {
 		
 		JPanel secondRowCe = new JPanel();
 		right.add(secondRowCe);
-		secondRowCe.setLayout(new BorderLayout(0, 0));
+		secondRowCe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		lblEstado = new JLabel("Estado de la tarea: ");
 		lblEstado.setBounds(10, 10, 127, 13);
@@ -155,9 +155,6 @@ public class VVerTareas extends JFrame {
 		lblTrabajadoresAsignados = new JLabel("Trabajadores asignados:");
 		lblTrabajadoresAsignados.setBounds(10, 0, 127, 13);
 		thirdRowCe.add(lblTrabajadoresAsignados);
-
-		
-		
 		
 		JPanel forthRowCe = new JPanel();
 		right.add(forthRowCe);
@@ -173,32 +170,25 @@ public class VVerTareas extends JFrame {
 		btnVolver.setBounds(10, 51, 87, 21);
 		forthRowCe.add(btnVolver);
 		
-		//Aciones 
 		
+		//Aciones 
 		listaTareas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				if(!listaTareas.isSelectionEmpty()) {
 					BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
 					lblEstadoVar.setText(tarea.getEstado());
-
 					
 					for (BDTrabajador t : tarea.getTrabajadoresAsignados()) {
 						modeloListaTrabajadores.addElement(t);
-						
-						
-
-						
 					}
 				}else {
-					
 					modeloListaTrabajadores.clear();
 					lblEstadoVar.setText("");
-					
 				}
-				}
-			
-			
+			}
 		});
+		
+		
 		
 		txtBuscadorTareas.addKeyListener(new KeyAdapter() {
 			@Override
@@ -242,8 +232,6 @@ public class VVerTareas extends JFrame {
 		
 		
 		//Boton Paso de Ventana a ASIGNAR_TAREA
-
-		
 		JButton btnAsignarTareas = new JButton("AsignarTareas");
 		btnAsignarTareas.addActionListener(new ActionListener() {
 				
@@ -262,6 +250,12 @@ public class VVerTareas extends JFrame {
 	//	gbc_btnAsignarTareas.gridy = 0;
 		// thirdRowCe.add(btnAsignarTareas, gbc_btnAsignarTareas);
 
+		
+		
+		
+		
+		
+		
 		//Estilo AppUI
 				AppUI.styleBackground(contentPane);
 				AppUI.styleCard(centro);
