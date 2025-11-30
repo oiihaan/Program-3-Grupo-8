@@ -59,13 +59,8 @@ public class VPrincipal extends JFrame {
         cargarTrabajadoresBD();
         
         
-       /* BDTarea tarea1 = new BDTarea(1, "Llenar excel", 1, "pendiente", trabajadores);
-        BDTarea tarea2 = new BDTarea(2, "Chequear emails", 2, "pendiente", trabajadores);
-        BDTarea tarea3 = new BDTarea(3, "Programar módulo", 10, "pendiente", trabajadores);
-        TareaDAO.insertarTarea(tarea1);
-        TareaDAO.insertarTarea(tarea2);
-        TareaDAO.insertarTarea(tarea3);
-        */
+       
+        
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);
