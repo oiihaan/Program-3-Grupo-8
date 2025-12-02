@@ -24,7 +24,7 @@ public class InicializadorBaseDatos {
 	            boolean existiaAntes = dbFile.exists();
 
 	            // Al llamar a getConnection(), si no existe app.db se crea vacío
-	            crearEsquema();                // Crea tablas si no existen
+//	            crearEsquema();                // Crea tablas si no existen
 
 	            if (!existiaAntes) {           // Solo la primera vez
 	               // insertarDatosIniciales();  // Opcional: datos de ejemplo
@@ -38,44 +38,44 @@ public class InicializadorBaseDatos {
 	        }
 	    }
 
-	    // Crea las tablas si no existen
-	    private static void crearEsquema() throws SQLException {
-	        String sqlTrabajador =
-	                "CREATE TABLE IF NOT EXISTS trabajador ("
-	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-	              + "  nombre TEXT NOT NULL UNIQUE,"
-	              + "  contraseña TEXT NOT NULL"
-	              + ");";
-
-	        String sqlAdministrador =
-	                "CREATE TABLE IF NOT EXISTS administrador ("
-	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-	              + "  nombre TEXT NOT NULL UNIQUE,"
-	              + "  contraseña TEXT NOT NULL"
-	              + ");";
-
-	        String sqlTarea =
-	                "CREATE TABLE IF NOT EXISTS tarea ("
-	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
-	              + "  nombre TEXT NOT NULL,"
-	              + "  tiempo_ejecucion INTEGER NOT NULL DEFAULT 0,"
-	              + "  completada INTEGER NOT NULL DEFAULT 0,"
-	              + "  trabajador_id INTEGER,"
-	              + "  admin_id_creador INTEGER,"
-	              + "  creado_en TEXT NOT NULL DEFAULT (datetime('now')),"
-	              + "  FOREIGN KEY (trabajador_id) REFERENCES trabajador(id) ON DELETE SET NULL,"
-	              + "  FOREIGN KEY (admin_id_creador) REFERENCES administrador(id) ON DELETE SET NULL"
-	              + ");";
-
-	        try (Connection conn = ConexionSQLite.getConnection();
-	             Statement st = conn.createStatement()) {
-
-	            st.execute(sqlTrabajador);
-	            st.execute(sqlAdministrador);
-	            st.execute(sqlTarea);
-	        }
-	    }
-	    
+//	    Crea las tablas si no existen
+//	    private static void crearEsquema() throws SQLException {
+//	        String sqlTrabajador =
+//	                "CREATE TABLE IF NOT EXISTS trabajador ("
+//	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//	              + "  nombre TEXT NOT NULL UNIQUE,"
+//	              + "  contraseña TEXT NOT NULL"
+//	              + ");";
+//
+//	        String sqlAdministrador =
+//	                "CREATE TABLE IF NOT EXISTS administrador ("
+//	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//	              + "  nombre TEXT NOT NULL UNIQUE,"
+//	              + "  contraseña TEXT NOT NULL"
+//	              + ");";
+//
+//	        String sqlTarea =
+//	                "CREATE TABLE IF NOT EXISTS tarea ("
+//	              + "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+//	              + "  nombre TEXT NOT NULL,"
+//	              + "  tiempo_ejecucion INTEGER NOT NULL DEFAULT 0,"
+//	              + "  completada INTEGER NOT NULL DEFAULT 0,"
+//	              + "  trabajador_id INTEGER,"
+//	              + "  admin_id_creador INTEGER,"
+//	              + "  creado_en TEXT NOT NULL DEFAULT (datetime('now')),"
+//	              + "  FOREIGN KEY (trabajador_id) REFERENCES trabajador(id) ON DELETE SET NULL,"
+//	              + "  FOREIGN KEY (admin_id_creador) REFERENCES administrador(id) ON DELETE SET NULL"
+//	              + ");";
+//
+//	        try (Connection conn = ConexionSQLite.getConnection();
+//	             Statement st = conn.createStatement()) {
+//
+//	            st.execute(sqlTrabajador);
+//	            st.execute(sqlAdministrador);
+//	            st.execute(sqlTarea);
+//	        }
+//	    }
+//	    
 	    // Crea las tablas si no existen
 /*	    private static void crearEsquema() throws SQLException {
 	    	String sqlTrabajador =
