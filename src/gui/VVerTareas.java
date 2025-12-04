@@ -71,7 +71,7 @@ public class VVerTareas extends JFrame {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {299};
 		gridBagLayout.rowHeights = new int[] {300};
-		gridBagLayout.columnWeights = new double[]{0.0};
+		gridBagLayout.columnWeights = new double[]{1.0};
 		gridBagLayout.rowWeights = new double[]{1.0};
 		getContentPane().setLayout(gridBagLayout);
 		
@@ -167,7 +167,7 @@ public class VVerTareas extends JFrame {
 				VVerTareas.this.dispose();
 			}
 		});
-		btnVolver.setBounds(10, 61, 103, 41);
+		btnVolver.setBounds(10, 61, 120, 41);
 		forthRowCe.add(btnVolver);
 		
 		
@@ -243,7 +243,7 @@ public class VVerTareas extends JFrame {
 					
 				}
 			});
-		btnAsignarTareas.setBounds(10, 10, 103, 41);
+		btnAsignarTareas.setBounds(10, 10, 120, 41);
 		forthRowCe.add(btnAsignarTareas);
 	//	GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
 	//	gbc_btnAsignarTareas.gridx = 0;
