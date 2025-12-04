@@ -168,6 +168,9 @@ public class VAnyadirTareas extends JFrame {
 		AppUI.stylePrimaryButton(btnGuardar);
 		AppUI.stylePrimaryButton(btnVolver);
 
+		
+		//IMAGEN
+		AppUI.establecerIcono(this);
 
 	}
 

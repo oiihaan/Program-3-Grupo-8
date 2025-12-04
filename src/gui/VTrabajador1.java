@@ -173,6 +173,9 @@ public class VTrabajador1 extends JFrame {
                 AppUI.stylePrimaryButton(btnDesfichar);
                 AppUI.stylePrimaryButton(btnVerTareas);
                 AppUI.stylePrimaryButton(btnCerrarSesion);
+                
+              //IMAGEN
+        		AppUI.establecerIcono(this);
 
 	}
 }

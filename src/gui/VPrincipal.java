@@ -161,6 +161,9 @@ public class VPrincipal extends JFrame {
         AppUI.stylePasswordField(txtPass);
         AppUI.stylePrimaryButton(btnLogin);
         AppUI.styleSubtitle(lblForgot);
+        
+      //IMAGEN
+      AppUI.establecerIcono(this);
 
 
         // === LÓGICA DEL LOGIN ===

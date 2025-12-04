@@ -214,6 +214,9 @@ public class VAnyadirTrabajador extends JFrame {
 		southDe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		southDe.add(btnVolver);
 		AppUI.stylePrimaryButton(btnVolver);
+		
+		//IMAGEN
+		AppUI.establecerIcono(this);
 	}
 	
 	

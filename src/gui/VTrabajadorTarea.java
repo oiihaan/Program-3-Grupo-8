@@ -238,6 +238,9 @@ public class VTrabajadorTarea extends JFrame {
 			}
 		});
 		AppUI.stylePrimaryButton(btnVolver);
+		
+		//IMAGEN
+		AppUI.establecerIcono(this);
 	
 	}
 	}

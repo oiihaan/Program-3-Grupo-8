@@ -29,6 +29,7 @@ public class VAdmin1 extends JFrame {
 	 */
 	public VAdmin1(VPrincipal parent, BDAdmin admin) {
 		
+		
 		this.admin = admin;
 		setTitle("MENU de Adminisrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,6 +147,9 @@ public class VAdmin1 extends JFrame {
 		AppUI.stylePrimaryButton(btnVisualizarEmpleados);
 		AppUI.stylePrimaryButton(btnCerrarSesion);
 
+		
+		//IMAGEN
+		AppUI.establecerIcono(this);
 	}
 	
 

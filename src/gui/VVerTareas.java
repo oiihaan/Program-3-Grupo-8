@@ -285,6 +285,9 @@ public class VVerTareas extends JFrame {
 				AppUI.stylePrimaryButton(btnAsignarTareas);
 				
 				
+				//IMAGEN
+				AppUI.establecerIcono(this);
+				
 
 	}
 }

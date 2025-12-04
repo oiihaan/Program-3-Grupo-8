@@ -10,6 +10,8 @@ import java.awt.*;
 
 public class AppUI {
 
+	
+	
     //FUENTE GLOBAL 
     private static final Font FONT_TITLE = new Font("Segoe UI", Font.BOLD, 22);
     private static final Font FONT_SUBTITLE = new Font("Segoe UI", Font.PLAIN, 13);
@@ -204,6 +206,15 @@ public class AppUI {
             header.setReorderingAllowed(false);
         }
     }
+    
+    
+  //IMAGEN
+  	public static void establecerIcono(JFrame ventana) {
+          ImageIcon baseIcon = new ImageIcon("./data/logo.png"); 
+          // Asignamos la imagen a la ventana
+          ventana.setIconImage(baseIcon.getImage());
+  	}
+  	
 
     
 }

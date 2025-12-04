@@ -194,5 +194,8 @@ public class VAsignarTareas extends JFrame {
 
 		AppUI.styleList(listaTareas);
 		AppUI.styleList(listTrabajadores);
+		
+		//IMAGEN
+		AppUI.establecerIcono(this);
 	}
 }
