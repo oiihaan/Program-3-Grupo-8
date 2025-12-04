@@ -62,7 +62,7 @@ public class VVerTareas extends JFrame {
 		
 		setTitle("Ver Tareas");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 747, 593);
+		setBounds(100, 100, 638, 593);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -126,14 +126,14 @@ public class VVerTareas extends JFrame {
 		
 		JPanel secondRowCe = new JPanel();
 		right.add(secondRowCe);
-		secondRowCe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		secondRowCe.setLayout(null);
 		
 		lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 10, 127, 13);
+		lblEstado.setBounds(10, 5, 90, 13);
 		secondRowCe.add(lblEstado);
 		
 		lblEstadoVar = new JLabel();
-		lblEstadoVar.setBounds(10, 33, 90, 13);
+		lblEstadoVar.setBounds(176, 11, 0, 0);
 		secondRowCe.add(lblEstadoVar);
 
 		
@@ -142,18 +142,18 @@ public class VVerTareas extends JFrame {
 		right.add(thirdRowCe);
 		thirdRowCe.setLayout(null);
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 22, 258, 87);
+		scrollPane_1.setBounds(20, 25, 216, 95);
 		thirdRowCe.add(scrollPane_1);
 		
 		JList listaTrabajadores = new JList();
-
-		scrollPane_1.setViewportView(listaTrabajadores); 
+		scrollPane_1.setRowHeaderView(listaTrabajadores); 
+	
 		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
 		
 		listaTrabajadores.setModel(modeloListaTrabajadores);
 		
 		lblTrabajadoresAsignados = new JLabel("Trabajadores asignados:");
-		lblTrabajadoresAsignados.setBounds(10, 0, 127, 13);
+		lblTrabajadoresAsignados.setBounds(10, 0, 127, 23);
 		thirdRowCe.add(lblTrabajadoresAsignados);
 		
 		JPanel forthRowCe = new JPanel();
@@ -167,7 +167,7 @@ public class VVerTareas extends JFrame {
 				VVerTareas.this.dispose();
 			}
 		});
-		btnVolver.setBounds(10, 51, 87, 21);
+		btnVolver.setBounds(10, 61, 103, 41);
 		forthRowCe.add(btnVolver);
 		
 		
@@ -243,7 +243,7 @@ public class VVerTareas extends JFrame {
 					
 				}
 			});
-		btnAsignarTareas.setBounds(107, 50, 103, 23);
+		btnAsignarTareas.setBounds(10, 10, 103, 41);
 		forthRowCe.add(btnAsignarTareas);
 	//	GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
 	//	gbc_btnAsignarTareas.gridx = 0;

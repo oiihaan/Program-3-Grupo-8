@@ -72,11 +72,11 @@ public class VAnyadirTrabajador extends JFrame {
 		northIz.setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 21, 69, 31);
+		lblNombre.setBounds(41, 21, 106, 31);
 		northIz.add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(10, 62, 118, 31);
+		txtNombre.setBounds(41, 62, 118, 31);
 		northIz.add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -85,11 +85,11 @@ public class VAnyadirTrabajador extends JFrame {
 		northDe.setLayout(null);
 		
 		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setBounds(10, 21, 69, 31);
+		lblApellido.setBounds(41, 21, 69, 31);
 		northDe.add(lblApellido);
 		
 		txtApellido = new JTextField();
-		txtApellido.setBounds(10, 62, 118, 31);
+		txtApellido.setBounds(37, 62, 118, 31);
 		northDe.add(txtApellido);
 		txtApellido.setColumns(10);
 		
@@ -98,11 +98,12 @@ public class VAnyadirTrabajador extends JFrame {
 		centroIz.setLayout(null);
 		
 		JLabel lblUsername = new JLabel("Nombre de usuario: ");
-		lblUsername.setBounds(10, 21, 164, 31);
+		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
+		lblUsername.setBounds(41, 21, 133, 21);
 		centroIz.add(lblUsername);
 		
 		txtUsername = new JTextField();
-		txtUsername.setBounds(10, 68, 118, 31);
+		txtUsername.setBounds(41, 62, 118, 31);
 		centroIz .add(txtUsername);
 		txtUsername.setColumns(10);
 		
@@ -111,11 +112,11 @@ public class VAnyadirTrabajador extends JFrame {
 		centroDe.setLayout(null);
 		
 		JLabel lblContrasenya = new JLabel("Contraseña: ");
-		lblContrasenya.setBounds(10, 21, 145, 31);
+		lblContrasenya.setBounds(41, 21, 145, 22);
 		centroDe.add(lblContrasenya);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 68, 118, 31);
+		textField.setBounds(36, 62, 118, 31);
 		centroDe.add(textField);
 		textField.setColumns(10);
 		
@@ -146,9 +147,10 @@ public class VAnyadirTrabajador extends JFrame {
 		AppUI.styleTextField(txtApellido);
 		AppUI.styleTextField(txtUsername);
 		AppUI.styleTextField(textField);
-		southIz.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		southIz.setLayout(null);
 														
 		JButton btnAynadir = new JButton("Añadir");
+		btnAynadir.setBounds(60, 0, 84, 21);
 		southIz.add(btnAynadir);
 														
 		btnAynadir.addActionListener(new ActionListener() {
@@ -205,13 +207,14 @@ public class VAnyadirTrabajador extends JFrame {
 		AppUI.stylePrimaryButton(btnAynadir);
 		
 		JButton btnVolver = new JButton("Volver");
+		btnVolver.setBounds(59, 0, 73, 21);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.setVisible(true);
 				VAnyadirTrabajador.this.dispose();
 			}
 		});
-		southDe.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		southDe.setLayout(null);
 		southDe.add(btnVolver);
 		AppUI.stylePrimaryButton(btnVolver);
 		
