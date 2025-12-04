@@ -17,6 +17,8 @@ import bd.TrabajadorDAO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -206,6 +208,15 @@ public class VPrincipal extends JFrame {
             }
             
             
+        });
+        
+        
+        //Logica OLVIDE MI CONTRASEÑA
+        lblForgot.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JOptionPane.showMessageDialog(null, "Porfavor comuniquese con UNAI para restablecer su contraseña: unai100gamer@gmail.com");
+            }
         });
     }
  

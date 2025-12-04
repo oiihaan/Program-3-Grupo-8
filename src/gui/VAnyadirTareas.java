@@ -59,7 +59,7 @@ public class VAnyadirTareas extends JFrame {
 		contentPane.add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {200, 168, 200};
-		gbl_panel.rowHeights = new int[] {100, 100, 100};
+		gbl_panel.rowHeights = new int[] {102, 100, 100};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0,0.0,};
 		panel.setLayout(gbl_panel);
@@ -181,9 +181,17 @@ public class VAnyadirTareas extends JFrame {
 			}
 		});
 		
-				AppUI.stylePrimaryButton(btnGuardar);
+			
+		
+		
 		//Estilo UI
 		AppUI.styleBackground(contentPane);
+		AppUI.styleBackground(panel);
+		AppUI.styleBackground(left);
+		AppUI.styleBackground(center);
+		AppUI.styleBackground(right);
+		
+		AppUI.stylePrimaryButton(btnGuardar);
 
 		
 		//IMAGEN

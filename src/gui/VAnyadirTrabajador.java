@@ -31,9 +31,7 @@ public class VAnyadirTrabajador extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtNombre;
-	private JTextField txtApellido;
-	private JTextField textField;
+	private JTextField txtPassword;
 	private JTextField txtUsername;
 	private VAdmin1 parent;
 	private BDAdmin admin;
@@ -47,121 +45,83 @@ public class VAnyadirTrabajador extends JFrame {
 		
 		setTitle("Añadir Trabajador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 482);
+		//setBounds(100, 100, 640, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.rowHeights = new int[] {30, 400, 30};
-		gbl_contentPane.columnWidths = new int[] {20, 422, 3};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0};
-		gbl_contentPane.rowWeights = new double[]{0.0,0.0,0.0};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JPanel centro = new JPanel();
-		GridBagConstraints gbc_centro = new GridBagConstraints();
-		gbc_centro.insets = new Insets(0, 0, 5, 5);
-		gbc_centro.fill = GridBagConstraints.BOTH;
-		gbc_centro.gridx = 1;
-		gbc_centro.gridy = 1;
-		contentPane.add(centro, gbc_centro);
-		centro.setLayout(new GridLayout(3, 3, 0, 0));
+		JPanel panel = new JPanel();
+		contentPane.add(panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{50, 195, 195, 200, 0};
+		//gbl_panel.rowHeights = new int[]{100, 95, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		
-		JPanel northIz = new JPanel();
-		centro.add(northIz);
-		northIz.setLayout(null);
-		
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(41, 21, 106, 31);
-		northIz.add(lblNombre);
-		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(41, 62, 118, 31);
-		northIz.add(txtNombre);
-		txtNombre.setColumns(10);
-		
-		JPanel northDe = new JPanel();
-		centro.add(northDe);
-		northDe.setLayout(null);
-		
-		JLabel lblApellido = new JLabel("Apellido:");
-		lblApellido.setBounds(41, 21, 69, 31);
-		northDe.add(lblApellido);
-		
-		txtApellido = new JTextField();
-		txtApellido.setBounds(37, 62, 118, 31);
-		northDe.add(txtApellido);
-		txtApellido.setColumns(10);
-		
-		JPanel centroIz = new JPanel();
-		centro.add(centroIz);
-		centroIz.setLayout(null);
+		JPanel left = new JPanel();
+		GridBagConstraints gbc_left = new GridBagConstraints();
+		gbc_left.fill = GridBagConstraints.BOTH;
+		gbc_left.insets = new Insets(0, 0, 0, 5);
+		gbc_left.gridx = 1;
+		gbc_left.gridy = 1;
+		panel.add(left, gbc_left);
+		AppUI.styleTransparent(left);
+		left.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JLabel lblUsername = new JLabel("Nombre de usuario: ");
-		lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
-		lblUsername.setBounds(41, 21, 133, 21);
-		centroIz.add(lblUsername);
-		
-		txtUsername = new JTextField();
-		txtUsername.setBounds(41, 62, 118, 31);
-		centroIz .add(txtUsername);
-		txtUsername.setColumns(10);
-		
-		JPanel centroDe = new JPanel();
-		centro.add(centroDe);
-		centroDe.setLayout(null);
+		left.add(lblUsername);
+		lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
+		AppUI.styleLabel(lblUsername);
 		
 		JLabel lblContrasenya = new JLabel("Contraseña: ");
-		lblContrasenya.setBounds(41, 21, 145, 22);
-		centroDe.add(lblContrasenya);
-		
-		textField = new JTextField();
-		textField.setBounds(36, 62, 118, 31);
-		centroDe.add(textField);
-		textField.setColumns(10);
-		
-		JPanel southIz = new JPanel();
-		centro.add(southIz);
-
-		
-		JPanel southDe = new JPanel();
-		centro.add(southDe);
-
-		//Estilo AppUI
-		AppUI.styleBackground(contentPane);
-		AppUI.styleCard(centro);
-
-		AppUI.styleTransparent(northIz);
-		AppUI.styleTransparent(northDe);
-		AppUI.styleTransparent(centroIz);
-		AppUI.styleTransparent(centroDe);
-		AppUI.styleTransparent(southIz);
-		AppUI.styleTransparent(southDe);
-
-		AppUI.styleLabel(lblNombre);
-		AppUI.styleLabel(lblApellido);
-		AppUI.styleLabel(lblUsername);
+		lblContrasenya.setHorizontalAlignment(SwingConstants.RIGHT);
+		left.add(lblContrasenya);
 		AppUI.styleLabel(lblContrasenya);
-
-		AppUI.styleTextField(txtNombre);
-		AppUI.styleTextField(txtApellido);
+		
+		JPanel center = new JPanel();
+		GridBagConstraints gbc_center = new GridBagConstraints();
+		gbc_center.fill = GridBagConstraints.BOTH;
+		gbc_center.insets = new Insets(0, 0, 0, 5);
+		gbc_center.gridx = 2;
+		gbc_center.gridy = 1;
+		panel.add(center, gbc_center);
+		AppUI.styleTransparent(center);
+		center.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		txtUsername = new JTextField();
+		center.add(txtUsername);
+		txtUsername.setColumns(10);
 		AppUI.styleTextField(txtUsername);
-		AppUI.styleTextField(textField);
-		southIz.setLayout(null);
-														
+		
+		txtPassword = new JTextField();
+		center.add(txtPassword);
+		txtPassword.setColumns(10);
+		AppUI.styleTextField(txtPassword);
+		
+		JPanel right = new JPanel();
+		right.setLayout(new GridLayout(2, 1, 0, 10)); 
+		GridBagConstraints gbc_right = new GridBagConstraints();
+		gbc_right.fill = GridBagConstraints.BOTH;
+		gbc_right.gridx = 3;
+		gbc_right.gridy = 1;
+		panel.add(right, gbc_right);
+		
+				
+																
 		JButton btnAynadir = new JButton("Añadir");
-		btnAynadir.setBounds(60, 0, 84, 21);
-		southIz.add(btnAynadir);
-														
+		//btnAynadir.setBounds(12, 13, 148, 25);
+		right.add(btnAynadir);
+				
 		btnAynadir.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String nombre    = txtNombre.getText().trim();
-				String apellido  = txtApellido.getText().trim();
+				
 				String username  = txtUsername.getText().trim();
-				String contrasenya = textField.getText().trim();
+				String contrasenya = txtPassword.getText().trim();
 
-				if (nombre.isEmpty() || apellido.isEmpty() || username.isEmpty() || contrasenya.isEmpty()) {
+				if (username.isEmpty() || contrasenya.isEmpty()) {
 					JOptionPane.showMessageDialog(
 							VAnyadirTrabajador.this,
 							"Rellena todos los campos.",
@@ -173,7 +133,7 @@ public class VAnyadirTrabajador extends JFrame {
 
 				try {
 					BDTrabajador nuevo = new BDTrabajador(0, username, contrasenya, null, null, null);
-														           
+				           
 
 					// 1) Insertar en BD
 					TrabajadorDAO.insertarTrabajador(nuevo);
@@ -199,27 +159,44 @@ public class VAnyadirTrabajador extends JFrame {
 							"Error al insertar el trabajador:\n" + ex.getMessage(),
 							"Error",
 							JOptionPane.ERROR_MESSAGE
-														            );
+				            );
 				}
 			}
 		});
-														
-		AppUI.stylePrimaryButton(btnAynadir);
+		
+		
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(59, 0, 73, 21);
+		//btnVolver.setBounds(12, 57, 148, 25);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.setVisible(true);
 				VAnyadirTrabajador.this.dispose();
 			}
 		});
-		southDe.setLayout(null);
-		southDe.add(btnVolver);
+		right.add(btnVolver);
+		AppUI.styleTransparent(right);
+		
 		AppUI.stylePrimaryButton(btnVolver);
+		AppUI.stylePrimaryButton(btnAynadir);
+		
+		
+		
+		
+		
+		//Estilo AppUI
+				AppUI.styleBackground(contentPane);
+				AppUI.styleCard(panel);
 		
 		//IMAGEN
 		AppUI.establecerIcono(this);
+		
+		
+		//Para que salga bien el tamaño
+		this.pack();      
+		
+		//Para que se abra en el centro
+	    this.setLocationRelativeTo(null);
 	}
 	
 	
