@@ -79,6 +79,40 @@ public class BDTrabajador extends Usuario {
 		this.registrosFichaje = registrosFichaje;
 	}
 	
+	// METODOS PARA LA JTABLE::
+	//Guarda la hora en entrada, y también la mete en el mapa del día
+	   public void registrarFichajeEntrada(LocalDateTime ahora) {
+	        this.entrada = ahora;
+
+	        if (registrosFichaje == null) {
+	            registrosFichaje = new HashMap<>();
+	        }
+
+	        LocalDate hoy = ahora.toLocalDate();
+	        registrosFichaje
+	            .computeIfAbsent(hoy, d -> new ArrayList<>())
+	            .add(ahora);
+	    }
+       
+	// mete la salida en el mapa, y poneentrada = null
+	   public void registrarFichajeSalida(LocalDateTime salida) {
+	        if (registrosFichaje == null) {
+	            registrosFichaje = new HashMap<>();
+	        }
+
+	        if (this.entrada == null) {
+	            // por seguridad, no debería pasar si la lógica de botones está bien
+	            return;
+	        }
+
+	        LocalDate hoy = salida.toLocalDate();
+	        registrosFichaje
+	            .computeIfAbsent(hoy, d -> new ArrayList<>())
+	            .add(salida);
+
+	        this.entrada = null;
+	   }
+	
 }
 
 
