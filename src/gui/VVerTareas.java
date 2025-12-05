@@ -42,7 +42,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
 
-public class VVerTareas extends JFrame {
+public class VVerTareas extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -57,11 +57,12 @@ public class VVerTareas extends JFrame {
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
+		super();
 		this.parent = parent;
 		this.admin = admin;
 		
 		setTitle("Ver Tareas");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 638, 593);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -289,5 +290,13 @@ public class VVerTareas extends JFrame {
 				AppUI.establecerIcono(this);
 				
 
+	}
+
+
+	@Override
+	protected void onConfirmExit() {
+		parent.setVisible(true);
+	    parent.repaint();
+	    dispose();
 	}
 }

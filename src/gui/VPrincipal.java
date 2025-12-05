@@ -28,7 +28,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class VPrincipal extends JFrame {
+public class VPrincipal extends VentanaConConfirmacion {
 
     private JPanel contentPane;
     private JPanel card;
@@ -86,7 +86,7 @@ public class VPrincipal extends JFrame {
 
      // === Login TITULO ===
     	setTitle("Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 555, 491);
         setLocationRelativeTo(null);
 
@@ -268,6 +268,13 @@ public class VPrincipal extends JFrame {
 
 	public static void setPersonal(HashSet<Usuario> personal) {
 		VPrincipal.personal = personal;
+	}
+
+	@Override
+	protected void onConfirmExit() {
+		 // Aquí sí se cierra
+        System.exit(0);
+		
 	}
 	
 	

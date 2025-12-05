@@ -28,7 +28,7 @@ import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 
-public class VAnyadirTareas extends JFrame {
+public class VAnyadirTareas extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -46,8 +46,12 @@ public class VAnyadirTareas extends JFrame {
 	 * Create the frame.
 	 */
 	public VAnyadirTareas(VAdmin1 parent,  BDAdmin admin) {
+		super();
+		 this.parent = parent;    // *** IMPORTANTE: guardar la referencia ***
+
 		setTitle("Añadir Tareas");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// No poner para que funcione lo de desloguearse
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 387);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -143,8 +147,7 @@ public class VAnyadirTareas extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VAnyadirTareas.this.dispose();
-				parent.setVisible(true);
+				onConfirmExit();
 				
 			}
 		});
@@ -199,4 +202,15 @@ public class VAnyadirTareas extends JFrame {
 
 	}
 
+	@Override
+	protected void onConfirmExit() {
+		  // Este método SOLO se ejecuta si el usuario ha dicho si en el diálogo
+        // de VentanaConConfirmacion.
+        if (parent != null) {
+            parent.setVisible(true);  // volvemos al admin
+        }
+        dispose();                    
+    }
 }
+
+

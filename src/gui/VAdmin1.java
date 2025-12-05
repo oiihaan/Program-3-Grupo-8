@@ -14,13 +14,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class VAdmin1 extends JFrame {
+public class VAdmin1 extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private BDAdmin admin;
 	private VPrincipal parent;  //--(Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE ADMIN--> TRABAJADOR SIN TENER QUE CERRAR EL PROGRAMA
-	
+	JButton btnCerrarSesion;
 	
 
 
@@ -118,7 +118,7 @@ public class VAdmin1 extends JFrame {
 		});
 		centroCenter.add(btnVisualizarEmpleados);
 		
-		JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+		btnCerrarSesion = new JButton("Cerrar Sesion");
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				parent.setVisible(true);
@@ -150,6 +150,15 @@ public class VAdmin1 extends JFrame {
 		
 		//IMAGEN
 		AppUI.establecerIcono(this);
+	}
+
+
+
+
+	@Override
+	protected void onConfirmExit() {
+		btnCerrarSesion.addActionListener(e -> onConfirmExit());
+		
 	}
 	
 

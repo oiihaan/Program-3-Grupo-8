@@ -13,7 +13,7 @@ import domain.BDTarea;
 public class TrabajadorDAO {
 
 
-    //crea BDTrabajador desde la tabla de la BBDD
+    //crear BDTrabajador desde la tabla de la BBDD
     private static BDTrabajador crearTrabajadorDesdeResultSet(ResultSet rs) throws SQLException {
 
         int id = rs.getInt("id");

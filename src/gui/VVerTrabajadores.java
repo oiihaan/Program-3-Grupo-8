@@ -23,12 +23,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class VVerTrabajadores extends JFrame {
+public class VVerTrabajadores extends VentanaConConfirmacion {
 
     private static final long serialVersionUID = 1L;
 
     private JPanel contentPane;
     private VAdmin1 parent;
+    private VPrincipal login;     
     private BDAdmin admin;
 
     private JLabel lblTrabajador;
@@ -41,6 +42,7 @@ public class VVerTrabajadores extends JFrame {
 
     public VVerTrabajadores(VAdmin1 parent, BDAdmin admin, Integer trabajadorIdInicial) {
         this.parent = parent;
+        this.login = login;
         this.admin = admin;
 
         setTitle("Ver empleados");
@@ -165,13 +167,8 @@ public class VVerTrabajadores extends JFrame {
         });
 
         // ======= ACCIONES BOTONES =======
-        btnVolver.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parent.setVisible(true);
-                VVerTrabajadores.this.dispose();
-            }
-        });
+        btnVolver.addActionListener(e -> onConfirmExit());
+
 
         btnDespedir.addActionListener(new ActionListener() {
             @Override
@@ -233,6 +230,7 @@ public class VVerTrabajadores extends JFrame {
 
         AppUI.styleLabel(lblTrabajador);
         AppUI.styleList(listTrabajadores);
+        AppUI.styleTable(tablaFichajes);
 
         AppUI.stylePrimaryButton(btnVolver);
         AppUI.stylePrimaryButton(btnDespedir);
@@ -281,4 +279,13 @@ public class VVerTrabajadores extends JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    @Override
+    protected void onConfirmExit() {
+        if (parent != null) {
+            parent.setVisible(true);
+            parent.repaint();
+        }
+        dispose();
+    }
 }
+

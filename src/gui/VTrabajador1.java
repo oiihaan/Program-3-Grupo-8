@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 
-public class VTrabajador1 extends JFrame {
+public class VTrabajador1 extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -84,243 +84,189 @@ public class VTrabajador1 extends JFrame {
                                               
         // --- BOTÓN DESFICHAR ---
         btnDesfichar = new JButton("Desfichar");
-        btnDesfichar.addActionListener(e -> {
-            try {
-                int idTrabajador = trabajador.getId();
+        
+        // --- BOTÓN FICHAR ---
+        btnFichar = new JButton("Fichar");
+        btnFichar.setEnabled(false);
+        btnFichar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		trabajador.metodoFichar();
+        		btnDesfichar.setEnabled(true);
+        		btnFichar.setEnabled(false);
 
-                // 1) Miramos en BD si hay un fichaje abierto
-                BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
-                if (fichajeAbierto == null) {
-                    JOptionPane.showMessageDialog(
-                            VTrabajador1.this,
-                            "No hay ningún fichaje abierto para este trabajador.",
-                            "Desfichaje no posible",
-                            JOptionPane.WARNING_MESSAGE
-                    );
-                    // Por seguridad, dejamos sólo habilitado FICHAR
-                    trabajador.setEntrada(null);
-                    btnFichar.setEnabled(true);
-                    btnDesfichar.setEnabled(false);
-                    return;
-                }
-
-                // 2) Tenemos un fichaje abierto -> usamos su entrada
-                LocalDateTime entrada = fichajeAbierto.getEntrada();
-                LocalDateTime salida = LocalDateTime.now();
-
-                // 3) Cerramos en BD
-                boolean cerrado = FichajeDAO.cerrarFichajeActual(idTrabajador, salida);
-                if (!cerrado) {
-                    JOptionPane.showMessageDialog(
-                            VTrabajador1.this,
-                            "No se ha podido cerrar el fichaje en la base de datos.",
-                            "Error BD",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
-                }
-
-                // 4) Actualizamos el modelo en memoria
-                trabajador.registrarFichajeSalida(salida);
-
-                // 5) Calculamos la duración para mostrar al usuario
-                long minutos = Duration.between(entrada, salida).toMinutes();
-                long horas = minutos / 60;
-                long minsRest = minutos % 60;
-
-                // 6) Actualizamos botones
-                btnFichar.setEnabled(true);
-                btnDesfichar.setEnabled(false);
-
-                JOptionPane.showMessageDialog(
-                        VTrabajador1.this,
-                        "Has desfichado a las " + salida.toLocalTime().withNano(0) +
-                        "\nTiempo trabajado en este tramo: " + horas + " h " + minsRest + " min",
-                        "Desfichaje",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(
-                        VTrabajador1.this,
-                        "Error al desfichar: " + ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            }
+        	}
         });
         
-                // --- BOTÓN FICHAR ---
-                btnFichar = new JButton("Fichar");
-                btnFichar.setEnabled(false);
-                btnFichar.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		trabajador.metodoFichar();
-                		btnDesfichar.setEnabled(true);
-                		btnFichar.setEnabled(false);
-	
-                	}
-                });
-                
-                
+          
               
                 
-                JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-                btnCerrarSesion.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		VTrabajador1.this.dispose();
-                		parent.setVisible(true);
-                		               		
-                	}
-                });
+        JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VTrabajador1.this.dispose();
+        		parent.setVisible(true);
+        		               		
+        	}
+        });
 
-                // --- BOTÓN VER TAREAS ---
-                btnVerTareas = new JButton("Ver tareas");
-                btnVerTareas.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
-                		VTrabajadorTarea.setVisible(true);
-                		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
-                	}
-                });
-                
-                
-                
-                //--CODIGO LAYOUT--
-                GridBagConstraints gbc_btnFichar = new GridBagConstraints();
-                gbc_btnFichar.fill = GridBagConstraints.BOTH;
-                gbc_btnFichar.insets = new Insets(0, 0, 5, 5);
-                gbc_btnFichar.gridx = 1;
-                gbc_btnFichar.gridy = 3;
-                getContentPane().add(btnFichar, gbc_btnFichar);
-                btnDesfichar.setEnabled(false);
-                GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
-                gbc_btnDesfichar.anchor = GridBagConstraints.WEST;
-                gbc_btnDesfichar.fill = GridBagConstraints.VERTICAL;
-                gbc_btnDesfichar.insets = new Insets(0, 0, 5, 5);
-                gbc_btnDesfichar.gridx = 4;
-                gbc_btnDesfichar.gridy = 3;
-                getContentPane().add(btnDesfichar, gbc_btnDesfichar);
+        // --- BOTÓN VER TAREAS ---
+        btnVerTareas = new JButton("Ver tareas");
+        btnVerTareas.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
+        		VTrabajadorTarea.setVisible(true);
+        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+        	}
+        });
+        
+        
+        
+        //--CODIGO LAYOUT--
+        GridBagConstraints gbc_btnFichar = new GridBagConstraints();
+        gbc_btnFichar.fill = GridBagConstraints.BOTH;
+        gbc_btnFichar.insets = new Insets(0, 0, 5, 5);
+        gbc_btnFichar.gridx = 1;
+        gbc_btnFichar.gridy = 3;
+        getContentPane().add(btnFichar, gbc_btnFichar);
+        btnDesfichar.setEnabled(false);
+        GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
+        gbc_btnDesfichar.anchor = GridBagConstraints.WEST;
+        gbc_btnDesfichar.fill = GridBagConstraints.VERTICAL;
+        gbc_btnDesfichar.insets = new Insets(0, 0, 5, 5);
+        gbc_btnDesfichar.gridx = 4;
+        gbc_btnDesfichar.gridy = 3;
+        getContentPane().add(btnDesfichar, gbc_btnDesfichar);
 
-                
-                
-                GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
-                gbc_btnVerTareas.fill = GridBagConstraints.BOTH;
-                gbc_btnVerTareas.insets = new Insets(0, 0, 5, 5);
-                gbc_btnVerTareas.gridx = 1;
-                gbc_btnVerTareas.gridy = 5;
-                getContentPane().add(btnVerTareas, gbc_btnVerTareas);
-                GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
-                gbc_btnCerrarSesion.insets = new Insets(0, 0, 5, 5);
-                gbc_btnCerrarSesion.fill = GridBagConstraints.BOTH;
-                gbc_btnCerrarSesion.gridx = 4;
-                gbc_btnCerrarSesion.gridy = 5;
-                getContentPane().add(btnCerrarSesion, gbc_btnCerrarSesion);;
-                
-                controlFichaje(trabajador);
+        
+        
+        GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
+        gbc_btnVerTareas.fill = GridBagConstraints.BOTH;
+        gbc_btnVerTareas.insets = new Insets(0, 0, 5, 5);
+        gbc_btnVerTareas.gridx = 1;
+        gbc_btnVerTareas.gridy = 5;
+        getContentPane().add(btnVerTareas, gbc_btnVerTareas);
+        GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
+        gbc_btnCerrarSesion.insets = new Insets(0, 0, 5, 5);
+        gbc_btnCerrarSesion.fill = GridBagConstraints.BOTH;
+        gbc_btnCerrarSesion.gridx = 4;
+        gbc_btnCerrarSesion.gridy = 5;
+        getContentPane().add(btnCerrarSesion, gbc_btnCerrarSesion);;
+        
+        controlFichaje(trabajador);
 
-                //ESTILO CON AppUI
-                AppUI.styleBackground((JPanel) getContentPane());
-                AppUI.styleTitle(lbl);
-                AppUI.stylePrimaryButton(btnFichar);
-                AppUI.stylePrimaryButton(btnDesfichar);
-                AppUI.stylePrimaryButton(btnVerTareas);
-                AppUI.stylePrimaryButton(btnCerrarSesion);
-                
-              //IMAGEN
-        		AppUI.establecerIcono(this);
-        		
-        	
-        	  // Fichajes:
-        		//Llamada al metodo de inicializar (esta debajo definido)
-        		inicializarEstadoFichaje();
-        		
-        		//Explicacion:Ahora, hora del fichaje
-        		//Se actualiza el objeto trabajador
-        		//Se
-        		
-        		
-        		//Conectar botón FICHAR con FichajeDAO
-        		btnFichar.addActionListener(e -> {
-        		    try {
-        		        // 1) Hora actual
-        		        LocalDateTime ahora = LocalDateTime.now();
+        //ESTILO CON AppUI
+        AppUI.styleBackground((JPanel) getContentPane());
+        AppUI.styleTitle(lbl);
+        AppUI.stylePrimaryButton(btnFichar);
+        AppUI.stylePrimaryButton(btnDesfichar);
+        AppUI.stylePrimaryButton(btnVerTareas);
+        AppUI.stylePrimaryButton(btnCerrarSesion);
+        
+        
+      //IMAGEN
+		AppUI.establecerIcono(this);
+		
+	
+	  // Fichajes:
+		//Llamada al metodo de inicializar (esta debajo definido)
+		inicializarEstadoFichaje();
+		
+		//Explicacion:Ahora, hora del fichaje
+		//Se actualiza el objeto trabajador
+		//Se
+		
+		
+		//Conectar botón FICHAR con FichajeDAO
+		btnFichar.addActionListener(e -> {
+		    try {
+		        // 1) Hora actual
+		        LocalDateTime ahora = LocalDateTime.now();
 
-        		        // 2) Insertar en BD
-        		        FichajeDAO.crearFichajeEntrada(trabajador.getId(), ahora);
+		        // 2) Insertar en BD
+		        FichajeDAO.crearFichajeEntrada(trabajador.getId(), ahora);
 
-        		        // 3) Actualizar el modelo en memoria
-        		        trabajador.registrarFichajeEntrada(ahora);
+		        // 3) Actualizar el modelo en memoria
+		        trabajador.registrarFichajeEntrada(ahora);
 
-        		        // 4) Actualizar estado visual
-        		        btnFichar.setEnabled(false);
-        		        btnDesfichar.setEnabled(true);
+		        // 4) Actualizar estado visual
+		        btnFichar.setEnabled(false);
+		        btnDesfichar.setEnabled(true);
 
-        		        JOptionPane.showMessageDialog(this,
-        		                "Has fichado a las " + ahora.toLocalTime(),
-        		                "Fichaje",
-        		                JOptionPane.INFORMATION_MESSAGE);
+		        JOptionPane.showMessageDialog(this,
+		                "Has fichado a las " + ahora.toLocalTime(),
+		                "Fichaje",
+		                JOptionPane.INFORMATION_MESSAGE);
 
-        		    } catch (Exception ex) {
-        		        ex.printStackTrace();
-        		        JOptionPane.showMessageDialog(this,
-        		                "Error al fichar: " + ex.getMessage(),
-        		                "Error BD",
-        		                JOptionPane.ERROR_MESSAGE);
-        		    }
-        		});
-        		
-        		//Conectar boton DESfichar con fichajeDAO
-        		//Se mira la entrada que tenía el objeto trabajador
-        		//Se cierra la fila abieta en BD
-        		//Se añade al mapa de registrosFichaje, y se borra la entrada.
-        		//Se muestra mensaje de: has trabaado: x
-        		//TODO poner si hay tareas ejecutando y asi
-        		btnDesfichar.addActionListener(e -> {
-        		    try {
-        		        // 1) Hora actual
-        		        LocalDateTime salida = LocalDateTime.now();
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		        JOptionPane.showMessageDialog(this,
+		                "Error al fichar: " + ex.getMessage(),
+		                "Error BD",
+		                JOptionPane.ERROR_MESSAGE);
+		    }
+		});
+		
+		//Conectar boton DESfichar con fichajeDAO
+		//Se mira la entrada que tenía el objeto trabajador
+		//Se cierra la fila abieta en BD
+		//Se añade al mapa de registrosFichaje, y se borra la entrada.
+		//Se muestra mensaje de: has trabaado: x
+		//TODO poner si hay tareas ejecutando y asi
+		btnDesfichar.addActionListener(e -> {
+		    try {
+		        // 1) Hora actual
+		        LocalDateTime salida = LocalDateTime.now();
 
-        		        // (Opcional) Comprobar si tiene entrada en memoria
-        		        LocalDateTime entrada = trabajador.getEntrada();
-        		        if (entrada == null) {
-        		            JOptionPane.showMessageDialog(this,
-        		                    "No hay fichaje de entrada activo.",
-        		                    "Aviso",
-        		                    JOptionPane.WARNING_MESSAGE);
-        		            return;
-        		        }
+		        // Comprobar si tiene entrada en memoria
+		        LocalDateTime entrada = trabajador.getEntrada();
+		        if (entrada == null) {
+		            JOptionPane.showMessageDialog(this,
+		                    "No hay fichaje de entrada activo.",
+		                    "Aviso", //Creo que no debería de entrar aquí nunca
+		                    JOptionPane.WARNING_MESSAGE);
+		            return;
+		        }
 
-        		        // 2) Actualizar en BD
-        		        FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
+		        // 2) Actualizar en BD
+		        FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
 
-        		        // 3) Actualizar el modelo en memoria
-        		        trabajador.registrarFichajeSalida(salida);
+		        // 3) Actualizar el modelo en memoria
+		        trabajador.registrarFichajeSalida(salida);
 
-        		        // 4) Calcular duración aproximada
-        		        long minutos = java.time.Duration.between(entrada, salida).toMinutes();
-        		        long horas = minutos / 60;
-        		        long minsRest = minutos % 60;
+		        // 4) Calcular duración aproximada
+		        long minutos = java.time.Duration.between(entrada, salida).toMinutes();
+		        long horas = minutos / 60;
+		        long minsRest = minutos % 60;
 
-        		        // 5) Actualizar estado visual
-        		        btnFichar.setEnabled(true);
-        		        btnDesfichar.setEnabled(false);
+		        // 5) Actualizar estado visual
+		        btnFichar.setEnabled(true);
+		        btnDesfichar.setEnabled(false);
 
-        		        JOptionPane.showMessageDialog(this,
-        		                "Has desfichado a las " + salida.toLocalTime() +
-        		                "\nTiempo trabajado este tramo: " + horas + " h " + minsRest + " min",
-        		                "Desfichaje",
-        		                JOptionPane.INFORMATION_MESSAGE);
+		        JOptionPane.showMessageDialog(this,
+		                "Has desfichado a las " + salida.toLocalTime() +
+		                "\nTiempo trabajado este tramo: " + horas + " h " + minsRest + " min",
+		                "Desfichaje",
+		                JOptionPane.INFORMATION_MESSAGE);
 
-        		    } catch (Exception ex) {
-        		        ex.printStackTrace();
-        		        JOptionPane.showMessageDialog(this,
-        		                "Error al desfichar: " + ex.getMessage(),
-        		                "Error BD",
-        		                JOptionPane.ERROR_MESSAGE);
-        		    }
-        		});
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		        JOptionPane.showMessageDialog(this,
+		                "Error al desfichar: " + ex.getMessage(),
+		                "Error BD",
+		                JOptionPane.ERROR_MESSAGE);
+		    }
+		});
+		
+		// Para controlar que no se vaya sin fichar o que al menos 
+		// Se le recuerde que sigue estando sin fichar
+		
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				controlarSalida();
+			}
+			});
 
 
         	  
@@ -361,5 +307,148 @@ public class VTrabajador1 extends JFrame {
 	        btnDesfichar.setEnabled(false);
 	    }
 	}
+	
+	//METODO PARA MANEJAR SALIDA
+	private void controlarSalida() {
+	    try {
+	        int idTrabajador = trabajador.getId();
+	        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
+
+	        if (fichajeAbierto == null) {
+	            // No está fichado -> salir normal
+	            salirAlLogin();
+	            return;
+	        }
+
+	        // Está fichado -> preguntamos qué quiere hacer
+	        int opcion = JOptionPane.showConfirmDialog(
+	                this,
+	                "Sigues fichado desde las " +
+	                        fichajeAbierto.getEntrada().toLocalTime().withNano(0) +
+	                        ".\n¿Quieres desfichar antes de salir?",
+	                "Salir sin desfichar",
+	                JOptionPane.YES_NO_CANCEL_OPTION,
+	                JOptionPane.WARNING_MESSAGE
+	        );
+
+	        if (opcion == JOptionPane.CANCEL_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
+	            // Se arrepiente, no hacemos nada
+	            return;
+	        }
+
+	        if (opcion == JOptionPane.YES_OPTION) {
+	            // Desfichar automáticamente y luego salir
+	            realizarDesfichajeUsando(fichajeAbierto);
+	        }
+	        // Si es NO_OPTION -> no desfichamos, simplemente salimos
+
+	        salirAlLogin();
+
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(
+	                this,
+	                "Error al comprobar el estado de fichaje antes de salir:\n" + ex.getMessage(),
+	                "Error",
+	                JOptionPane.ERROR_MESSAGE
+	        );
+	    }}
+	    
+	    //Fichaje de salida:
+	    private void realizarDesfichajeUsando(BDFichaje fichajeAbierto) throws Exception {
+	        LocalDateTime entrada = fichajeAbierto.getEntrada();
+	        LocalDateTime salida = LocalDateTime.now();
+
+	        // Cerrar en BD
+	        boolean cerrado = FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
+	        if (!cerrado) {
+	            throw new RuntimeException("No se ha podido cerrar el fichaje en la BD.");
+	        }
+
+	        // Actualizar modelo en memoria
+	        trabajador.registrarFichajeSalida(salida);
+
+	        // Calcular duración
+	        long minutos = Duration.between(entrada, salida).toMinutes();
+	        long horas = minutos / 60;
+	        long minsRest = minutos % 60;
+
+	        // Actualizar botones
+	        btnFichar.setEnabled(true);
+	        btnDesfichar.setEnabled(false);
+
+	        JOptionPane.showMessageDialog(
+	                this,
+	                "Has desfichado a las " + salida.toLocalTime().withNano(0) +
+	                "\nTiempo trabajado en este tramo: " + horas + " h " + minsRest + " min",
+	                "Desfichaje",
+	                JOptionPane.INFORMATION_MESSAGE
+	        );
+	    }
+	    
+	    private void salirAlLogin() {
+	        // Ejemplo, ajusta a tu flujo real:
+	        this.dispose();
+	        parent.setVisible(true);  // si VTrabajador1 tiene un "parent"
+	    }
+
+
+		@Override
+		protected void onConfirmExit() {
+			// TODO Auto-generated method stub
+			// Esta confirmación ya la ha hecho VentanaConConfirmacion
+			 manejarSalidaYVolverALogin();
+		}
+		private void manejarSalidaYVolverALogin() {
+		    try {
+		        int idTrabajador = trabajador.getId();
+
+		        // 1) Mirar si hay fichaje abierto en BD
+		        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
+
+		        if (fichajeAbierto != null) {
+		            // 2) Está fichado, entonces preguntamos qué hacer
+		            int opcion = JOptionPane.showConfirmDialog(
+		                    this,
+		                    "Sigues fichado desde las " +
+		                            fichajeAbierto.getEntrada().toLocalTime().withNano(0) +
+		                            ".\n¿Quieres desfichar antes de salir?",
+		                    "Salir estando fichado",
+		                    JOptionPane.YES_NO_CANCEL_OPTION,
+		                    JOptionPane.WARNING_MESSAGE
+		            );
+
+		            if (opcion == JOptionPane.CANCEL_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
+		                // No salir
+		                return;
+		            }
+
+		            if (opcion == JOptionPane.YES_OPTION) {
+		                // 3) Desfichar automáticamente
+		                realizarDesfichajeUsando(fichajeAbierto);
+		                // (este método ya debería hacer el update en BD, CREO
+		            }
+		            // Si NO_OPTION → no desfichamos, pero igualmente salimos al login
+		        }
+
+		        // 4) En todos los casos en los que no se ha hecho return, se sale al login:
+		        this.dispose();
+		        parent.setVisible(true);   // VPrincipal
+
+		    } catch (Exception ex) {
+		        ex.printStackTrace();
+		        JOptionPane.showMessageDialog(
+		                this,
+		                "Error al gestionar el fichaje antes de salir:\n" + ex.getMessage(),
+		                "Error",
+		                JOptionPane.ERROR_MESSAGE
+		        );
+		    }
+		}
+		
+
+
+	
+
 
 }
