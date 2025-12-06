@@ -181,4 +181,32 @@ public class TrabajadorDAO {
             e.printStackTrace();
         }
     }
+    
+    public static ArrayList<BDTrabajador> getTrabajadoresDeTarea(int idTarea) {
+        ArrayList<BDTrabajador> trabajadores = new ArrayList<>();
+
+        String sql =
+            "SELECT tr.id, tr.nombre, tr.contrasenya " +
+            "FROM trabajador tr " +
+            "JOIN tarea_trabajador tt ON tr.id = tt.id_trabajador " +
+            "WHERE tt.id_tarea = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idTarea);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    trabajadores.add(crearTrabajadorDesdeResultSet(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return trabajadores;
+    }
+
 }

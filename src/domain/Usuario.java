@@ -50,5 +50,7 @@ public abstract class Usuario {
 		return nombre;
 	}
 	
+
+	
 	
 }

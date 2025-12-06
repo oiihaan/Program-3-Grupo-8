@@ -41,6 +41,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
+import javax.swing.JRadioButton;
+import javax.swing.JCheckBox;
 
 public class VVerTareas extends VentanaConConfirmacion {
 
@@ -54,12 +56,14 @@ public class VVerTareas extends VentanaConConfirmacion {
 	private JLabel buscadorTareas;
 	private JLabel lblTrabajadoresAsignados;
 	private JLabel lblEstado;
+	private Boolean finalizadasVer;
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
 		super();
 		this.parent = parent;
 		this.admin = admin;
+		this.finalizadasVer = false;
 		
 		setTitle("Ver Tareas");
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,7 +110,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 		}
 		listaTareas.setModel(modeloTareas);
 		scrollPane.setViewportView(listaTareas);
-		
+
 		JPanel right = new JPanel();
 		centro.add(right);
 		right.setLayout(new GridLayout(4, 1, 0, 0));
@@ -130,11 +134,11 @@ public class VVerTareas extends VentanaConConfirmacion {
 		secondRowCe.setLayout(null);
 		
 		lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 5, 90, 13);
+		lblEstado.setBounds(10, 5, 124, 13);
 		secondRowCe.add(lblEstado);
 		
 		lblEstadoVar = new JLabel();
-		lblEstadoVar.setBounds(176, 11, 0, 0);
+		lblEstadoVar.setBounds(20, 29, 99, 25);
 		secondRowCe.add(lblEstadoVar);
 
 		
@@ -147,14 +151,14 @@ public class VVerTareas extends VentanaConConfirmacion {
 		thirdRowCe.add(scrollPane_1);
 		
 		JList listaTrabajadores = new JList();
-		scrollPane_1.setRowHeaderView(listaTrabajadores); 
+		scrollPane_1.setViewportView(listaTrabajadores); 
 	
 		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
 		
 		listaTrabajadores.setModel(modeloListaTrabajadores);
 		
 		lblTrabajadoresAsignados = new JLabel("Trabajadores asignados:");
-		lblTrabajadoresAsignados.setBounds(10, 0, 127, 23);
+		lblTrabajadoresAsignados.setBounds(10, 0, 286, 23);
 		thirdRowCe.add(lblTrabajadoresAsignados);
 		
 		JPanel forthRowCe = new JPanel();
@@ -171,20 +175,49 @@ public class VVerTareas extends VentanaConConfirmacion {
 		btnVolver.setBounds(10, 61, 120, 41);
 		forthRowCe.add(btnVolver);
 		
+		JButton btnAsignarTareas = new JButton("AsignarTareas");
+		btnAsignarTareas.setEnabled(false);
+		btnAsignarTareas.setBounds(10, 10, 120, 41);
+		forthRowCe.add(btnAsignarTareas);
+		
+		JCheckBox chcVerLasTareasFinalizadas = new JCheckBox("Tareas Finalizadas?");
+		chcVerLasTareasFinalizadas.setBounds(18, 94, 132, 23);
+		firstRowCe.add(chcVerLasTareasFinalizadas);
+		if(chcVerLasTareasFinalizadas.isSelected()) {
+			finalizadasVer =  true;
+			
+		} else {
+			finalizadasVer = false;
+		}
+	
+		
 		
 		//Aciones 
 		listaTareas.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
+				modeloListaTrabajadores.clear();
 				if(!listaTareas.isSelectionEmpty()) {
 					BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
 					lblEstadoVar.setText(tarea.getEstado());
-					
-					for (BDTrabajador t : tarea.getTrabajadoresAsignados()) {
+					for(BDTrabajador t : TrabajadorDAO.getTrabajadoresDeTarea(tarea.getId())) {
 						modeloListaTrabajadores.addElement(t);
+						}
+					if(!tarea.getEstado().equals("finalizado")) {
+					lblTrabajadoresAsignados.setText("Trabajadores asignados:");
+
+					btnAsignarTareas.setEnabled(true);
+					}else {
+						lblTrabajadoresAsignados.setText("Trabajadores que han realizado la tarea:");
+						btnAsignarTareas.setEnabled(false);
+
 					}
+
+					
 				}else {
+					lblTrabajadoresAsignados.setText("Trabajadores asignados:");
 					modeloListaTrabajadores.clear();
 					lblEstadoVar.setText("");
+					btnAsignarTareas.setEnabled(false);
 				}
 			}
 		});
@@ -213,6 +246,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 			}
 			}
 		});
+
 		
 		listaTrabajadores.addMouseListener(new java.awt.event.MouseAdapter() {
 			 public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -229,23 +263,22 @@ public class VVerTareas extends VentanaConConfirmacion {
 				 }
 			}
 		});
+		btnAsignarTareas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
 
+				VAsignarTareas VAsignarTareas = new VAsignarTareas (VVerTareas.this, admin , tarea );
+				VAsignarTareas.setVisible(true);
+				VVerTareas.this.setVisible(false);
+				
+			}
+		});
 		
 		
 		//Boton Paso de Ventana a ASIGNAR_TAREA
-		JButton btnAsignarTareas = new JButton("AsignarTareas");
-		btnAsignarTareas.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					VAsignarTareas VAsignarTareas = new VAsignarTareas (VVerTareas.this, admin);
-					VAsignarTareas.setVisible(true);
-					VVerTareas.this.setVisible(false);
-					
-				}
-			});
-		btnAsignarTareas.setBounds(10, 10, 120, 41);
-		forthRowCe.add(btnAsignarTareas);
+
 	//	GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
 	//	gbc_btnAsignarTareas.gridx = 0;
 	//	gbc_btnAsignarTareas.gridy = 0;
@@ -275,6 +308,8 @@ public class VVerTareas extends VentanaConConfirmacion {
 				AppUI.styleLabel(lblTrabajadoresAsignados);
 				AppUI.styleLabel(buscadorTareas);
 				AppUI.styleTextField(txtBuscadorTareas);
+				
+
 
 
 				AppUI.styleList(listaTareas);
@@ -291,6 +326,10 @@ public class VVerTareas extends VentanaConConfirmacion {
 				
 
 	}
+
+
+
+
 
 
 	@Override

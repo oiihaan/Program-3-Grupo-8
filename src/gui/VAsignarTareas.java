@@ -3,6 +3,9 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import bd.TareaDAO;
+import bd.Tarea_TrabajadorDAO;
+import bd.TrabajadorDAO;
 import domain.BDAdmin;
 import domain.BDTarea;
 import domain.BDTrabajador;
@@ -11,6 +14,11 @@ import gui.ui.AppUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.HashSet;
+
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class VAsignarTareas extends VentanaConConfirmacion {
 
@@ -18,13 +26,16 @@ public class VAsignarTareas extends VentanaConConfirmacion {
     private JPanel contentPane;
     private VVerTareas parent;
     private BDAdmin admin;
+    private BDTarea tarea;
+    private JList<BDTrabajador> listTrabajadores;
 
-    public VAsignarTareas(VVerTareas parent, BDAdmin admin) {
+    public VAsignarTareas(VVerTareas parent, BDAdmin admin , BDTarea tarea)  {
         super();                  // importante: llama al constructor de la base
         this.parent = parent;
         this.admin = admin;
+        this.tarea = tarea;
 
-        setTitle("Asignar Tareas");
+        setTitle("Asignador de Trabajadores a la tarea: " + tarea.getNombre() );
         // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); -> lo hace la base
 
         setBounds(100, 100, 604, 426);
@@ -39,9 +50,7 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         contentPane.setLayout(gbl_contentPane);
 
         // Listas tipadas
-        JList<BDTrabajador> listTrabajadores = new JList<>();
-        JList<BDTarea> listaTareas = new JList<>();
-        listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listTrabajadores = new JList<>();
 
         JPanel Centro = new JPanel();
         GridBagConstraints gbc_Centro = new GridBagConstraints();
@@ -70,6 +79,7 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         Centro.add(centroSouth, BorderLayout.SOUTH);
 
         JButton btnAsignarTarea = new JButton("Asignar Tarea");
+        btnAsignarTarea.setEnabled(false);
         centroSouth.add(btnAsignarTarea);
 
         JButton btnVolver = new JButton("Volver");
@@ -82,16 +92,8 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         JPanel centroIzq = new JPanel();
         centroCentro.add(centroIzq);
         centroIzq.setPreferredSize(new Dimension(50, 0));
-
-        JScrollPane scrollPaneCentroIzq = new JScrollPane();
         SpringLayout sl_centroIzq = new SpringLayout();
         centroIzq.setLayout(sl_centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.NORTH, scrollPaneCentroIzq, 0, SpringLayout.NORTH, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.WEST, scrollPaneCentroIzq, 0, SpringLayout.WEST, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.SOUTH, scrollPaneCentroIzq, 270, SpringLayout.NORTH, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.EAST, scrollPaneCentroIzq, 257, SpringLayout.WEST, centroIzq);
-        centroIzq.add(scrollPaneCentroIzq);
-        scrollPaneCentroIzq.setViewportView(listaTareas);
 
         JPanel centroDe = new JPanel();
         centroCentro.add(centroDe);
@@ -108,17 +110,7 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         scrollPaneCentroDe.setViewportView(listTrabajadores);
 
         // -- LÓGICA DE LISTAS --
-        DefaultListModel<BDTarea> modeloListTarea = new DefaultListModel<>();
-        for (BDTarea t : VPrincipal.getTareas()) {
-            modeloListTarea.addElement(t);
-        }
-        listaTareas.setModel(modeloListTarea);
 
-        DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<>();
-        for (BDTrabajador t : VPrincipal.getTrabajadores()) {
-            modeloListaTrabajadores.addElement(t);
-        }
-        listTrabajadores.setModel(modeloListaTrabajadores);
 
         // Botón Volver -> mismo comportamiento que la X
         btnVolver.addActionListener(new ActionListener() {
@@ -129,7 +121,40 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         });
 
         // TODO: aquí iría la lógica real de btnAsignarTarea
+        TrabajadoresLista(); //Añade el modelo a la lista
+        
+        listTrabajadores.addListSelectionListener(new ListSelectionListener() {
+        	public void valueChanged(ListSelectionEvent e) {
+        		if(!listTrabajadores.isSelectionEmpty()) {
+            		
+            		btnAsignarTarea.setEnabled(true);   
+            		} else {
+            		btnAsignarTarea.setEnabled(false);
+            	}
+        	
+        	}
+        });
+        
+        btnAsignarTarea.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Object[] trabajadoresSelecionados = listTrabajadores.getSelectedValues();
+        		for(Object t : trabajadoresSelecionados) {
+        			BDTrabajador trabajador = (BDTrabajador) t;
+        			Tarea_TrabajadorDAO.insertarTrabajadoresATarea(tarea.getId(), trabajador.getId());
+        			
+        		}
+        		TrabajadoresLista();
+        		JOptionPane.showMessageDialog(
+        		        null,
+        		        "Los trabajadores se han añadido correctamente.",
+        		        "Información",
+        		        JOptionPane.INFORMATION_MESSAGE
+        		);
+        		
 
+        	}
+        });
+        
         // Estilo AppUI
         AppUI.styleBackground(contentPane);
         AppUI.styleCard(Centro);
@@ -145,8 +170,6 @@ public class VAsignarTareas extends VentanaConConfirmacion {
 
         AppUI.stylePrimaryButton(btnAsignarTarea);
         AppUI.stylePrimaryButton(btnVolver);
-
-        AppUI.styleList(listaTareas);
         AppUI.styleList(listTrabajadores);
 
         AppUI.establecerIcono(this);
@@ -157,8 +180,33 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         // Este método se llama SOLO si en VentanaConConfirmacion
         // el usuario ha elegido "Sí" en el diálogo.
         if (parent != null) {
-            parent.setVisible(true);  // volvemos a la pantalla de "Ver tareas"
+        	System.out.println("Entado");
+
+            parent.setVisible(true); 
+            parent.repaint();// volvemos a la pantalla de "Ver tareas"
         }
         dispose();                    // cerramos esta ventana
     }
+    
+    private void TrabajadoresLista() {
+        DefaultListModel<BDTrabajador> modeloTrabajadoresAsignados = new DefaultListModel<BDTrabajador>();
+        for (BDTrabajador t : TrabajadorDAO.getTrabajadoresDeTarea(tarea.getId())) {
+        	modeloTrabajadoresAsignados.addElement(t);
+
+        }
+
+        DefaultListModel<BDTrabajador> modeloTrabajadoresNoAsignados = new DefaultListModel<BDTrabajador>();
+        for (BDTrabajador tra : TrabajadorDAO.getAllTrabajadores()) {
+        	if(!modeloTrabajadoresAsignados.contains(tra)) {
+        		modeloTrabajadoresNoAsignados.addElement(tra);
+
+        	}
+        }
+       listTrabajadores.setModel(modeloTrabajadoresNoAsignados);
+        
+
+
+	}
+    
+
 }

@@ -11,7 +11,7 @@ public class BDTarea {
     private int duracion; // En minutos
 	private String estado; // Opciones : pendiente (Si no se ha iniciado) , ejecutando (Si se ha iniciado el hilo) y finalizado (Si el hilo se ha finalizado)
 //	private Boolean completada; // Por si es necesario para algo luego -->(UNAI ) YO LO QUITABA
-	private HashSet<BDTrabajador> trabajadoresAsignados;
+	private HashSet<BDTrabajador> trabajadoresAsignados; //Mirar el doc la 23 he puseto algo sobre esto
 	private Thread hilo;
 	
 	//NUEVO

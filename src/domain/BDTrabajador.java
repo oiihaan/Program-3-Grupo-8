@@ -112,7 +112,22 @@ public class BDTrabajador extends Usuario {
 
 	        this.entrada = null;
 	   }
-	
+	   //El equals para poder comparar en la ventana AsignarTareas
+		    @Override
+		    public boolean equals(Object o) {
+		        if (this == o) return true;
+		        if (!(o instanceof BDTrabajador)) return false;
+		        BDTrabajador that = (BDTrabajador) o;
+		        return this.getId() == that.getId();
+		    }
+
+		    @Override
+		    public int hashCode() {
+		        return Integer.hashCode(getId());
+		    }
+		
+
+
 }
 
 
