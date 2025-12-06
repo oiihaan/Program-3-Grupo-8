@@ -99,9 +99,12 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+            	
+            	
                 String username  = txtUsername.getText().trim();
                 String contrasenya = txtPassword.getText().trim();
 
+                //Prevencion de campos vacios 
                 if (username.isEmpty() || contrasenya.isEmpty()) {
                     JOptionPane.showMessageDialog(
                             VAnyadirTrabajador.this,
@@ -111,7 +114,31 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
                     );
                     return;
                 }
-
+                
+                
+                
+                //Uso de la funcion recursiva
+                //Sugiere al usuario una contraseña creada por el sistema
+                String suggestedPassword = invertirRecursivo(username);
+                
+                if (!suggestedPassword.equals(contrasenya)) {
+                    int respuesta = JOptionPane.showConfirmDialog(
+                            VAnyadirTrabajador.this,
+                            ("Nos gustaria sugerirte esta contraseña creada por nuestro algoritmo super seguro: " +suggestedPassword),
+                            "RECOMENDACION",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE
+                    );
+                    
+                  //Si la respuesta es si...
+                    if (respuesta == JOptionPane.YES_OPTION) {
+                        contrasenya = suggestedPassword;
+                    }
+                }
+                
+               
+             
+                //Insercion en BBDD
                 try {
                     BDTrabajador nuevo = new BDTrabajador(
                             0, username, contrasenya,
@@ -164,12 +191,13 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         // IMAGEN
         AppUI.establecerIcono(this);
 
-        // Para tamaño ajustado
+        // Para ajustar el tamaño 
         this.pack();
         // Para centrar
         this.setLocationRelativeTo(null);
     }
 
+    
     @Override
     protected void onConfirmExit() {
         // Este método solo se ejecuta cuando el usuario ha dicho "Sí"
@@ -177,6 +205,21 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         if (parent != null) {
             parent.setVisible(true); // volvemos al menú admin
         }
-        dispose();                  
+        dispose();  
     }
+    
+    
+    //Funcion de RECURSIVIDAD
+    public static String invertirRecursivo(String str) { //Funcion del github de Fernando Boto
+    	
+        // Caso base. Si es el string vacío devolvemos directamente el string vacío.
+        if (str.isEmpty()) return "";
+        
+        // Caso recursivo. Invertir el string actual menos el primer caracter + primer carácter
+        return invertirRecursivo(str.substring(1)) + str.charAt(0);
+    }
+    
+    
+    
+    
 }

@@ -80,7 +80,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		JLabel ldlDuracion = new JLabel("Duracion estimada en minutos:");
 		ldlDuracion.setHorizontalAlignment(SwingConstants.RIGHT);
 		left.add(ldlDuracion);
-		AppUI.styleTitle(ldlDuracion);
+		
 		
 		JLabel lblNombre = new JLabel("Nombre de la tarea: ");
 		left.add(lblNombre);
@@ -89,7 +89,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 
 		
 
-		AppUI.styleTitle(lblNombre);
+		
 		
 		center = new JPanel();
 		center.setLayout(null);
@@ -193,6 +193,9 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		AppUI.styleBackground(left);
 		AppUI.styleBackground(center);
 		AppUI.styleBackground(right);
+		
+		AppUI.styleLabel(lblNombre);
+		AppUI.styleLabel(ldlDuracion);
 		
 		AppUI.stylePrimaryButton(btnGuardar);
 
