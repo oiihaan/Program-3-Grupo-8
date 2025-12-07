@@ -70,9 +70,25 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         centroIz.add(scrollPane);
 
         // Tipar la lista
-        JList<BDTarea> list = new JList<>();
+        JList<BDTarea> list = new JList<>() {
+
+            @Override
+            public String getToolTipText(java.awt.event.MouseEvent e) {
+                int index = locationToIndex(e.getPoint());
+                if (index == -1) {
+                    return null;
+                }else {
+                  BDTarea t = getModel().getElementAt(index);
+
+                return "La tarea dura " + t.getDuracion() + " minutos";
+                }
+            }
+        	
+        	
+        };
         list.setLayoutOrientation(JList.VERTICAL_WRAP);
         scrollPane.setViewportView(list);
+        list.setToolTipText("");
 
         JPanel centroDe = new JPanel();
         centroDe.setLayout(null);
@@ -183,6 +199,15 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
             }
         });
         HiloTiempo.start();
+        
+
+
+    
+        // importante: activar un tooltip “base” para que se registre en el ToolTipManager
+        list.setToolTipText("");
+
+
+
 
         // Estilo AppUI
         AppUI.styleBackground(contentPane);

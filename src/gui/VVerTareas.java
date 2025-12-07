@@ -179,16 +179,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 		btnAsignarTareas.setEnabled(false);
 		btnAsignarTareas.setBounds(10, 10, 120, 41);
 		forthRowCe.add(btnAsignarTareas);
-		
-		JCheckBox chcVerLasTareasFinalizadas = new JCheckBox("Tareas Finalizadas?");
-		chcVerLasTareasFinalizadas.setBounds(18, 94, 132, 23);
-		firstRowCe.add(chcVerLasTareasFinalizadas);
-		if(chcVerLasTareasFinalizadas.isSelected()) {
-			finalizadasVer =  true;
-			
-		} else {
-			finalizadasVer = false;
-		}
+
 	
 		
 		
@@ -328,7 +319,10 @@ public class VVerTareas extends VentanaConConfirmacion {
 	}
 
 
+	private void pu() {
 
+
+	}
 
 
 

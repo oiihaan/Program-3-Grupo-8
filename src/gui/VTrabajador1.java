@@ -175,7 +175,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		//Se actualiza el objeto trabajador
 		//Se
 		
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 		//Conectar botón FICHAR con FichajeDAO
 		btnFichar.addActionListener(e -> {
 		    try {
@@ -193,7 +193,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		        btnDesfichar.setEnabled(true);
 
 		        JOptionPane.showMessageDialog(this,
-		                "Has fichado a las " + ahora.toLocalTime(),
+		                "Has fichado a las " + ahora.toLocalTime().format(formatter),
 		                "Fichaje",
 		                JOptionPane.INFORMATION_MESSAGE);
 
@@ -243,7 +243,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		        btnDesfichar.setEnabled(false);
 
 		        JOptionPane.showMessageDialog(this,
-		                "Has desfichado a las " + salida.toLocalTime() +
+		                "Has desfichado a las " + salida.toLocalTime().format(formatter) +
 		                "\nTiempo trabajado este tramo: " + horas + " h " + minsRest + " min",
 		                "Desfichaje",
 		                JOptionPane.INFORMATION_MESSAGE);
