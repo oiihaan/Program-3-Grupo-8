@@ -1,24 +1,24 @@
 package gui;
 
-import java.awt.EventQueue;
 
-import java.awt.EventQueue;
+//IMPORTS
 import java.awt.*;
 import javax.swing.*;
-
 import domain.BDAdmin;
-import domain.BDTrabajador;
 import gui.ui.*;
-
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+
+//CONSTRUCTOR
 public class VAdmin1 extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	@SuppressWarnings("unused")
 	private BDAdmin admin;
+	@SuppressWarnings("unused")
 	private VPrincipal parent;  //--(Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE ADMIN--> TRABAJADOR SIN TENER QUE CERRAR EL PROGRAMA
 	JButton btnCerrarSesion;
 	
@@ -28,10 +28,11 @@ public class VAdmin1 extends VentanaConConfirmacion {
 	 * Create the frame.
 	 */
 	public VAdmin1(VPrincipal parent, BDAdmin admin) {
-		
-		
+	
 		this.admin = admin;
-		setTitle("MENU de Adminisrador");
+		
+		//DISEÑO
+		setTitle("MENU de Administrador");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 482);
 		contentPane = new JPanel();
@@ -45,6 +46,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		contentPane.setLayout(gbl_contentPane);
 		setLocationRelativeTo(null);
 		
+		//Panel central 
 		JPanel centro = new JPanel();
 		GridBagConstraints gbc_centro = new GridBagConstraints();
 		gbc_centro.anchor = GridBagConstraints.WEST;
@@ -55,11 +57,18 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		contentPane.add(centro, gbc_centro);
 		centro.setLayout(new BorderLayout(0, 0));
 		
+		//Panel del titulo 
 		JPanel centroNorth = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) centroNorth.getLayout();
 		flowLayout.setVgap(20);
 		centro.add(centroNorth, BorderLayout.NORTH);
 		
+		//Panel del centro para los botones
+		JPanel centroCenter = new JPanel();
+		centro.add(centroCenter, BorderLayout.CENTER);
+		centroCenter.setLayout(new GridLayout(2, 2, 10, 30));
+		
+		//LABELS
 		JLabel lblBienvenida = new JLabel("Bienvenid@: ");
 		centroNorth.add(lblBienvenida);
 		lblBienvenida.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -68,63 +77,23 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		JLabel lblNombreAdmin = new JLabel("");
 		lblNombreAdmin.setText(admin.getNombre());
 		centroNorth.add(lblNombreAdmin);
+				
 		
-		JPanel centroCenter = new JPanel();
-		centro.add(centroCenter, BorderLayout.CENTER);
-		centroCenter.setLayout(new GridLayout(2, 2, 10, 30));
-		
-		
-		//Boton AÑADIR TAREAS
+		//BOTONES
 		JButton btnAnyadirTareas = new JButton("Añadir Tareas");
-		btnAnyadirTareas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VAnyadirTareas VAnyadirTareas = new VAnyadirTareas (VAdmin1.this, admin);
-				VAnyadirTareas.setVisible(true);
-				VAdmin1.this.setVisible(false);
-			}
-		});
 		centroCenter.add(btnAnyadirTareas);
 		btnAnyadirTareas.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		
 		JButton btnAnyadirEmpleados = new JButton("Añadir Empleados");
-		btnAnyadirEmpleados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VAnyadirTrabajador VAnyadirTrabajador = new VAnyadirTrabajador (VAdmin1.this, admin);
-				VAnyadirTrabajador.setVisible(true);
-				VAdmin1.this.setVisible(false);
-			}
-		});
 		centroCenter.add(btnAnyadirEmpleados);
 		
-		//Boton VERTAREAS
 		JButton btnVerTareas = new JButton("Ver Tareas");
-		btnVerTareas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VVerTareas VVerTareas = new VVerTareas (VAdmin1.this, admin);
-				VVerTareas.setVisible(true);
-				VAdmin1.this.setVisible(false);
-			}
-		});
 		centroCenter.add(btnVerTareas);
 		
 		JButton btnVisualizarEmpleados = new JButton("Ver Empleados");
-		btnVisualizarEmpleados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VVerTrabajadores VVerTrabajadores = new VVerTrabajadores(VAdmin1.this, admin , null);
-				VVerTrabajadores.setVisible(true);
-				VAdmin1.this.setVisible(false);
-			}
-		});
 		centroCenter.add(btnVisualizarEmpleados);
 		
 		btnCerrarSesion = new JButton("Cerrar Sesion");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.setVisible(true);
-				VAdmin1.this.dispose();
-			}
-		});
 		GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
 		gbc_btnCerrarSesion.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCerrarSesion.gridx = 1;
@@ -132,6 +101,49 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		contentPane.add(btnCerrarSesion, gbc_btnCerrarSesion);
 
 		
+		
+		//LOGICA de los botones	
+		btnAnyadirTareas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VAnyadirTareas VAnyadirTareas = new VAnyadirTareas (VAdmin1.this, admin);
+				VAnyadirTareas.setVisible(true);
+				VAdmin1.this.setVisible(false);
+			}
+		});
+		
+		btnAnyadirEmpleados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VAnyadirTrabajador VAnyadirTrabajador = new VAnyadirTrabajador (VAdmin1.this, admin);
+				VAnyadirTrabajador.setVisible(true);
+				VAdmin1.this.setVisible(false);
+			}
+		});
+		
+		btnVerTareas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VVerTareas VVerTareas = new VVerTareas (VAdmin1.this, admin);
+				VVerTareas.setVisible(true);
+				VAdmin1.this.setVisible(false);
+			}
+		});
+		
+		btnVisualizarEmpleados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VVerTrabajadores VVerTrabajadores = new VVerTrabajadores(VAdmin1.this, admin , null);
+				VVerTrabajadores.setVisible(true);
+				VAdmin1.this.setVisible(false);
+			}
+		});
+		
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parent.setVisible(true);
+				VAdmin1.this.dispose();
+			}
+		});
+		
+		
+		//APARIENCIA
 		AppUI.styleBackground(contentPane);
 		AppUI.styleCard(centro);
 

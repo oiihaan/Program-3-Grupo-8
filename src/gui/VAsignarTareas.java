@@ -1,22 +1,18 @@
 package gui;
 
+
+//IMPORTS
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import bd.TareaDAO;
 import bd.Tarea_TrabajadorDAO;
 import bd.TrabajadorDAO;
 import domain.BDAdmin;
 import domain.BDTarea;
 import domain.BDTrabajador;
 import gui.ui.AppUI;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
-import java.util.HashSet;
-
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
@@ -29,15 +25,17 @@ public class VAsignarTareas extends VentanaConConfirmacion {
     private BDTarea tarea;
     private JList<BDTrabajador> listTrabajadores;
 
+    
+    //CONSTRUCTOR
     public VAsignarTareas(VVerTareas parent, BDAdmin admin , BDTarea tarea)  {
         super();                  // importante: llama al constructor de la base
         this.parent = parent;
         this.admin = admin;
         this.tarea = tarea;
 
+        
         setTitle("Asignador de Trabajadores a la tarea: " + tarea.getNombre() );
         // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); -> lo hace la base
-
         setBounds(100, 100, 604, 426);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -52,6 +50,8 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         // Listas tipadas
         listTrabajadores = new JList<>();
 
+        
+        //PANELES
         JPanel Centro = new JPanel();
         GridBagConstraints gbc_Centro = new GridBagConstraints();
         gbc_Centro.insets = new Insets(0, 0, 5, 5);
@@ -60,11 +60,35 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         gbc_Centro.gridy = 1;
         contentPane.add(Centro, gbc_Centro);
         Centro.setLayout(new BorderLayout(0, 0));
+        
+        //Paneles DENTRO del panel CENTRO
+        JPanel centroCentro = new JPanel();
+        Centro.add(centroCentro, BorderLayout.CENTER);
+        centroCentro.setLayout(new GridLayout(1, 2, 0, 0));
+        
+        JPanel centroIzq = new JPanel();
+        centroCentro.add(centroIzq);
+        centroIzq.setPreferredSize(new Dimension(50, 0));
+        SpringLayout sl_centroIzq = new SpringLayout();
+        centroIzq.setLayout(sl_centroIzq);
+        
+        JPanel centroDe = new JPanel();
+        centroCentro.add(centroDe);
+        centroDe.setPreferredSize(new Dimension(50, 0));
+        SpringLayout sl_centroDe = new SpringLayout();
+        centroDe.setLayout(sl_centroDe);
 
         JPanel centroNorth = new JPanel();
         Centro.add(centroNorth, BorderLayout.NORTH);
         centroNorth.setLayout(new GridLayout(0, 2, 0, 0));
 
+        JPanel centroSouth = new JPanel();
+        FlowLayout flowLayout = (FlowLayout) centroSouth.getLayout();
+        flowLayout.setHgap(30);
+        Centro.add(centroSouth, BorderLayout.SOUTH);
+        
+      
+        //JLABELS
         JLabel lblTareas = new JLabel("Tareas");
         lblTareas.setHorizontalAlignment(SwingConstants.CENTER);
         centroNorth.add(lblTareas);
@@ -73,11 +97,8 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         lblTrabajadores.setHorizontalAlignment(SwingConstants.CENTER);
         centroNorth.add(lblTrabajadores);
 
-        JPanel centroSouth = new JPanel();
-        FlowLayout flowLayout = (FlowLayout) centroSouth.getLayout();
-        flowLayout.setHgap(30);
-        Centro.add(centroSouth, BorderLayout.SOUTH);
-
+        
+        //BOTONES
         JButton btnAsignarTarea = new JButton("Asignar Tarea");
         btnAsignarTarea.setEnabled(false);
         centroSouth.add(btnAsignarTarea);
@@ -85,22 +106,12 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         JButton btnVolver = new JButton("Volver");
         centroSouth.add(btnVolver);
 
-        JPanel centroCentro = new JPanel();
-        Centro.add(centroCentro, BorderLayout.CENTER);
-        centroCentro.setLayout(new GridLayout(1, 2, 0, 0));
+     
 
-        JPanel centroIzq = new JPanel();
-        centroCentro.add(centroIzq);
-        centroIzq.setPreferredSize(new Dimension(50, 0));
-        SpringLayout sl_centroIzq = new SpringLayout();
-        centroIzq.setLayout(sl_centroIzq);
+     
 
-        JPanel centroDe = new JPanel();
-        centroCentro.add(centroDe);
-        centroDe.setPreferredSize(new Dimension(50, 0));
-        SpringLayout sl_centroDe = new SpringLayout();
-        centroDe.setLayout(sl_centroDe);
-
+       
+        //SCROLLPANE
         JScrollPane scrollPaneCentroDe = new JScrollPane();
         sl_centroDe.putConstraint(SpringLayout.NORTH, scrollPaneCentroDe, 0, SpringLayout.NORTH, centroDe);
         sl_centroDe.putConstraint(SpringLayout.WEST, scrollPaneCentroDe, 0, SpringLayout.WEST, centroDe);
@@ -108,6 +119,8 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 257, SpringLayout.WEST, centroDe);
         centroDe.add(scrollPaneCentroDe);
         scrollPaneCentroDe.setViewportView(listTrabajadores);
+        
+        //LOGICA de los botones --> Queda esto pendiente
 
         // -- LÓGICA DE LISTAS --
 
@@ -175,6 +188,11 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         AppUI.establecerIcono(this);
     }
 
+    
+    
+    
+    
+    //Funciones FUERA del constructor
     @Override
     protected void onConfirmExit() {
         // Este método se llama SOLO si en VentanaConConfirmacion

@@ -1,8 +1,6 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
+//IMPORTS
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -24,10 +22,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.FlowLayout;
+
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 
+
+//CONSTRUCTOR
 public class VAnyadirTareas extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
@@ -38,10 +38,9 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 	private VAdmin1 parent;
 	private JButton btnGuardar;
 	private JPanel panel;
-	private JPanel left;
-	private JPanel center;
-	private JPanel right;
 
+
+	
 	/**
 	 * Create the frame.
 	 */
@@ -49,62 +48,77 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		super();
 		 this.parent = parent;    // *** IMPORTANTE: guardar la referencia ***
 
+		 
 		setTitle("Añadir Tareas");
+		
 		// No poner para que funcione lo de desloguearse
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 387);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		setLocationRelativeTo(null);
-		contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+
+        //Contiene las 3 secciones
+        JPanel panel = new JPanel();
+        contentPane.add(panel);
+        GridBagLayout gbl_panel = new GridBagLayout();
+        gbl_panel.columnWidths = new int[]{50, 195, 195, 200, 0};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        panel.setLayout(gbl_panel);
 		
-		panel = new JPanel();
-		contentPane.add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] {200, 168, 200};
-		gbl_panel.rowHeights = new int[] {102, 100, 100};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0,0.0,};
-		panel.setLayout(gbl_panel);
 		
-		left = new JPanel();
-		GridBagConstraints gbc_left = new GridBagConstraints();
-		gbc_left.insets = new Insets(0, 0, 5, 5);
-		gbc_left.fill = GridBagConstraints.BOTH;
-		gbc_left.gridx = 0;
-		gbc_left.gridy = 1;
-		panel.add(left, gbc_left);
-		left.setLayout(new GridLayout(2, 1, 0, 0));
+		//3 secciones (Paneles LEFT, CENTER y RIGHT)
+        JPanel left = new JPanel();
+        GridBagConstraints gbc_left = new GridBagConstraints();
+        gbc_left.fill = GridBagConstraints.BOTH;
+        gbc_left.insets = new Insets(0, 0, 0, 5);
+        gbc_left.gridx = 1;
+        gbc_left.gridy = 1;
+        panel.add(left, gbc_left);
+        left.setLayout(new GridLayout(0, 1, 0, 0));
+
+        JPanel center = new JPanel();
+        GridBagConstraints gbc_center = new GridBagConstraints();
+        gbc_center.fill = GridBagConstraints.BOTH;
+        gbc_center.insets = new Insets(0, 0, 0, 5);
+        gbc_center.gridx = 2;
+        gbc_center.gridy = 1;
+        panel.add(center, gbc_center);
+        center.setLayout(new GridLayout(0, 1, 0, 0));
+        
+        JPanel right = new JPanel();
+        right.setLayout(new GridLayout(2, 1, 0, 10));
+        GridBagConstraints gbc_right = new GridBagConstraints();
+        gbc_right.fill = GridBagConstraints.BOTH;
+        gbc_right.gridx = 3;
+        gbc_right.gridy = 1;
+        panel.add(right, gbc_right);
 		
+		
+		//LABELS
 		JLabel ldlDuracion = new JLabel("Duracion estimada en minutos:");
 		ldlDuracion.setHorizontalAlignment(SwingConstants.RIGHT);
 		left.add(ldlDuracion);
-		
 		
 		JLabel lblNombre = new JLabel("Nombre de la tarea: ");
 		left.add(lblNombre);
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-
 		
 
-		
-		
-		center = new JPanel();
-		center.setLayout(null);
-		GridBagConstraints gbc_center = new GridBagConstraints();
-		gbc_center.insets = new Insets(0, 0, 5, 5);
-		gbc_center.fill = GridBagConstraints.BOTH;
-		gbc_center.gridx = 1;
-		gbc_center.gridy = 1;
-		panel.add(center, gbc_center);
-		
+		//TEXTFIELDS
 		txtDuracion = new JTextField();
-		txtDuracion.setBounds(10, 10, 150, 25);
 		center.add(txtDuracion);
 		txtDuracion.setColumns(10);
 		
+		txtNombreTarea = new JTextField();
+		center.add(txtNombreTarea);
+		txtNombreTarea.setColumns(10);
+		
+		
+		//LOGICA de los TextField	
 		txtDuracion.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -116,10 +130,6 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 			}
 		});
 		
-		txtNombreTarea = new JTextField();
-		txtNombreTarea.setBounds(10, 60, 150, 25);
-		center.add(txtNombreTarea);
-		txtNombreTarea.setColumns(10);
 		txtNombreTarea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -131,34 +141,20 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 			}
 		});
 		
-		right = new JPanel();
-		right.setLayout(null);
-		GridBagConstraints gbc_right = new GridBagConstraints();
-		gbc_right.insets = new Insets(0, 0, 5, 5);
-		gbc_right.fill = GridBagConstraints.BOTH;
-		gbc_right.gridx = 2;
-		gbc_right.gridy = 1;
-		panel.add(right, gbc_right);
 		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(10, 64, 88, 21);
-		right.add(btnVolver);
-		btnVolver.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onConfirmExit();
-				
-			}
-		});
-		AppUI.stylePrimaryButton(btnVolver);
 		
+		
+		//BOTONES
 		btnGuardar = new JButton("Guardar");
-		btnGuardar.setBounds(10, 10, 88, 21);
 		right.add(btnGuardar);
 		btnGuardar.setEnabled(false);
 		
-		//Acciones
+		JButton btnVolver = new JButton("Volver");
+		right.add(btnVolver);
+		
+	
+		
+		//LOGICA de los botones
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombre = txtNombreTarea.getText().trim();
@@ -184,27 +180,45 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 			}
 		});
 		
+		
+		btnVolver.addActionListener(new ActionListener() {
 			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				onConfirmExit();
+				
+			}
+		});
+		
 		
 		
 		//Estilo UI
+		AppUI.stylePrimaryButton(btnGuardar);
+		AppUI.stylePrimaryButton(btnVolver);
+		
 		AppUI.styleBackground(contentPane);
-		AppUI.styleBackground(panel);
-		AppUI.styleBackground(left);
-		AppUI.styleBackground(center);
-		AppUI.styleBackground(right);
+		AppUI.styleCard(panel);
+		AppUI.styleTransparent(right);
+		AppUI.styleTransparent(center);
+        AppUI.styleTransparent(left);
 		
 		AppUI.styleLabel(lblNombre);
 		AppUI.styleLabel(ldlDuracion);
-		
-		AppUI.stylePrimaryButton(btnGuardar);
 
+		AppUI.styleTextField(txtDuracion);
+	    AppUI.styleTextField(txtNombreTarea);
 		
+
 		//IMAGEN
 		AppUI.establecerIcono(this);
+		
+		//Para centrar la ventana
+		this.setLocationRelativeTo(null);
 
 	}
 
+	
+	
 	@Override
 	protected void onConfirmExit() {
 		  // Este método SOLO se ejecuta si el usuario ha dicho si en el diálogo

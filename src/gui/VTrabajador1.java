@@ -1,6 +1,7 @@
 package gui;
 
-import java.awt.EventQueue;
+
+//IMPORTS
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
 
 import bd.FichajeDAO;
 import domain.BDFichaje;
@@ -55,7 +56,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		
 	}
 	
-	
+	//CONSTRUCTOR
 	public VTrabajador1(VPrincipal parent, BDTrabajador trabajador) {
 		this.parent = parent;
 		this.trabajador = trabajador;
@@ -97,9 +98,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         	}
         });
         
-          
-              
-                
+        //-- BOTON LogOut --
         JButton btnCerrarSesion = new JButton("Cerrar Sesion");
         btnCerrarSesion.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -259,7 +258,6 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		
 		// Para controlar que no se vaya sin fichar o que al menos 
 		// Se le recuerde que sigue estando sin fichar
-		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -399,6 +397,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 			// Esta confirmación ya la ha hecho VentanaConConfirmacion
 			 manejarSalidaYVolverALogin();
 		}
+		
 		private void manejarSalidaYVolverALogin() {
 		    try {
 		        int idTrabajador = trabajador.getId();

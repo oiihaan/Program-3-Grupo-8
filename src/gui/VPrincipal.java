@@ -1,33 +1,25 @@
 package gui;
 
+
+//IMPORTS
 import gui.ui.AppUI;
 import domain.BDAdmin;
 import domain.BDTarea;
 import domain.BDTrabajador;
 import domain.Usuario;
-
 import javax.swing.*;
-
 import bd.AdminDAO;
-import bd.ConexionSQLite;
-import bd.InicializadorBaseDatos;
 import bd.TareaDAO;
 import bd.TrabajadorDAO;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 
+
+//CONSTRUCTOR
 public class VPrincipal extends VentanaConConfirmacion {
 
     private JPanel contentPane;
@@ -60,9 +52,6 @@ public class VPrincipal extends VentanaConConfirmacion {
         trabajadores = new HashSet<BDTrabajador>();
         cargarTrabajadoresBD();
 
-        
-       
-        
         tareas = new HashSet<BDTarea>();
         cargarTareasBD();
         System.out.println(tareas);
@@ -80,8 +69,6 @@ public class VPrincipal extends VentanaConConfirmacion {
             	System.out.println(u.getNombre() +" - "+ u.getContraseyna() + "- admin");}
 
         	}
-        
-        
         
 
      // === Login TITULO ===

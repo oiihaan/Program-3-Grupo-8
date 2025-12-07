@@ -108,6 +108,10 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         btnFinalizarTarea.setEnabled(false);
         btnFinalizarTarea.setBounds(10, 68, 130, 21);
         centroDe.add(btnFinalizarTarea);
+        
+        JButton btnVolver = new JButton("Volver");
+        btnVolver.setBounds(10, 161, 130, 23);
+        centroDe.add(btnVolver);
 
         // ==== MODELO LISTA TAREAS ====
         DefaultListModel<BDTarea> modelo = new DefaultListModel<>();
@@ -143,6 +147,8 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
             }
         });
 
+        
+        //LOGICA de los botones
         // Inicia el hilo de la tarea seleccionada
         btnEmpezarTarea.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -172,7 +178,17 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
                 }
             }
         });
+        
 
+        // Volver a la pestaña anterior usando el mismo flujo que la X
+        btnVolver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onConfirmExit();
+            }
+        });
+        
+        
+        
         // Hilo que revisa cada 10 segundos si alguna tarea está finalizada y la borra del modelo
         HiloTiempo = new Thread(() -> {
             try {
@@ -201,7 +217,7 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         HiloTiempo.start();
         
 
-
+        
     
         // importante: activar un tooltip “base” para que se registre en el ToolTipManager
         list.setToolTipText("");
@@ -221,17 +237,9 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         AppUI.stylePrimaryButton(btnEmpezarTarea);
         AppUI.stylePrimaryButton(btnFinalizarTarea);
 
-        JButton btnVolver = new JButton("Volver");
-        btnVolver.setBounds(10, 161, 130, 23);
-        centroDe.add(btnVolver);
         AppUI.stylePrimaryButton(btnVolver);
 
-        // Volver a la pestaña anterior usando el mismo flujo que la X
-        btnVolver.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onConfirmExit();
-            }
-        });
+  
 
         // IMAGEN
         AppUI.establecerIcono(this);
