@@ -27,13 +27,14 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         super();               // usar el constructor de VentanaConConfirmacion
         this.parent = parent;
 
-        setTitle("Tareas");
+        setTitle("Tus tareas asignadas");
         // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setBounds(100, 100, 616, 423);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+        setLocationRelativeTo(null);
 
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{300};

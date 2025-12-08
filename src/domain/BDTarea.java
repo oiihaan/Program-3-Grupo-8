@@ -90,7 +90,7 @@ public class BDTarea {
 	@Override
 	public String toString() {
 	    // Ejemplo: "Montar Estantería [pendiente]"
-	    return String.format("%s [%s]", nombre, estado);
+	    return String.format(nombre);
 	}
 
 	

@@ -42,6 +42,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 	private JLabel lblTrabajadoresAsignados;
 	private JLabel lblEstado;
 	private Boolean finalizadasVer;
+	private JList listaTrabajadores;
 
 
 	public VVerTareas(VAdmin1 parent, BDAdmin admin) {
@@ -128,7 +129,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 		listaTareas.setModel(modeloTareas);
 		scrollPane.setViewportView(listaTareas);
 
-		JList listaTrabajadores = new JList();
+		listaTrabajadores = new JList();
 		scrollPane_1.setViewportView(listaTrabajadores); 
 	
 		DefaultListModel<BDTrabajador> modeloListaTrabajadores = new DefaultListModel<BDTrabajador>();
@@ -308,6 +309,12 @@ public class VVerTareas extends VentanaConConfirmacion {
 				AppUI.establecerIcono(this);
 				
 
+	}
+
+
+
+	public JList getListaTrabajadores() {
+		return listaTrabajadores;
 	}
 
 

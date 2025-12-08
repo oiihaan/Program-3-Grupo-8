@@ -29,8 +29,8 @@ public class InicializadorBaseDatos {
 	            if (!existiaAntes) {           // Solo la primera vez
 	               // insertarDatosIniciales();  // Opcional: datos de ejemplo
 	            }
-
-	            System.out.println("Base de datos lista en: " + dbFile.getAbsolutePath());
+	            //Lo he quitado para que no aparezca nada en cmd
+	    //        System.out.println("Base de datos lista en: " + dbFile.getAbsolutePath());
 
 	        } catch (Exception e) {
 	            e.printStackTrace();

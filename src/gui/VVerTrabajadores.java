@@ -39,11 +39,13 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
 
     private JTable tablaFichajes;
     private DefaultTableModel modeloFichajes;
+    private Integer trabajadorIdInicial;
 
     public VVerTrabajadores(VAdmin1 parent, BDAdmin admin, Integer trabajadorIdInicial) {
         this.parent = parent;
         this.login = login;
         this.admin = admin;
+        this.trabajadorIdInicial = trabajadorIdInicial;
 
         setTitle("Ver empleados");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -106,16 +108,6 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
             modeloTrabajadores.addElement(t);
         }
 
-        // Selección inicial (si viene id desde otra ventana)
-        if (trabajadorIdInicial != null) {
-            for (int i = 0; i < modeloTrabajadores.size(); i++) {
-                BDTrabajador t = modeloTrabajadores.getElementAt(i);
-                if (t.getId() == trabajadorIdInicial) {
-                    listTrabajadores.setSelectedIndex(i);
-                    break;
-                }
-            }
-        }
 
         // ======= PANEL DERECHO – TABLA FICHAJES =======
         JPanel panelRight = new JPanel(new BorderLayout());
@@ -165,6 +157,20 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                 }
             }
         });
+        
+        // Selección inicial (si viene id desde otra ventana)
+        if (trabajadorIdInicial != null) {
+            for (int i = 0; i < modeloTrabajadores.size(); i++) {
+                BDTrabajador t = modeloTrabajadores.getElementAt(i);
+                if (t.getId() == trabajadorIdInicial) {
+                    listTrabajadores.setSelectedIndex(i);
+                    actualizarTablaFichajes(t.getId());
+
+                    break;
+                }
+            }
+        }
+
 
         // ======= ACCIONES BOTONES =======
         btnVolver.addActionListener(e -> onConfirmExit());
@@ -200,9 +206,9 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                 // Borrar de BD
                 TrabajadorDAO.eliminarPorNombre(seleccionado.getNombre());
 
-                // Borrar de estructuras en memoria (si VPrincipal las usa)
-                VPrincipal.getTrabajadores().remove(seleccionado);
-                VPrincipal.getPersonal().remove(seleccionado);
+                // Borrar de estructuras en memoria (si VPrincipal las usa) --> El login lo pilla de la BD(Unai)
+               // VPrincipal.getTrabajadores().remove(seleccionado);
+               // VPrincipal.getPersonal().remove(seleccionado);
 
                 // Borrar del modelo de la JList
                 modeloTrabajadores.removeElement(seleccionado);

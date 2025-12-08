@@ -133,6 +133,21 @@ public class TareaDAO {
     }
     
     // ACTUALIZAR ESTADO A FINALIZADO
+    public static void marcarPendiente(int id) {
+        String sql = "UPDATE tarea SET estado = 'pendiente' WHERE id = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // ACTUALIZAR ESTADO A FINALIZADO
     public static void marcarEjecutando(int id) {
         String sql = "UPDATE tarea SET estado = 'ejecutando' WHERE id = ?";
 

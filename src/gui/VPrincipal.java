@@ -29,47 +29,16 @@ public class VPrincipal extends VentanaConConfirmacion {
     private JPasswordField txtPass;
     private JButton btnLogin;
     private JLabel lblForgot;
-    private static HashSet<BDTrabajador> trabajadores;
+
     private static HashSet<BDTarea> tareas;
     private static HashSet<Usuario> personal; //Prueba Unai
-    private static HashSet<BDAdmin> admins;
+
 
     public VPrincipal() {
 
 
         
-     // ==== DATOS conectando a BD ====
-    	//las cosas en comentarios es q
-    	/*
-        BDAdmin julio = new BDAdmin(2,"Julio", "123");
-        AdminDAO.insertarAdmin(julio);*/
-        admins = new HashSet<BDAdmin>();
-        cargarAdmins();
-        
-       /* 
-        BDTrabajador iker = new BDTrabajador(5,"Iker", "123", null, null, null);
-        TrabajadorDAO.insertarTrabajador(iker);*/
-        trabajadores = new HashSet<BDTrabajador>();
-        cargarTrabajadoresBD();
 
-        tareas = new HashSet<BDTarea>();
-        cargarTareasBD();
-        System.out.println(tareas);
-        for ( BDTarea t : tareas) {
-        	System.out.println( t + " " + t.getDuracion());
-        }
-
-        personal =new HashSet<Usuario>();
-        cargarPersonal();
-        for ( Usuario u : personal) {
-        	
-        	if (u instanceof BDTrabajador) {
-        	System.out.println(u.getNombre() +" - "+ u.getContraseyna() +" " + u.getId() );}
-        	else {
-            	System.out.println(u.getNombre() +" - "+ u.getContraseyna() + "- admin");}
-
-        	}
-        
 
      // === Login TITULO ===
     	setTitle("Login");
@@ -159,6 +128,9 @@ public class VPrincipal extends VentanaConConfirmacion {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	personal = new HashSet<Usuario>();
+            	cargarPersonal();
+            	
                 String usuario = txtUser.getText().trim();
                 String contraseyna = String.copyValueOf(txtPass.getPassword());
                 Boolean entrado = false;
@@ -202,66 +174,52 @@ public class VPrincipal extends VentanaConConfirmacion {
         lblForgot.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "Porfavor comuniquese con UNAI para restablecer su contraseña: unai100gamer@gmail.com");
+                JOptionPane.showMessageDialog(null, "Porfavor comuniquese con Pablo para restablecer su contraseña: PabloAliva@gmail.com");
             }
         });
     }
- 
-	public static void cargarTrabajadoresBD() {
-        HashSet<BDTrabajador> trabajadoresBD = TrabajadorDAO.getAllTrabajadores();
-        trabajadores.addAll(trabajadoresBD);
-    }
-    
-	public static HashSet<BDTrabajador> getTrabajadores() {
-		return trabajadores;
-	}
-
-	public void setTrabajadores(HashSet<BDTrabajador> trabajadores) {
-		this.trabajadores = trabajadores;
-	}
-    public static void cargarTareasBD() {
-    	HashSet<BDTarea> tareasBD = TareaDAO.getAllTareas();
-    	tareas.addAll(tareasBD);
-    }
-	public static HashSet<BDTarea> getTareas() {
-		return tareas;
-	}
-	public static void setTareas(HashSet<BDTarea> tareas) {
-		VPrincipal.tareas = tareas;
-	}
-    
-	public static void cargarAdmins() {
-        HashSet<BDAdmin> adminsBD = AdminDAO.getAllAdmins();
-        admins.addAll(adminsBD);
-    }
-	public static HashSet<BDAdmin> getAdmins() {
-		return admins;
-	}
-	public static void setAdmins(HashSet<BDAdmin> admins) {
-		VPrincipal.admins = admins;
-	}
 	public static void cargarPersonal() {
-		for (BDTrabajador t : trabajadores) {
+		for (BDTrabajador t : TrabajadorDAO.getAllTrabajadores()) {
 			personal.add(t);
 		}
-		for(BDAdmin a : admins) {
+		for(BDAdmin a : AdminDAO.getAllAdmins()) {
 			personal.add(a);
 		}
 	}
 
-	public static HashSet<Usuario> getPersonal() {
-		return personal;
-	}
-
-	public static void setPersonal(HashSet<Usuario> personal) {
-		VPrincipal.personal = personal;
-	}
 
 	@Override
 	protected void onConfirmExit() {
-		 // Aquí sí se cierra
-        System.exit(0);
 		
+		Boolean ejecutando = false;
+		for (BDTarea t : TareaDAO.getAllTareas()) {
+			if(t.getEstado().equals("ejecutando")) {
+				ejecutando = true;
+				break;
+			}
+		}
+		
+		if(ejecutando) {
+			
+	        int respuesta = JOptionPane.showConfirmDialog(
+	                null,                          // componente padre (puede ser null)
+	                "Algunas tareas se estan ejecutando si cierras el programa volveran a estar pendientes \n Quieres cerrar el programa?",          // mensaje
+	                "Confirmación",                 // título de la ventana
+	                JOptionPane.YES_NO_OPTION,      // tipo de opciones (Sí/No)
+	                JOptionPane.QUESTION_MESSAGE    // icono de pregunta
+	        );
+			if(respuesta == JOptionPane.YES_OPTION) {
+				for(BDTarea t : TareaDAO.getAllTareas()) {
+					if(t.getEstado().equals("ejecutando")) {
+						TareaDAO.marcarPendiente(t.getId());
+					}
+				}
+		        System.exit(0);
+
+			}
+		}else {
+        System.exit(0);
+		}
 	}
 	
 	

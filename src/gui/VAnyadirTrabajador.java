@@ -42,7 +42,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[]{50, 195, 195, 200, 0};
         gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0};
         panel.setLayout(gbl_panel);
 
         
@@ -153,8 +153,8 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
                     // 1) Insertar en BD
                     TrabajadorDAO.insertarTrabajador(nuevo);
 
-                    // 2) Añadir al conjunto estático de VPrincipal
-                    VPrincipal.getTrabajadores().add(nuevo);
+                    // 2) Añadir al conjunto estático de VPrincipal --> EL login lo pilla de la base(Unai)
+                  //  VPrincipal.getTrabajadores().add(nuevo);
 
                     // 3) Avisar de éxito
                     JOptionPane.showMessageDialog(

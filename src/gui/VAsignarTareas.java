@@ -151,9 +151,12 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         btnAsignarTarea.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		Object[] trabajadoresSelecionados = listTrabajadores.getSelectedValues();
+        		DefaultListModel<BDTrabajador> modelParentTrabajadores = (DefaultListModel<BDTrabajador>) parent.getListaTrabajadores().getModel();
+
         		for(Object t : trabajadoresSelecionados) {
         			BDTrabajador trabajador = (BDTrabajador) t;
         			Tarea_TrabajadorDAO.insertarTrabajadoresATarea(tarea.getId(), trabajador.getId());
+        			modelParentTrabajadores.addElement(trabajador);
         			
         		}
         		TrabajadoresLista();
@@ -198,7 +201,6 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         // Este método se llama SOLO si en VentanaConConfirmacion
         // el usuario ha elegido "Sí" en el diálogo.
         if (parent != null) {
-        	System.out.println("Entado");
 
             parent.setVisible(true); 
             parent.repaint();// volvemos a la pantalla de "Ver tareas"
