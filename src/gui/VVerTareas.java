@@ -242,9 +242,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 				if(!listaTareas.isSelectionEmpty()) {
 					BDTarea tarea =(BDTarea) listaTareas.getSelectedValue();
 					lblEstadoVar.setText(tarea.getEstado());
-					for(BDTrabajador t : TrabajadorDAO.getTrabajadoresDeTarea(tarea.getId())) {
-						modeloListaTrabajadores.addElement(t);
-						}
+					listaTrabajadoresActualizar(tarea.getId());
 					if(!tarea.getEstado().equals("finalizado")) {
 					lblTrabajadoresAsignados.setText("Trabajadores asignados:");
 
@@ -311,7 +309,14 @@ public class VVerTareas extends VentanaConConfirmacion {
 
 	}
 
+	public void listaTrabajadoresActualizar(Integer id) {
+		DefaultListModel<BDTrabajador> modeloListaTrabajadores=  (DefaultListModel<BDTrabajador>) listaTrabajadores.getModel();
+		modeloListaTrabajadores.clear();
+		for(BDTrabajador t : TrabajadorDAO.getTrabajadoresDeTarea(id)) {
+			modeloListaTrabajadores.addElement(t);
+			}
 
+	}
 
 	public JList getListaTrabajadores() {
 		return listaTrabajadores;
