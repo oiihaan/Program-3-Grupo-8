@@ -143,7 +143,8 @@ public class VPrincipal extends VentanaConConfirmacion {
                 
                 for (Usuario u : personal) {
                 	if(u.getNombre().equals(usuario) && u.getContraseyna().equals(contraseyna) ) {
-                		
+                		txtUser.setText("");
+                		txtPass.setText("");
                 		if (u instanceof BDTrabajador) {
                 			VTrabajador1 v = new VTrabajador1(VPrincipal.this, (BDTrabajador) u);
                             v.setVisible(true);

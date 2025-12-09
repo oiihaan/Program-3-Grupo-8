@@ -52,7 +52,7 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         contentPane.add(Centro, gbc_Centro);
 
         GridBagLayout gbl_Centro = new GridBagLayout();
-        gbl_Centro.columnWidths = new int[]{150, 150};
+        gbl_Centro.columnWidths = new int[] {200, 200};
         gbl_Centro.rowHeights = new int[]{50, 200, 50};
         gbl_Centro.columnWeights = new double[]{0.0, 0.0};
         gbl_Centro.rowWeights = new double[]{0.0, 0.0, 0.0};

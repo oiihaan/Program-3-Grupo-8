@@ -32,17 +32,19 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         
         
         //DISEÑO
-        contentPane = new JPanel();
+        setBounds(100, 100, 704, 348);
+		contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        contentPane.setLayout(new GridLayout(0, 1, 0, 0));
-
+        contentPane.setLayout(new GridLayout(1, 1, 0, 0));
+        
         JPanel panel = new JPanel();
         contentPane.add(panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{50, 195, 195, 200, 0};
-        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0};
+        gbl_panel.rowHeights = new int[] {50, 58, 50};
+        gbl_panel.columnWidths = new int[] {30, 200, 200, 200, 50};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0};
         panel.setLayout(gbl_panel);
 
         
@@ -203,7 +205,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         AppUI.establecerIcono(this);
 
         // Para ajustar el tamaño(Con ayuda de AI studio, no sabemos porque se nos genera asi justo esta ventana)
-        this.pack();
+        //this.pack();
         // Para centrar
         this.setLocationRelativeTo(null);
     }

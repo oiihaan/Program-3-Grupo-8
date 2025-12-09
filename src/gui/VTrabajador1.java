@@ -27,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 public class VTrabajador1 extends VentanaConConfirmacion {
 
@@ -66,16 +68,8 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         setTitle("Panel del Trabajador");
-        setSize(330, 293);
+        setSize(643, 462);
         setLocationRelativeTo(null);
-        // setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        // Esto ya logestiona VentanaConConfirmacion
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{25, 100, 40, 40, 100, 25, 0};
-        gridBagLayout.rowHeights = new int[]{53, 13, 21, 21, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        getContentPane().setLayout(gridBagLayout);
         
 			// --- LABEL BIENVENIDO ---
         JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
@@ -85,13 +79,15 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         gbc_lbl.gridwidth = 6;
         gbc_lbl.gridx = 0;
         gbc_lbl.gridy = 1;
-        getContentPane().add(lbl, gbc_lbl);   
+   
                                               
         // --- BOTÓN DESFICHAR ---
         btnDesfichar = new JButton("Desfichar");
+        btnDesfichar.setBounds(36, 28, 100, 30);
         
         // --- BOTÓN FICHAR ---
         btnFichar = new JButton("Fichar");
+        btnFichar.setBounds(44, 28, 85, 31);
         btnFichar.setEnabled(false);
         btnFichar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -125,7 +121,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         gbc_btnFichar.insets = new Insets(0, 0, 5, 5);
         gbc_btnFichar.gridx = 1;
         gbc_btnFichar.gridy = 3;
-        getContentPane().add(btnFichar, gbc_btnFichar);
+
         btnDesfichar.setEnabled(false);
         GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
         gbc_btnDesfichar.anchor = GridBagConstraints.WEST;
@@ -133,32 +129,80 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         gbc_btnDesfichar.insets = new Insets(0, 0, 5, 5);
         gbc_btnDesfichar.gridx = 4;
         gbc_btnDesfichar.gridy = 3;
-        getContentPane().add(btnDesfichar, gbc_btnDesfichar);
 
-        
-        
         GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
         gbc_btnVerTareas.fill = GridBagConstraints.BOTH;
         gbc_btnVerTareas.insets = new Insets(0, 0, 5, 5);
         gbc_btnVerTareas.gridx = 1;
         gbc_btnVerTareas.gridy = 5;
-        getContentPane().add(btnVerTareas, gbc_btnVerTareas);
+
         GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
         gbc_btnCerrarSesion.insets = new Insets(0, 0, 5, 5);
         gbc_btnCerrarSesion.fill = GridBagConstraints.BOTH;
         gbc_btnCerrarSesion.gridx = 4;
         gbc_btnCerrarSesion.gridy = 5;
-        getContentPane().add(btnCerrarSesion, gbc_btnCerrarSesion);;
+
         
         controlFichaje(trabajador);
 
         //ESTILO CON AppUI
         AppUI.styleBackground((JPanel) getContentPane());
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWidths = new int[] {140, 350, 140};
+        gridBagLayout.rowHeights = new int[] {50, 200, 50};
+        gridBagLayout.columnWeights = new double[]{0.0,0.0,0.0};
+        gridBagLayout.rowWeights = new double[]{0.0,0.0,0.0};
+        getContentPane().setLayout(gridBagLayout);
+        
+        JPanel centro = new JPanel();
+        GridBagConstraints gbc_centro = new GridBagConstraints();
+        gbc_centro.insets = new Insets(0, 0, 5, 5);
+        gbc_centro.fill = GridBagConstraints.BOTH;
+        gbc_centro.gridx = 1;
+        gbc_centro.gridy = 1;
+        getContentPane().add(centro, gbc_centro);
+        centro.setLayout(new BorderLayout(0, 0));
+        
+        JPanel north = new JPanel();
+        centro.add(north, BorderLayout.NORTH);
+        north.add(lbl);
+        
+        JPanel centroCentro = new JPanel();
+        centro.add(centroCentro, BorderLayout.CENTER);
+        centroCentro.setLayout(new GridLayout(2, 2, 0, 0));
+        
+        JPanel topIz = new JPanel();
+        centroCentro.add(topIz);
+        topIz.setLayout(null);
+        topIz.add(btnFichar);
+        
+        JPanel topDe = new JPanel();
+        centroCentro.add(topDe);
+        topDe.setLayout(null);
+        topDe.add(btnDesfichar);
+        
+        JPanel downIz = new JPanel();
+        centroCentro.add(downIz);
+        downIz.add(btnVerTareas);
+        
+        JPanel downDe = new JPanel();
+        centroCentro.add(downDe);
+        downDe.add(btnCerrarSesion);
+        
+        
         AppUI.styleTitle(lbl);
         AppUI.stylePrimaryButton(btnFichar);
         AppUI.stylePrimaryButton(btnDesfichar);
         AppUI.stylePrimaryButton(btnVerTareas);
         AppUI.stylePrimaryButton(btnCerrarSesion);
+        AppUI.styleBackground(centro);
+        AppUI.styleCard(topDe);
+        AppUI.styleCard(topIz);
+        AppUI.styleCard(downDe);
+        AppUI.styleCard(downIz);
+        AppUI.styleCard(north);
+        
+
         
         
       //IMAGEN

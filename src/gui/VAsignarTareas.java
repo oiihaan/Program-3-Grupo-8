@@ -41,15 +41,15 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         
         setTitle("Asignador de Trabajadores a la tarea: " + tarea.getNombre() );
         // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); -> lo hace la base
-        setBounds(100, 100, 604, 426);
+        setBounds(100, 100, 648, 530);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{30, 200, 30};
-        gbl_contentPane.rowHeights = new int[]{20, 300, 20};
-        gbl_contentPane.columnWeights = new double[]{0.0, 1.0};
-        gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0};
+        gbl_contentPane.rowHeights = new int[] {30, 350, 30};
+        gbl_contentPane.columnWeights = new double[]{0.0, 0.0};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0};
         contentPane.setLayout(gbl_contentPane);
         setLocationRelativeTo(null);
 
@@ -121,16 +121,16 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         JScrollPane scrollPaneCentroDe = new JScrollPane();
         sl_centroDe.putConstraint(SpringLayout.NORTH, scrollPaneCentroDe, 0, SpringLayout.NORTH, centroDe);
         sl_centroDe.putConstraint(SpringLayout.WEST, scrollPaneCentroDe, 0, SpringLayout.WEST, centroDe);
-        sl_centroDe.putConstraint(SpringLayout.SOUTH, scrollPaneCentroDe, 270, SpringLayout.NORTH, centroDe);
-        sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 257, SpringLayout.WEST, centroDe);
+        sl_centroDe.putConstraint(SpringLayout.SOUTH, scrollPaneCentroDe, 291, SpringLayout.NORTH, centroDe);
+        sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 193, SpringLayout.WEST, centroDe);
         centroDe.add(scrollPaneCentroDe);
         scrollPaneCentroDe.setViewportView(listTrabajadores);
         
         JScrollPane scrollPaneCentroIzq = new JScrollPane();
         sl_centroIzq.putConstraint(SpringLayout.NORTH, scrollPaneCentroIzq, 0, SpringLayout.NORTH, centroIzq);
         sl_centroIzq.putConstraint(SpringLayout.WEST, scrollPaneCentroIzq, 0, SpringLayout.WEST, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.SOUTH, scrollPaneCentroIzq, 270, SpringLayout.NORTH, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.EAST, scrollPaneCentroIzq, 257, SpringLayout.WEST, centroIzq); 
+        sl_centroIzq.putConstraint(SpringLayout.SOUTH, scrollPaneCentroIzq, 291, SpringLayout.NORTH, centroIzq);
+        sl_centroIzq.putConstraint(SpringLayout.EAST, scrollPaneCentroIzq, 193, SpringLayout.WEST, centroIzq); 
         centroIzq.add(scrollPaneCentroIzq);
         scrollPaneCentroIzq.setViewportView(listTrabajadoresAsignados);
         

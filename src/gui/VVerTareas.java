@@ -95,7 +95,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 		right.add(firstRowCe);
 		firstRowCe.setLayout(null);
 		buscadorTareas = new JLabel("Buscador de tareas: ");
-		buscadorTareas.setBounds(10, 11, 127, 13);
+		buscadorTareas.setBounds(21, 11, 127, 13);
 		firstRowCe.add(buscadorTareas);
 		
 		JPanel secondRowCe = new JPanel();
@@ -106,7 +106,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 		right.add(thirdRowCe);
 		thirdRowCe.setLayout(null);
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(20, 25, 216, 95);
+		scrollPane_1.setBounds(21, 25, 216, 95);
 		thirdRowCe.add(scrollPane_1);
 		
 		JPanel forthRowCe = new JPanel();
@@ -139,13 +139,13 @@ public class VVerTareas extends VentanaConConfirmacion {
 		//TEXTFIELDS
 		txtBuscadorTareas = new JTextField();
 
-		txtBuscadorTareas.setBounds(20, 44, 222, 43);
+		txtBuscadorTareas.setBounds(21, 44, 221, 43);
 		firstRowCe.add(txtBuscadorTareas);
 		
 		
 		//LABELS
 		lblEstado = new JLabel("Estado de la tarea: ");
-		lblEstado.setBounds(10, 5, 124, 13);
+		lblEstado.setBounds(21, 5, 124, 13);
 		secondRowCe.add(lblEstado);
 		
 		lblEstadoVar = new JLabel();
@@ -153,18 +153,18 @@ public class VVerTareas extends VentanaConConfirmacion {
 		secondRowCe.add(lblEstadoVar);
 
 		lblTrabajadoresAsignados = new JLabel("Trabajadores asignados:");
-		lblTrabajadoresAsignados.setBounds(10, 0, 286, 23);
+		lblTrabajadoresAsignados.setBounds(21, 0, 286, 23);
 		thirdRowCe.add(lblTrabajadoresAsignados);
 		
 
 		//BOTONES
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(10, 61, 120, 41);
+		btnVolver.setBounds(21, 61, 120, 41);
 		forthRowCe.add(btnVolver);
 		
 		JButton btnAsignarTareas = new JButton("AsignarTareas");
 		btnAsignarTareas.setEnabled(false);
-		btnAsignarTareas.setBounds(10, 10, 120, 41);
+		btnAsignarTareas.setBounds(21, 10, 120, 41);
 		forthRowCe.add(btnAsignarTareas);
 
 		
