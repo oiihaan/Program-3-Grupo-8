@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 
 
 import bd.FichajeDAO;
+import bd.TareaDAO;
 import domain.BDFichaje;
+import domain.BDTarea;
 import domain.BDTrabajador;
 import gui.ui.AppUI;
 import java.awt.event.ActionListener;
@@ -22,6 +24,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
 
@@ -65,7 +68,8 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         setTitle("Panel del Trabajador");
         setSize(330, 293);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        // setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        // Esto ya logestiona VentanaConConfirmacion
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{25, 100, 40, 40, 100, 25, 0};
         gridBagLayout.rowHeights = new int[]{53, 13, 21, 21, 0, 0, 0, 0, 0};
@@ -100,13 +104,8 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         
         //-- BOTON LogOut --
         JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-        btnCerrarSesion.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		VTrabajador1.this.dispose();
-        		parent.setVisible(true);
-        		               		
-        	}
-        });
+        btnCerrarSesion.addActionListener(e -> onConfirmExit());
+
 
         // --- BOTÓN VER TAREAS ---
         btnVerTareas = new JButton("Ver tareas");
@@ -402,48 +401,93 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		    try {
 		        int idTrabajador = trabajador.getId();
 
-		        // 1) Mirar si hay fichaje abierto en BD
+		        // 1️⃣ Comprobar si hay fichaje abierto
 		        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
 
 		        if (fichajeAbierto != null) {
-		            // 2) Está fichado, entonces preguntamos qué hacer
-		            int opcion = JOptionPane.showConfirmDialog(
+		            // Por ejemplo, puedes mostrar desde cuándo:
+		            LocalDateTime inicio = fichajeAbierto.getEntrada();
+
+		            String mensajeFichaje = String.format(
+		                "Tienes un fichaje abierto desde %s.\n\n" +
+		                "Si sales ahora, se cerrará el fichaje (desfichando) y volverás a la pantalla de login.\n\n" +
+		                "¿Quieres salir de la aplicación desfichando?",
+		                inicio.toString() // si quieres, formatea más bonito con DateTimeFormatter
+		            );
+
+		            int opcionFichaje = JOptionPane.showConfirmDialog(
 		                    this,
-		                    "Sigues fichado desde las " +
-		                            fichajeAbierto.getEntrada().toLocalTime().withNano(0) +
-		                            ".\n¿Quieres desfichar antes de salir?",
-		                    "Salir estando fichado",
-		                    JOptionPane.YES_NO_CANCEL_OPTION,
+		                    mensajeFichaje,
+		                    "Fichaje en curso",
+		                    JOptionPane.YES_NO_OPTION,
 		                    JOptionPane.WARNING_MESSAGE
 		            );
 
-		            if (opcion == JOptionPane.CANCEL_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
-		                // No salir
+		            if (opcionFichaje == JOptionPane.NO_OPTION) {
+		                // El trabajador decide NO salir: se queda en la ventana
 		                return;
 		            }
 
-		            if (opcion == JOptionPane.YES_OPTION) {
-		                // 3) Desfichar automáticamente
-		                realizarDesfichajeUsando(fichajeAbierto);
-		                // (este método ya debería hacer el update en BD, CREO
-		            }
-		            // Si NO_OPTION → no desfichamos, pero igualmente salimos al login
+		            // Si ha dicho que SÍ, se cierra  el fichaje
+		            LocalDateTime fin = LocalDateTime.now();
+		            fichajeAbierto.setSalida(fin);
+		            FichajeDAO.cerrarFichajeActual(idTrabajador, fin); 
+		            // o el método que tengas para actualizar el fichaje con la fecha fin
 		        }
 
-		        // 4) En todos los casos en los que no se ha hecho return, se sale al login:
-		        this.dispose();
-		        parent.setVisible(true);   // VPrincipal
+		        // 2️Comprobar tareas en ejecución de este trabajador
+		        List<BDTarea> tareasEjecutando = TareaDAO.getTareasEjecutandoDeTrabajador(idTrabajador);
+
+		        if (!tareasEjecutando.isEmpty()) {
+		            int numTareas = tareasEjecutando.size();
+
+		            String mensajeTareas = String.format(
+		                "Tienes %d tarea(s) en ejecución.\n\n" +
+		                "Si sales ahora, estas tareas se pondrán de nuevo en estado 'pendiente'.\n\n" +
+		                "¿Quieres salir de todas formas?",
+		                numTareas
+		            );
+
+		            int opcionTareas = JOptionPane.showConfirmDialog(
+		                    this,
+		                    mensajeTareas,
+		                    "Tareas en ejecución",
+		                    JOptionPane.YES_NO_OPTION,
+		                    JOptionPane.QUESTION_MESSAGE
+		            );
+
+		            if (opcionTareas == JOptionPane.NO_OPTION) {
+		                // cuando le da a no
+		                return;
+		            }
+
+		            // Marcar como pendiente solo las tareas que estaban en ejecutand para este trabajador
+		            for (BDTarea t : tareasEjecutando) {
+		                TareaDAO.marcarPendiente(t.getId());
+		            }
+		        }
+
+		        // 3--Si se ha llegado hasta aquí:
+		        //    No hay fichaje abierto
+		        //    No hay tareas ejecutando
+		        //    se puedecerrar sesión del trabajador y volver al login.
+
+		        this.dispose();         
+		        if (parent != null) {
+		            parent.setVisible(true);   // VPrincipal
+		        }
 
 		    } catch (Exception ex) {
 		        ex.printStackTrace();
 		        JOptionPane.showMessageDialog(
 		                this,
-		                "Error al gestionar el fichaje antes de salir:\n" + ex.getMessage(),
+		                "Se ha producido un error al intentar cerrar la sesión.",
 		                "Error",
 		                JOptionPane.ERROR_MESSAGE
 		        );
 		    }
 		}
+
 		
 
 

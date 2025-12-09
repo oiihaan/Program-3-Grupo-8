@@ -17,11 +17,16 @@ public abstract class VentanaConConfirmacion extends JFrame {
             }
         });
     }
+    
+    // permite que cada ventana personalice el mensaje
+    protected String getExitMessage() {
+        return "¿Seguro que quieres salir de la aplicación?";
+    }
 
     private void preguntarYSalir() {
         int opcion = JOptionPane.showConfirmDialog(
                 this,
-                "¿Estás seguro de que quieres salir?",
+                getExitMessage(),
                 "Confirmar salida",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
@@ -30,8 +35,10 @@ public abstract class VentanaConConfirmacion extends JFrame {
         if (opcion == JOptionPane.YES_OPTION) {
             onConfirmExit();
         }
-        // Si NO, no hacemos nada -> la ventana se queda abierta
+        
     }
+    // X SIEMPRE LLAMA A preguntarYSalir(), se muestra un JOptionPane
+    // Cada ventana hace sus cosas
 
     /** Qué significa "salir" para esta ventana concreta */
     protected abstract void onConfirmExit();

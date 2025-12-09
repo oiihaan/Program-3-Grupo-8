@@ -48,8 +48,8 @@ public class TareaDAO {
         try (Connection conn = ConexionSQLite.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-
-            ps.setString(1, "%" + nombre + "%"); // Saca las que contengan nombre
+            // Buscamos por nombre con comodines
+            ps.setString(1, "%" + nombre + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -63,6 +63,8 @@ public class TareaDAO {
 
         return tareas;
     }
+    
+
 
 
    
@@ -224,6 +226,37 @@ public class TareaDAO {
     }
     
     // PARA SACAR LAS TAREAS QUE TIENE UN TRABAJADOR, PARA PONERLO EN LA JLIST DE V VER TRATABAJADORES, AL CLICKAR.
+    // Conseguir las tareas ejecutando del trabajador, PARA EL LOGOUT
+
+    public static ArrayList<BDTarea> getTareasEjecutandoDeTrabajador(int idTrabajador) {
+        ArrayList<BDTarea> tareas = new ArrayList<>();
+
+        String sql =
+            "SELECT t.id, t.nombre, t.duracion, t.estado " +
+            "FROM tarea t " +
+            "JOIN tarea_trabajador tt ON t.id = tt.id_tarea " +
+            "WHERE tt.id_trabajador = ? " +
+            "AND t.estado = 'ejecutando'";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idTrabajador);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tareas.add(crearTareaDesdeResultSet(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tareas;
+    }
+    
+ // PARA SACAR LAS TAREAS QUE TIENE UN TRABAJADOR
     public static ArrayList<BDTarea> getTareasDeTrabajador(int idTrabajador) {
         ArrayList<BDTarea> tareas = new ArrayList<>();
 
@@ -250,6 +283,8 @@ public class TareaDAO {
 
         return tareas;
     }
+
+
     
     
 

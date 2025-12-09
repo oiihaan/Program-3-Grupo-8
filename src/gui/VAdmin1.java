@@ -169,8 +169,15 @@ public class VAdmin1 extends VentanaConConfirmacion {
 
 	@Override
 	protected void onConfirmExit() {
-		btnCerrarSesion.addActionListener(e -> onConfirmExit());
-		
+	    this.dispose();          
+	    if (parent != null) {
+	        parent.setVisible(true);
+	    }
+	}
+	
+	@Override
+	protected String getExitMessage() {
+	    return "¿Seguro que quieres cerrar tu sesión de administrador y volver a la pantalla de login?";
 	}
 	
 

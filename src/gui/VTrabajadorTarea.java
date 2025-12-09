@@ -249,20 +249,19 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
     @Override
     protected void onConfirmExit() {
         // Este método SOLO se llama cuando el usuario ha dicho "Sí"
-        // en el diálogo de VentanaConConfirmacion.
-
-        // 1) Paramos el hilo de refresco si sigue vivo
+        
+        // 1) Parar el hilo si sigue vivo
         if (HiloTiempo != null && HiloTiempo.isAlive()) {
             HiloTiempo.interrupt();
         }
 
-        // 2) Volvemos a la ventana padre del trabajador
+        // 2) Volver a la ventana padre del trabajador
         if (parent != null) {
             parent.setVisible(true);
             parent.repaint();
         }
 
-        // 3) Cerramos esta ventana
+   
         dispose();
     }
 }
