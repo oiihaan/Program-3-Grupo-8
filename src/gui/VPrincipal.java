@@ -175,7 +175,7 @@ public class VPrincipal extends VentanaConConfirmacion {
         lblForgot.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(null, "Porfavor comuniquese con Pablo para restablecer su contraseña: PabloAliva@gmail.com");
+                JOptionPane.showMessageDialog(null, "Porfavor comuniquese con el departamento de \n recursos humanos: PabloAvila@gmail.com");
             }
         });
     }

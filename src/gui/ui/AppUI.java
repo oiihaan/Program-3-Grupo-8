@@ -131,6 +131,7 @@ public class AppUI {
     }
 
     //BOTONES  REDONDEADOS
+ // BOTONES REDONDEADOS
     public static void stylePrimaryButton(JButton btn) {
         btn.setFont(FONT_NORMAL);
         btn.setForeground(Color.WHITE);
@@ -145,17 +146,37 @@ public class AppUI {
             @Override
             public void paint(Graphics g, JComponent c) {
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Fondo redondeado del botón
-                g2.setColor(COLOR_PRIMARY);
+
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                                    RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);   
+
+
+                if (btn.isEnabled()) {
+                    g2.setColor(COLOR_PRIMARY);
+                } else {
+                    g2.setColor(new Color(90, 90, 90)); // gris oscuro
+                }
                 g2.fillRoundRect(0, 0, btn.getWidth(), btn.getHeight(), 18, 18);
+                g2.setFont(btn.getFont());
+                g2.setColor(Color.WHITE);       
 
-                super.paint(g, c);
+                String text = btn.getText();
+                FontMetrics fm = g2.getFontMetrics();
+                int textWidth = fm.stringWidth(text);
+                int textHeight = fm.getAscent();
+                int x = (btn.getWidth()  - textWidth) / 2;
+                int y = (btn.getHeight() + textHeight) / 2 - 2;
+
+                g2.drawString(text, x, y);
+
                 g2.dispose();
             }
         });
     }
+
     
  //JList
     public static void styleList(JList<?> list) {

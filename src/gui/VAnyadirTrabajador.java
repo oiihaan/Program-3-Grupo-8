@@ -3,14 +3,18 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import bd.TareaDAO;
 import bd.TrabajadorDAO;
 import domain.BDAdmin;
+import domain.BDTarea;
 import domain.BDTrabajador;
 import gui.ui.AppUI;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VAnyadirTrabajador extends VentanaConConfirmacion {
 
@@ -102,9 +106,34 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         //BOTONES
         JButton btnAynadir = new JButton("Añadir");
         right.add(btnAynadir);
+        btnAynadir.setEnabled(false);
 
         JButton btnVolver = new JButton("Volver");
         right.add(btnVolver);
+        
+        
+        //LOGICA TEXTFIELDS
+        txtUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+					btnAynadir.setEnabled(true);
+				}else {
+					btnAynadir.setEnabled(false);
+				}
+			}
+		});
+		
+		txtPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+					btnAynadir.setEnabled(true);
+				}else {
+					btnAynadir.setEnabled(false);
+				}
+			}
+		});
         
         
         
@@ -112,19 +141,20 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         btnAynadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username  = txtUsername.getText().trim();
+               
                 String contrasenya = txtPassword.getText().trim();
-
-                //Prevencion de campos vacios 
-                if (username.isEmpty() || contrasenya.isEmpty()) {
-                    JOptionPane.showMessageDialog(
-                            VAnyadirTrabajador.this,
-                            "Rellena todos los campos.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                    return;
+                String username = txtUsername.getText().trim();
+                
+                if(!nombreSinNumeros(username)) {
+                	JOptionPane.showMessageDialog(VAnyadirTrabajador.this, "El nombre tiene que ser un nombre real");
+                	txtUsername.setText("");
+                	return;
                 }
+                
+				txtUsername.setText("");
+				txtPassword.setText("");
+				btnAynadir.setEnabled(false);
+			
 
                 //Uso de la funcion recursiva
                 //Sugiere al usuario una contraseña creada por el sistema
@@ -244,7 +274,15 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         return invertirRecursivo(str.substring(1)) + str.charAt(0);
     }
     
-    
+    public static boolean nombreSinNumeros(String nombre) {
+        for (int i = 0; i < nombre.length(); i++) {
+            char c = nombre.charAt(i);
+            if (Character.isDigit(c)) {   // si encuentra un dígito, no es válido
+                return false;
+            }
+        }
+        return true; // no había dígitos
+    }
     
     
 }

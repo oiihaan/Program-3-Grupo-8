@@ -171,6 +171,9 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 			                "Error: '" + txtDuracion.getText().trim() + "' no es un número válido.\nIngresa solo números enteros.", 
 			                "Error de formato en la duracion", 
 			                JOptionPane.ERROR_MESSAGE);
+					txtDuracion.setText("");
+					txtNombreTarea.setText("");
+					btnGuardar.setEnabled(false);
 					return;
 					
 				}
