@@ -319,10 +319,22 @@ public class VVerTareas extends VentanaConConfirmacion {
 
 
 
-	@Override
-	protected void onConfirmExit() {
-		parent.setVisible(true);
-	    parent.repaint();
-	    dispose();
-	}
+    // Salida dandole a la x:
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver al panel de control de administrador?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
+    @Override
+    protected void onConfirmExit() {
+        this.dispose();
+        if (parent != null) {
+            parent.setVisible(true);
+        }
+    }
 }

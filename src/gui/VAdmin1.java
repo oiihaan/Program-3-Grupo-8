@@ -30,10 +30,11 @@ public class VAdmin1 extends VentanaConConfirmacion {
 	public VAdmin1(VPrincipal parent, BDAdmin admin) {
 	
 		this.admin = admin;
+		this.parent = parent;
 		
 		//DISEÑO
 		setTitle("MENU de Administrador");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 482);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -135,12 +136,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 			}
 		});
 		
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.setVisible(true);
-				VAdmin1.this.dispose();
-			}
-		});
+		btnCerrarSesion.addActionListener(e -> cerrarSesionYVolverAlLogin());
 		
 		
 		//APARIENCIA
@@ -165,20 +161,30 @@ public class VAdmin1 extends VentanaConConfirmacion {
 	}
 
 
+	@Override
+	protected String getMensajeConfirmacionSalida() {
+	    return "¿Quieres volver al login?";
+	}
 
+	@Override
+	protected String getTituloConfirmacionSalida() {
+	    return "Cerrar sesión";
+	}
 
 	@Override
 	protected void onConfirmExit() {
-	    this.dispose();          
-	    if (parent != null) {
-	        parent.setVisible(true);
-	    }
+	    cerrarSesionYVolverAlLogin();
 	}
-	
-	@Override
-	protected String getExitMessage() {
-	    return "¿Seguro que quieres cerrar tu sesión de administrador y volver a la pantalla de login?";
-	}
+
+
+    private void cerrarSesionYVolverAlLogin() {
+        this.dispose();
+        if (parent != null) {
+            parent.setVisible(true);   // volvemos al login
+        }
+    }
+
+
 	
 
 }

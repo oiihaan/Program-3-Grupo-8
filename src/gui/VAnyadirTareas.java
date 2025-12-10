@@ -219,14 +219,23 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 
 	
 	
-	@Override
-	protected void onConfirmExit() {
-		  // Este método SOLO se ejecuta si el usuario ha dicho si en el diálogo
-        // de VentanaConConfirmacion.
+    // Salida dandole a la x:
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver al panel de control de administrador?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
+    @Override
+    protected void onConfirmExit() {
+        this.dispose();
         if (parent != null) {
-            parent.setVisible(true);  // volvemos al admin
+            parent.setVisible(true);
         }
-        dispose();                    
     }
 }
 

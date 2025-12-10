@@ -195,17 +195,23 @@ public class VAsignarTareas extends VentanaConConfirmacion {
     
     
     
-    //Funciones FUERA del constructor
+    // Salida dandole a la x:
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver a la ventana Ver Tareas?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
     @Override
     protected void onConfirmExit() {
-        // Este método se llama SOLO si en VentanaConConfirmacion
-        // el usuario ha elegido "Sí" en el diálogo.
+        this.dispose();
         if (parent != null) {
-
-            parent.setVisible(true); 
-            parent.repaint();// volvemos a la pantalla de "Ver tareas"
+            parent.setVisible(true);
         }
-        dispose();                    // cerramos esta ventana
     }
     
     private void TrabajadoresLista() {

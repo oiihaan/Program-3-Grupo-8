@@ -189,38 +189,20 @@ public class VPrincipal extends VentanaConConfirmacion {
 
 
 	@Override
-	protected void onConfirmExit() {
-		
-		Boolean ejecutando = false;
-		for (BDTarea t : TareaDAO.getAllTareas()) {
-			if(t.getEstado().equals("ejecutando")) {
-				ejecutando = true;
-				break;
-			}
-		}
-		
-		if(ejecutando) {
-			
-	        int respuesta = JOptionPane.showConfirmDialog(
-	                null,                          // componente padre (puede ser null)
-	                "Algunas tareas se estan ejecutando si cierras el programa volveran a estar pendientes \n Quieres cerrar el programa?",          // mensaje
-	                "Confirmación",                 // título de la ventana
-	                JOptionPane.YES_NO_OPTION,      // tipo de opciones (Sí/No)
-	                JOptionPane.QUESTION_MESSAGE    // icono de pregunta
-	        );
-			if(respuesta == JOptionPane.YES_OPTION) {
-				for(BDTarea t : TareaDAO.getAllTareas()) {
-					if(t.getEstado().equals("ejecutando")) {
-						TareaDAO.marcarPendiente(t.getId());
-					}
-				}
-		        System.exit(0);
-
-			}
-		}else {
-        System.exit(0);
-		}
+	protected String getMensajeConfirmacionSalida() {
+	    return "¿Quieres cerrar la aplicación?";
 	}
+
+	@Override
+	protected String getTituloConfirmacionSalida() {
+	    return "Salir";
+	}
+
+	@Override
+	protected void onConfirmExit() {
+	    System.exit(0);   // CIERRE TOTAL
+	}
+
 	
 	
 }

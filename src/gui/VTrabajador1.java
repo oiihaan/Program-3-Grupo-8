@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
@@ -104,7 +105,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         
         //-- BOTON LogOut --
         JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-        btnCerrarSesion.addActionListener(e -> onConfirmExit());
+        btnCerrarSesion.addActionListener(e -> manejarSalidaYVolverALogin());
 
 
         // --- BOTÓN VER TAREAS ---
@@ -259,11 +260,11 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		// Se le recuerde que sigue estando sin fichar
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
-		addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				controlarSalida();
-			}
-			});
+//		addWindowListener(new java.awt.event.WindowAdapter() {
+//			public void windowClosing(java.awt.event.WindowEvent e) {
+//				controlarSalida();
+//			}
+//			});
 
 
         	  
@@ -306,89 +307,96 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 	}
 	
 	//METODO PARA MANEJAR SALIDA
-	private void controlarSalida() {
-	    try {
-	        int idTrabajador = trabajador.getId();
-	        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
+//	private void controlarSalida() {
+//	    try {
+//	        int idTrabajador = trabajador.getId();
+//	        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
+//
+//	        if (fichajeAbierto == null) {
+//	            // No está fichado -> salir normal
+//	            salirAlLogin();
+//	            return;
+//	        }
+//
+//	        int opcion = JOptionPane.showConfirmDialog(
+//	                this,
+//	                "Sigues fichado desde las " +
+//	                        fichajeAbierto.getEntrada().toLocalTime().withNano(0) +
+//	                        ".\n¿Quieres desfichar antes de salir?",
+//	                "Salir sin desfichar",
+//	                JOptionPane.YES_NO_CANCEL_OPTION,
+//	                JOptionPane.WARNING_MESSAGE
+//	        );
+//
+//	        // 
+//	        if (opcion == JOptionPane.CANCEL_OPTION ||
+//	            opcion == JOptionPane.CLOSED_OPTION ||
+//	            opcion == JOptionPane.NO_OPTION) {
+//	            return;
+//	        }
+//
+//	        // Solo si ha pulsado SÍ llegamos aquí:
+//	        realizarDesfichajeUsando(fichajeAbierto);
+//	        salirAlLogin();
+//
+//	    } catch (Exception ex) {
+//	        ex.printStackTrace();
+//	        JOptionPane.showMessageDialog(
+//	                this,
+//	                "Error al comprobar el estado de fichaje antes de salir:\n" + ex.getMessage(),
+//	                "Error",
+//	                JOptionPane.ERROR_MESSAGE
+//	        );
+//	    }
+//	}
 
-	        if (fichajeAbierto == null) {
-	            // No está fichado -> salir normal
-	            salirAlLogin();
-	            return;
-	        }
-
-	        // Está fichado -> preguntamos qué quiere hacer
-	        int opcion = JOptionPane.showConfirmDialog(
-	                this,
-	                "Sigues fichado desde las " +
-	                        fichajeAbierto.getEntrada().toLocalTime().withNano(0) +
-	                        ".\n¿Quieres desfichar antes de salir?",
-	                "Salir sin desfichar",
-	                JOptionPane.YES_NO_CANCEL_OPTION,
-	                JOptionPane.WARNING_MESSAGE
-	        );
-
-	        if (opcion == JOptionPane.CANCEL_OPTION || opcion == JOptionPane.CLOSED_OPTION) {
-	            // Se arrepiente, no hacemos nada
-	            return;
-	        }
-
-	        if (opcion == JOptionPane.YES_OPTION) {
-	            // Desfichar automáticamente y luego salir
-	            realizarDesfichajeUsando(fichajeAbierto);
-	        }
-	        // Si es NO_OPTION -> no desfichamos, simplemente salimos
-
-	        salirAlLogin();
-
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(
-	                this,
-	                "Error al comprobar el estado de fichaje antes de salir:\n" + ex.getMessage(),
-	                "Error",
-	                JOptionPane.ERROR_MESSAGE
-	        );
-	    }}
 	    
-	    //Fichaje de salida:
-	    private void realizarDesfichajeUsando(BDFichaje fichajeAbierto) throws Exception {
-	        LocalDateTime entrada = fichajeAbierto.getEntrada();
-	        LocalDateTime salida = LocalDateTime.now();
-
-	        // Cerrar en BD
-	        boolean cerrado = FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
-	        if (!cerrado) {
-	            throw new RuntimeException("No se ha podido cerrar el fichaje en la BD.");
-	        }
-
-	        // Actualizar modelo en memoria
-	        trabajador.registrarFichajeSalida(salida);
-
-	        // Calcular duración
-	        long minutos = Duration.between(entrada, salida).toMinutes();
-	        long horas = minutos / 60;
-	        long minsRest = minutos % 60;
-
-	        // Actualizar botones
-	        btnFichar.setEnabled(true);
-	        btnDesfichar.setEnabled(false);
-
-	        JOptionPane.showMessageDialog(
-	                this,
-	                "Has desfichado a las " + salida.toLocalTime().withNano(0) +
-	                "\nTiempo trabajado en este tramo: " + horas + " h " + minsRest + " min",
-	                "Desfichaje",
-	                JOptionPane.INFORMATION_MESSAGE
-	        );
-	    }
+//	    //Fichaje de salida:
+//	    private void realizarDesfichajeUsando(BDFichaje fichajeAbierto) throws Exception {
+//	        LocalDateTime entrada = fichajeAbierto.getEntrada();
+//	        LocalDateTime salida = LocalDateTime.now();
+//
+//	        // Cerrar en BD
+//	        boolean cerrado = FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
+//	        if (!cerrado) {
+//	            throw new RuntimeException("No se ha podido cerrar el fichaje en la BD.");
+//	        }
+//
+//	        // Actualizar modelo en memoria
+//	        trabajador.registrarFichajeSalida(salida);
+//
+//	        // Calcular duración
+//	        long minutos = Duration.between(entrada, salida).toMinutes();
+//	        long horas = minutos / 60;
+//	        long minsRest = minutos % 60;
+//
+//	        // Actualizar botones
+//	        btnFichar.setEnabled(true);
+//	        btnDesfichar.setEnabled(false);
+//
+//	        JOptionPane.showMessageDialog(
+//	                this,
+//	                "Has desfichado a las " + salida.toLocalTime().withNano(0) +
+//	                "\nTiempo trabajado en este tramo: " + horas + " h " + minsRest + " min",
+//	                "Desfichaje",
+//	                JOptionPane.INFORMATION_MESSAGE
+//	        );
+//	    }
 	    
-	    private void salirAlLogin() {
-	        // Ejemplo, ajusta a tu flujo real:
-	        this.dispose();
-	        parent.setVisible(true);  // si VTrabajador1 tiene un "parent"
-	    }
+//	    private void salirAlLogin() {
+//	        this.dispose();
+//	        parent.setVisible(true);  // el parent es el login
+//	    }
 
+		@Override
+		protected String getMensajeConfirmacionSalida() {
+		    return "¿Quieres volver al login?";
+		}
+
+		@Override
+		protected String getTituloConfirmacionSalida() {
+		    return "Cerrar sesión";
+		}
 
 		@Override
 		protected void onConfirmExit() {
@@ -401,18 +409,17 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		    try {
 		        int idTrabajador = trabajador.getId();
 
-		        // 1️⃣ Comprobar si hay fichaje abierto
+		        // 1️:Comprobar si hay fichaje abierto
 		        BDFichaje fichajeAbierto = FichajeDAO.obtenerFichajeAbierto(idTrabajador);
 
 		        if (fichajeAbierto != null) {
-		            // Por ejemplo, puedes mostrar desde cuándo:
-		            LocalDateTime inicio = fichajeAbierto.getEntrada();
+		            LocalDateTime inicio = fichajeAbierto.getEntrada(); // Consigo su hora de entrada para decirsela
 
 		            String mensajeFichaje = String.format(
 		                "Tienes un fichaje abierto desde %s.\n\n" +
 		                "Si sales ahora, se cerrará el fichaje (desfichando) y volverás a la pantalla de login.\n\n" +
 		                "¿Quieres salir de la aplicación desfichando?",
-		                inicio.toString() // si quieres, formatea más bonito con DateTimeFormatter
+		                inicio.toString() // se puede formatear mas bonito con dateTImeFormatter
 		            );
 
 		            int opcionFichaje = JOptionPane.showConfirmDialog(
@@ -423,20 +430,22 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		                    JOptionPane.WARNING_MESSAGE
 		            );
 
-		            if (opcionFichaje == JOptionPane.NO_OPTION) {
+		            if (opcionFichaje == JOptionPane.NO_OPTION ||
+		            		opcionFichaje == JOptionPane.CLOSED_OPTION) 
+		            {
 		                // El trabajador decide NO salir: se queda en la ventana
 		                return;
 		            }
 
-		            // Si ha dicho que SÍ, se cierra  el fichaje
+		            // Si ha dicho que SI, se cierra  el fichaje
 		            LocalDateTime fin = LocalDateTime.now();
 		            fichajeAbierto.setSalida(fin);
 		            FichajeDAO.cerrarFichajeActual(idTrabajador, fin); 
-		            // o el método que tengas para actualizar el fichaje con la fecha fin
+		            
 		        }
 
-		        // 2️Comprobar tareas en ejecución de este trabajador
-		        List<BDTarea> tareasEjecutando = TareaDAO.getTareasEjecutandoDeTrabajador(idTrabajador);
+		        // 2️:Comprobar tareas en ejecución de este trabajador
+		        ArrayList<BDTarea> tareasEjecutando = TareaDAO.getTareasEjecutandoDeTrabajador(idTrabajador);
 
 		        if (!tareasEjecutando.isEmpty()) {
 		            int numTareas = tareasEjecutando.size();

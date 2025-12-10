@@ -246,22 +246,23 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         AppUI.establecerIcono(this);
     }
 
+    // LOGOUT: VOLVER A A la ventana padre VTrabajador1
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver a tu panel de control de trabajador?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
     @Override
     protected void onConfirmExit() {
-        // Este método SOLO se llama cuando el usuario ha dicho "Sí"
-        
-        // 1) Parar el hilo si sigue vivo
-        if (HiloTiempo != null && HiloTiempo.isAlive()) {
-            HiloTiempo.interrupt();
-        }
-
-        // 2) Volver a la ventana padre del trabajador
+        // solo volver al padre
+        this.dispose();
         if (parent != null) {
             parent.setVisible(true);
-            parent.repaint();
         }
-
-   
-        dispose();
     }
 }

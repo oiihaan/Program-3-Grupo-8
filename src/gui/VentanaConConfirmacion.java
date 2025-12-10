@@ -13,33 +13,36 @@ public abstract class VentanaConConfirmacion extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                preguntarYSalir();
+                int opcion = JOptionPane.showConfirmDialog(
+                        VentanaConConfirmacion.this,
+                        getMensajeConfirmacionSalida(),
+                        getTituloConfirmacionSalida(),
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (opcion == JOptionPane.YES_OPTION) {
+                    onConfirmExit();
+                }
             }
         });
     }
     
-    // permite que cada ventana personalice el mensaje
-    protected String getExitMessage() {
-        return "¿Seguro que quieres salir de la aplicación?";
-    }
-
-    private void preguntarYSalir() {
-        int opcion = JOptionPane.showConfirmDialog(
-                this,
-                getExitMessage(),
-                "Confirmar salida",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        );
-
-        if (opcion == JOptionPane.YES_OPTION) {
-            onConfirmExit();
-        }
-        
-    }
+    
     // X SIEMPRE LLAMA A preguntarYSalir(), se muestra un JOptionPane
     // Cada ventana hace sus cosas
 
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Seguro que quieres salir de la aplicación?";
+    }
+
+    protected String getTituloConfirmacionSalida() {
+        return "Confirmar salida";
+    }
+    
     /** Qué significa "salir" para esta ventana concreta */
     protected abstract void onConfirmExit();
+    
+    
+    
 }

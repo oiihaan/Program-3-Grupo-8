@@ -285,13 +285,24 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    // Salida dandole a la x:
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver al panel de control de administrador?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
     @Override
     protected void onConfirmExit() {
+        this.dispose();
         if (parent != null) {
             parent.setVisible(true);
-            parent.repaint();
         }
-        dispose();
     }
 }
 

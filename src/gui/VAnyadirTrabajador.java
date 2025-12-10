@@ -212,14 +212,23 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
     
     
     
+    // Salida dandole a la x:
+    @Override
+    protected String getMensajeConfirmacionSalida() {
+        return "¿Quieres volver al panel de control de administrador?";
+    }
+
+    @Override
+    protected String getTituloConfirmacionSalida() {
+        return "Volver al panel";
+    }
+
     @Override
     protected void onConfirmExit() {
-        // Este método solo se ejecuta cuando el usuario ha dicho "Sí"
-        // en el VentanaConConfirmacion.
+        this.dispose();
         if (parent != null) {
-            parent.setVisible(true); // volvemos al menú admin
+            parent.setVisible(true);
         }
-        dispose();  
     }
     
     
