@@ -29,5 +29,22 @@ public class Tarea_TrabajadorDAO {
         }
     }
 
+    public static void eliminarTrabajadorDeTarea(Integer idTarea, Integer idTrabajador) {
+
+        String sql = "DELETE FROM tarea_trabajador WHERE id_tarea = ? AND id_trabajador = ?";
+
+        try (Connection conn = ConexionSQLite.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idTarea);
+            ps.setInt(2, idTrabajador);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar");
+            e.printStackTrace();
+        }
+    }
 
 }

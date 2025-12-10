@@ -25,6 +25,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
 
 //CONSTRUCTOR
@@ -46,7 +49,8 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 	 */
 	public VAnyadirTareas(VAdmin1 parent,  BDAdmin admin) {
 		super();
-		 this.parent = parent;    // *** IMPORTANTE: guardar la referencia ***
+		 this.parent = parent;  
+		 // *** IMPORTANTE: guardar la referencia ***
 
 		 
 		setTitle("Añadir Tareas");
@@ -57,15 +61,16 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        contentPane.setLayout(new GridLayout(0, 1, 0, 0));
+        contentPane.setLayout(new GridLayout(1, 1, 0, 0));
 
         //Contiene las 3 secciones
         JPanel panel = new JPanel();
         contentPane.add(panel);
         GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.columnWidths = new int[]{50, 195, 195, 200, 0};
-        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+        gbl_panel.rowHeights = new int[] {50, 58, 50};
+        gbl_panel.columnWidths = new int[] {30, 200, 200, 200, 50};
+        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0};
         panel.setLayout(gbl_panel);
 		
 		
@@ -77,7 +82,6 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
         gbc_left.gridx = 1;
         gbc_left.gridy = 1;
         panel.add(left, gbc_left);
-        left.setLayout(new GridLayout(0, 1, 0, 0));
 
         JPanel center = new JPanel();
         GridBagConstraints gbc_center = new GridBagConstraints();
@@ -95,6 +99,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
         gbc_right.gridx = 3;
         gbc_right.gridy = 1;
         panel.add(right, gbc_right);
+		left.setLayout(new GridLayout(0, 1, 0, 0));
 		
 		
 		//LABELS
@@ -102,7 +107,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		ldlDuracion.setHorizontalAlignment(SwingConstants.RIGHT);
 		left.add(ldlDuracion);
 		
-		JLabel lblNombre = new JLabel("Nombre de la tarea: ");
+		JLabel lblNombre = new JLabel("Nombre de la tarea:");
 		left.add(lblNombre);
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
 		
