@@ -20,7 +20,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtPassword;
+    private JPasswordField txtPassword;
     private JTextField txtUsername;
     private VAdmin1 parent;
     private BDAdmin admin;
@@ -97,9 +97,10 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         center.add(txtUsername);
         txtUsername.setColumns(10);
       
-        txtPassword = new JTextField();
+        txtPassword = new JPasswordField();
+        txtPassword.setColumns(15);
+        txtPassword.setEchoChar('•');
         center.add(txtPassword);
-        txtPassword.setColumns(10);
        
 
         
@@ -116,7 +117,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         txtUsername.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+				if(!txtUsername.getText().isEmpty() && txtPassword.getPassword().length > 0) {	
 					btnAynadir.setEnabled(true);
 				}else {
 					btnAynadir.setEnabled(false);
@@ -127,7 +128,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
 		txtPassword.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(!txtUsername.getText().isEmpty() && !txtPassword.getText().isEmpty()) {
+				if(!txtUsername.getText().isEmpty() && txtPassword.getPassword().length > 0) {
 					btnAynadir.setEnabled(true);
 				}else {
 					btnAynadir.setEnabled(false);
@@ -142,14 +143,14 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                String contrasenya = txtPassword.getText().trim();
-                String username = txtUsername.getText().trim();
+            	String contrasenya = new String(txtPassword.getPassword()).trim();
+            	String username = txtUsername.getText().trim();
                 
-                if(!nombreSinNumeros(username)) {
-                	JOptionPane.showMessageDialog(VAnyadirTrabajador.this, "El nombre tiene que ser un nombre real");
-                	txtUsername.setText("");
-                	return;
-                }
+//                if(!nombreSinNumeros(username)) {
+//                	JOptionPane.showMessageDialog(VAnyadirTrabajador.this, "El nombre tiene que ser un nombre real");
+//                	txtUsername.setText("");
+//                	return;
+//                }
                 
 				txtUsername.setText("");
 				txtPassword.setText("");
@@ -229,7 +230,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         AppUI.styleLabel(lblContrasenya);
         AppUI.styleTransparent(center);
         AppUI.styleTextField(txtUsername);
-        AppUI.styleTextField(txtPassword);
+        AppUI.stylePasswordField(txtPassword);
         
         // IMAGEN
         AppUI.establecerIcono(this);
@@ -274,15 +275,15 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         return invertirRecursivo(str.substring(1)) + str.charAt(0);
     }
     
-    public static boolean nombreSinNumeros(String nombre) {
-        for (int i = 0; i < nombre.length(); i++) {
-            char c = nombre.charAt(i);
-            if (Character.isDigit(c)) {   // si encuentra un dígito, no es válido
-                return false;
-            }
-        }
-        return true; // no había dígitos
-    }
+//    public static boolean nombreSinNumeros(String nombre) {
+//        for (int i = 0; i < nombre.length(); i++) {
+//            char c = nombre.charAt(i);
+//            if (Character.isDigit(c)) {   // si encuentra un dígito, no es válido
+//                return false;
+//            }
+//        }
+//        return true; // no había dígitos
+//    }
     
     
 }
