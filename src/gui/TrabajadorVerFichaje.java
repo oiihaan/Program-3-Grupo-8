@@ -9,11 +9,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import bd.FichajeDAO;
-import bd.TareaDAO;
 import bd.TrabajadorDAO;
 import domain.BDAdmin;
 import domain.BDFichaje;
-import domain.BDTarea;
 import domain.BDTrabajador;
 
 import java.awt.*;
@@ -23,18 +21,16 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class VVerTrabajadores extends VentanaConConfirmacion {
+public class TrabajadorVerFichaje extends VentanaConConfirmacion {
 
     private static final long serialVersionUID = 1L;
 
     private JPanel contentPane;
-    private VAdmin1 parent;
+    private VTrabajador1 parent;
     private VPrincipal login;     
-    private BDAdmin admin;
+	private BDTrabajador trabajador;
 
     private JLabel lblTrabajador;
 
@@ -45,10 +41,10 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
     private DefaultTableModel modeloFichajes;
     private Integer trabajadorIdInicial;
 
-    public VVerTrabajadores(VAdmin1 parent, BDAdmin admin, Integer trabajadorIdInicial) {
+    public TrabajadorVerFichaje(VTrabajador1 parent, BDTrabajador trabajador, Integer trabajadorIdInicial) {
         this.parent = parent;
         this.login = login;
-        this.admin = admin;
+        this.trabajador = trabajador;
         this.trabajadorIdInicial = trabajadorIdInicial;
 
         setTitle("Ver empleados");
@@ -100,17 +96,16 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         gbc_panelLeft.gridy = 0;
         panelPrincipal.add(panelLeft, gbc_panelLeft);
 
-        modeloTrabajadores = new DefaultListModel<>();
+        modeloTrabajadores = new DefaultListModel<BDTrabajador>();
         listTrabajadores = new JList<>(modeloTrabajadores);
         listTrabajadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollListTrab = new JScrollPane(listTrabajadores);
         panelLeft.add(scrollListTrab, BorderLayout.CENTER);
+        
+        // Cargamos el trabajador  desde la BD
+        modeloTrabajadores.addElement(TrabajadorDAO.buscarPorNombre(trabajador.getNombre()));
 
-        // Cargamos trabajadores desde la BD
-        for (BDTrabajador t : TrabajadorDAO.getAllTrabajadores()) {
-            modeloTrabajadores.addElement(t);
-        }
 
 
         // ======= PANEL DERECHO – TABLA FICHAJES =======
@@ -139,10 +134,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         gbc_panelSouth.gridx = 1;
         gbc_panelSouth.gridy = 2;
         contentPane.add(panelSouth, gbc_panelSouth);
-
-        JButton btnDespedir = new JButton("Despedir");
         JButton btnVolver = new JButton("Volver");
-        panelSouth.add(btnDespedir);
         panelSouth.add(btnVolver);
 
         // ======= LISTENER LISTA TRABAJADORES =======
@@ -179,100 +171,6 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         // ======= ACCIONES BOTONES =======
         btnVolver.addActionListener(e -> onConfirmExit());
 
-
-        btnDespedir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BDTrabajador seleccionado = listTrabajadores.getSelectedValue();
-
-                if (seleccionado == null) {
-                    JOptionPane.showMessageDialog(
-                            VVerTrabajadores.this,
-                            "Selecciona primero un trabajador de la lista.",
-                            "Ningún trabajador seleccionado",
-                            JOptionPane.WARNING_MESSAGE
-                    );
-                    return;
-                }
-               
-               ArrayList<BDTarea> tareasTrabajadorEjecutando = TareaDAO.getTareasDeTrabajador(seleccionado.getId());
-               ArrayList<BDTarea> tareasProblemas = new ArrayList<BDTarea>();
-
-               Boolean AvisoUltimoTrabajador = false;
-               
-               if(tareasTrabajadorEjecutando.size() != 0 ) {
-            	   for(BDTarea t : tareasTrabajadorEjecutando) {
-            		   if(t.getEstado().equals("ejecutando") && TrabajadorDAO.getTrabajadoresDeTarea(t.getId()).size() == 1) {
-            			   AvisoUltimoTrabajador = true;
-            			   tareasProblemas.add(t);
-            			   
-            		   }
-            	   }
-            	   
-            	   
-               }
-               if(AvisoUltimoTrabajador) {
-            	   
-            	   
-                int opcion = JOptionPane.showConfirmDialog(
-                        VVerTrabajadores.this,
-                        "¿Seguro que quieres despedir a '" + seleccionado.getNombre() + "'?\n Tiene algunas Tareas Activas en la que es el ultimo trabajador, si les despides volveran a estar pendientes",
-                        "Confirmar despido",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                if (opcion != JOptionPane.YES_OPTION) {
-
-                	
-                	
-                    return;
-                }
-            	for(BDTarea t : tareasProblemas) {
-            		t.getHilo().interrupt(); //Primero la finalizamos cortanto en hilo 
-            		TareaDAO.marcarPendiente(t.getId()); // Y luego le cambiamos en estado Por que si no el hilo se queda 
-            	}
-            	   
-            	   
-               }else {
-            	   
-                int opcion = JOptionPane.showConfirmDialog(
-                        VVerTrabajadores.this,
-                        "¿Seguro que quieres despedir a '" + seleccionado.getNombre() + "'?",
-                        "Confirmar despido",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
-
-                if (opcion != JOptionPane.YES_OPTION) {
-                    return;
-                }
-               }
-                
-               //Lo hacen las 2 opciones a si que iguales
-                // Borrar de BD
-                TrabajadorDAO.eliminarPorNombre(seleccionado.getNombre());
-                
-                //Mejor  Volver a cargar desde 0 asi si tiene actualizaciones se hacen
-                modeloTrabajadores.clear();
-                for (BDTrabajador t : TrabajadorDAO.getAllTrabajadores()) {
-                    modeloTrabajadores.addElement(t);
-                }
-                
-                listTrabajadores.setSelectedIndex(-1);
-
-                // Limpiar tabla
-
-
-                JOptionPane.showMessageDialog(
-                        VVerTrabajadores.this,
-                        "Trabajador despedido correctamente.",
-                        "Despedido",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-            }
-        });
-
         // ======= ESTILO APPUI =======
         AppUI.styleBackground(contentPane);
         AppUI.styleCard(panelPrincipal);
@@ -286,7 +184,6 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         AppUI.styleTable(tablaFichajes);
 
         AppUI.stylePrimaryButton(btnVolver);
-        AppUI.stylePrimaryButton(btnDespedir);
 
         AppUI.establecerIcono(this);
     }
@@ -336,7 +233,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
     // Salida dandole a la x:
     @Override
     protected String getMensajeConfirmacionSalida() {
-        return "¿Quieres volver al panel de control de administrador?";
+        return "¿Quieres volver a tu panel de control de trabajador?";
     }
 
     @Override

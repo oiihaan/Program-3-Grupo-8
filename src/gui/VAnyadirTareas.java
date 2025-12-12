@@ -41,7 +41,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 	private VAdmin1 parent;
 	private JButton btnGuardar;
 	private JPanel panel;
-
+	private BDAdmin admin;
 
 	
 	/**
@@ -50,6 +50,7 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 	public VAnyadirTareas(VAdmin1 parent,  BDAdmin admin) {
 		super();
 		 this.parent = parent;  
+		 this.admin = admin;
 		 // *** IMPORTANTE: guardar la referencia ***
 
 		 
