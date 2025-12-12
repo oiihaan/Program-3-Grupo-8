@@ -19,7 +19,7 @@ public class LimpiadorBDD {
             "DELETE FROM tarea_trabajador; " +  
             "DELETE FROM tarea; " +             
             "DELETE FROM trabajador; " +        
-            "DELETE FROM administrador; " +     
+            "DELETE FROM admin; " +     
             "DELETE FROM admin; " +             
             "DELETE FROM sqlite_sequence; " +   //Tabla interna de SQLite (pone a 0 los contadores de ID etc)
             
@@ -44,7 +44,7 @@ public class LimpiadorBDD {
             conn.setAutoCommit(false); //Para que se metan todos de golpe o si falla algo no nos meta nada
             
      //Trabajadores
-            stmt.executeUpdate("INSERT INTO trabajador (nombre, contrasenya) VALUES ('Juan Perez', 'pass1')");
+            stmt.executeUpdate("INSERT INTO trabajador (nombre, contrasenya) VALUES ('Juan Perez', 'pass1')");		
             stmt.executeUpdate("INSERT INTO trabajador (nombre, contrasenya) VALUES ('Ana Lopez', 'pass2')");
             stmt.executeUpdate("INSERT INTO trabajador (nombre, contrasenya) VALUES ('Unai', 'uu')");
 
@@ -70,7 +70,7 @@ public class LimpiadorBDD {
 
 
      //Admin
-            stmt.executeUpdate("INSERT INTO admin (nombre, contrasenya) VALUES ('admin1', 'admin123')");
+            stmt.executeUpdate("INSERT INTO admin (nombre, contrasenya) VALUES ('Julio', '123')");
 
 
             conn.commit(); //Confirma todos los cambios
@@ -84,8 +84,8 @@ public class LimpiadorBDD {
     }
     
     
-    public static void Main(String args) {
-    	ejecutarLimpieza();
-    	insertarDatosInicio();
+    public static void main(String[] args) {
+        ejecutarLimpieza();
+        insertarDatosInicio(); 
     }
 }
