@@ -46,8 +46,8 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{30, 200, 30};
-        gbl_contentPane.rowHeights = new int[] {30, 350, 30};
+        gbl_contentPane.columnWidths = new int[]{30, 565, 30};
+        gbl_contentPane.rowHeights = new int[] {30, 448, 30};
         gbl_contentPane.columnWeights = new double[]{0.0, 0.0};
         gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0};
         contentPane.setLayout(gbl_contentPane);
@@ -77,14 +77,10 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         JPanel centroIzq = new JPanel();
         centroCentro.add(centroIzq);
         centroIzq.setPreferredSize(new Dimension(50, 0));
-        SpringLayout sl_centroIzq = new SpringLayout();
-        centroIzq.setLayout(sl_centroIzq);
         
         JPanel centroDe = new JPanel();
         centroCentro.add(centroDe);
         centroDe.setPreferredSize(new Dimension(50, 0));
-        SpringLayout sl_centroDe = new SpringLayout();
-        centroDe.setLayout(sl_centroDe);
 
         JPanel centroNorth = new JPanel();
         Centro.add(centroNorth, BorderLayout.NORTH);
@@ -119,20 +115,14 @@ public class VAsignarTareas extends VentanaConConfirmacion {
        
         //SCROLLPANE
         JScrollPane scrollPaneCentroDe = new JScrollPane();
-        sl_centroDe.putConstraint(SpringLayout.NORTH, scrollPaneCentroDe, 0, SpringLayout.NORTH, centroDe);
-        sl_centroDe.putConstraint(SpringLayout.WEST, scrollPaneCentroDe, 0, SpringLayout.WEST, centroDe);
-        sl_centroDe.putConstraint(SpringLayout.SOUTH, scrollPaneCentroDe, 291, SpringLayout.NORTH, centroDe);
-        sl_centroDe.putConstraint(SpringLayout.EAST, scrollPaneCentroDe, 193, SpringLayout.WEST, centroDe);
-        centroDe.add(scrollPaneCentroDe);
-        scrollPaneCentroDe.setViewportView(listTrabajadores);
+        scrollPaneCentroDe.setBounds(10, 10, 195, 314);
+        
+
         
         JScrollPane scrollPaneCentroIzq = new JScrollPane();
-        sl_centroIzq.putConstraint(SpringLayout.NORTH, scrollPaneCentroIzq, 0, SpringLayout.NORTH, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.WEST, scrollPaneCentroIzq, 0, SpringLayout.WEST, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.SOUTH, scrollPaneCentroIzq, 291, SpringLayout.NORTH, centroIzq);
-        sl_centroIzq.putConstraint(SpringLayout.EAST, scrollPaneCentroIzq, 193, SpringLayout.WEST, centroIzq); 
-        centroIzq.add(scrollPaneCentroIzq);
-        scrollPaneCentroIzq.setViewportView(listTrabajadoresAsignados);
+        scrollPaneCentroIzq.setBounds(10, 10, 195, 314);
+      
+
         
         
         
@@ -183,7 +173,41 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         AppUI.styleTransparent(centroSouth);
         AppUI.styleTransparent(centroCentro);
         AppUI.styleTransparent(centroIzq);
+        GridBagLayout gbl_centroIzq = new GridBagLayout();
+        gbl_centroIzq.columnWidths = new int[] {20, 140, 30};
+        gbl_centroIzq.rowHeights = new int[] {10, 366, 10};
+        gbl_centroIzq.columnWeights = new double[]{0.0,1.0,0.0};
+        gbl_centroIzq.rowWeights = new double[]{0.0,1.0,0.0};
+        centroIzq.setLayout(gbl_centroIzq);
+        
+        JPanel panelScrollIz = new JPanel();
+        GridBagConstraints gbc_panelScrollIz = new GridBagConstraints();
+        gbc_panelScrollIz.insets = new Insets(0, 0, 5, 5);
+        gbc_panelScrollIz.fill = GridBagConstraints.BOTH;
+        gbc_panelScrollIz.gridx = 1;
+        gbc_panelScrollIz.gridy = 1;
+        centroIzq.add(panelScrollIz, gbc_panelScrollIz);
         AppUI.styleTransparent(centroDe);
+        GridBagLayout gbl_centroDe = new GridBagLayout();
+        gbl_centroDe.rowHeights = new int[] {10, 366, 10};
+        gbl_centroDe.columnWidths = new int[] {20, 140, 30};
+        gbl_centroDe.columnWeights = new double[]{0.0,1.0,0.0};
+        gbl_centroDe.rowWeights = new double[]{0.0,1.0,0.0};
+        centroDe.setLayout(gbl_centroDe);
+        
+        JPanel panelScrollDe = new JPanel();
+        GridBagConstraints gbc_panelScrollDe = new GridBagConstraints();
+        gbc_panelScrollDe.insets = new Insets(0, 0, 5, 5);
+        gbc_panelScrollDe.fill = GridBagConstraints.BOTH;
+        gbc_panelScrollDe.gridx = 1;
+        gbc_panelScrollDe.gridy = 1;
+        centroDe.add(panelScrollDe, gbc_panelScrollDe);
+        panelScrollIz.setLayout(new GridLayout(0, 1, 0, 0));
+        panelScrollIz.add(scrollPaneCentroIzq);
+        scrollPaneCentroIzq.setViewportView(listTrabajadoresAsignados);
+	    panelScrollDe.setLayout(new GridLayout(0, 1, 0, 0));
+	    panelScrollDe.add(scrollPaneCentroDe);
+	    scrollPaneCentroDe.setViewportView(listTrabajadores);
 
         AppUI.styleLabel(lblAsignados);
         AppUI.styleLabel(lblTrabajadores);
