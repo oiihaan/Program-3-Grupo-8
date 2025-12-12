@@ -113,7 +113,7 @@ public class TrabajadorDAO {
 
 
     // BUSCAR POR ID
-    public BDTrabajador buscarPorId(int id) {
+    public static BDTrabajador buscarPorId(int id) {
 
         String sql = "SELECT id, nombre, contraseyna FROM trabajador WHERE id = ?";
 
@@ -171,11 +171,6 @@ public class TrabajadorDAO {
             ps.setString(1, nombre);
 
             int filas = ps.executeUpdate();
-
-            if (filas > 0)
-                System.out.println("Trabajador '" + nombre + "' eliminado.");
-            else
-                System.out.println("No existe trabajador con nombre '" + nombre + "'.");
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -3,6 +3,8 @@ package domain;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.swing.JOptionPane;
+
 import bd.TareaDAO;
 
 public class BDTarea {
@@ -32,18 +34,17 @@ public class BDTarea {
 				
 				setEstado("ejecutando");
 //				setEjecucion(true);
-				System.out.println("Tarea Iniciada " + nombre);
+		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
+
 				TareaDAO.marcarEjecutando(id);
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-					System.out.println("hilo terminado" + nombre);
 //					setEjecucion(null);
 					TareaDAO.marcarCompletada(id);
 					return;
 				}
-				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
 				TareaDAO.marcarCompletada(id);
 				
@@ -67,18 +68,16 @@ public class BDTarea {
 				
 				setEstado("ejecutando");
 //				setEjecucion(true);
-				System.out.println("Tarea Iniciada " + nombre);
+		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
 				TareaDAO.marcarEjecutando(id);
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-					System.out.println(id);
 //					setEjecucion(null);
 					TareaDAO.marcarCompletada(BDTarea.this.getId());
 					return;
 				}
-				System.out.println("Tarea finalizada " + nombre);
 //				setEjecucion(null);
 				TareaDAO.marcarCompletada(id);
 				
@@ -93,88 +92,6 @@ public class BDTarea {
 	    return String.format(nombre);
 	}
 
-	
-	
-
-
-
-
-//	//vIEJO
-//	
-//	
-//	public BDTarea(int id, String nombre, int duracion, Boolean completada) {  //---Para crear una tarea antes de asociarle trabajadores---
-//		super();
-//		this.id = id;
-//		this.nombre = nombre;
-//		this.duracion = duracion;
-//		this.estado = "pendiente";
-//		this.completada = completada;
-//		this.trabajadoresAsignados = new HashSet<BDTrabajador>();
-//		this.hilo =  new Thread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				
-//				setEstado("ejecutando");
-//				setEjecucion(true);
-//				System.out.println("Tarea Iniciada " + nombre);
-//
-//				try {
-//					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
-//				} catch (InterruptedException e) {
-//					System.out.println("hilo terminado" + nombre);
-//					setEjecucion(null);
-//					setEstado("finalizado");
-//					return;
-//				}
-//				System.out.println("Tarea finalizada " + nombre);
-//				setEjecucion(null);
-//				setEstado("finalizado");
-//				
-//				
-//			}
-//		});
-//	}
-//	
-//
-//
-//
-//	public BDTarea(int id, String nombre, int duracion,  HashSet<BDTrabajador> trabajadores) {
-//		super();
-//		this.id = id;
-//		this.nombre = nombre;
-//		this.duracion = duracion;
-//		this.estado = "pendiente";
-//		this.completada = false;
-//		this.trabajadoresAsignados = trabajadores;
-//		this.hilo =  new Thread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				
-//				setEstado("ejecutando");
-//				setEjecucion(true);
-//				System.out.println("Tarea Iniciada " + nombre);
-//
-//				try {
-//					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
-//				} catch (InterruptedException e) {
-//					System.out.println("hilo terminado" + nombre);
-//					setEjecucion(null);
-//					setEstado("finalizado");
-//					return;
-//				}
-//				System.out.println("Tarea finalizada " + nombre);
-//				setEjecucion(null);
-//				setEstado("finalizado");
-//				
-//				
-//			}
-//		});;
-//	}
-//	
-//	
-//
 	public int getId() {
 		return id;
 	}
@@ -199,12 +116,7 @@ public class BDTarea {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-//	public Boolean getEjecucion() {
-//		return completada;
-//	}
-//	public void setEjecucion(Boolean ejecucion) {
-//		this.completada = ejecucion;
-//	}
+
 	public Thread getHilo() {
 		return hilo;
 	}

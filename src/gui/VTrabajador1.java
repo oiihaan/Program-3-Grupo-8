@@ -155,6 +155,23 @@ public class VTrabajador1 extends VentanaConConfirmacion {
         gridBagLayout.rowWeights = new double[]{0.0,0.0,0.0};
         getContentPane().setLayout(gridBagLayout);
         
+        JButton btnVerficajes = new JButton("Ver mis fichajes");
+        btnVerficajes.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		TrabajadorVerFichaje VTrabajadorTarea = new TrabajadorVerFichaje(VTrabajador1.this , trabajador , trabajador.getId());
+        		VTrabajadorTarea.setVisible(true);
+        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+        		
+        		
+        	}
+        });
+        GridBagConstraints gbc_btnVerficajes = new GridBagConstraints();
+        gbc_btnVerficajes.insets = new Insets(0, 0, 5, 5);
+        gbc_btnVerficajes.gridx = 0;
+        gbc_btnVerficajes.gridy = 1;
+        getContentPane().add(btnVerficajes, gbc_btnVerficajes);
+        
         JPanel centro = new JPanel();
         GridBagConstraints gbc_centro = new GridBagConstraints();
         gbc_centro.insets = new Insets(0, 0, 5, 5);
@@ -488,38 +505,7 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		            
 		        }
 
-		        // 2️:Comprobar tareas en ejecución de este trabajador
-		        ArrayList<BDTarea> tareasEjecutando = TareaDAO.getTareasEjecutandoDeTrabajador(idTrabajador);
-
-		        if (!tareasEjecutando.isEmpty()) {
-		            int numTareas = tareasEjecutando.size();
-
-		            String mensajeTareas = String.format(
-		                "Tienes %d tarea(s) en ejecución.\n\n" +
-		                "Si sales ahora, estas tareas se pondrán de nuevo en estado 'pendiente'.\n\n" +
-		                "¿Quieres salir de todas formas?",
-		                numTareas
-		            );
-
-		            int opcionTareas = JOptionPane.showConfirmDialog(
-		                    this,
-		                    mensajeTareas,
-		                    "Tareas en ejecución",
-		                    JOptionPane.YES_NO_OPTION,
-		                    JOptionPane.QUESTION_MESSAGE
-		            );
-
-		            if (opcionTareas == JOptionPane.NO_OPTION) {
-		                // cuando le da a no
-		                return;
-		            }
-
-		            // Marcar como pendiente solo las tareas que estaban en ejecutand para este trabajador
-		            for (BDTarea t : tareasEjecutando) {
-		                TareaDAO.marcarPendiente(t.getId());
-		            }
-		        }
-
+		    
 		        // 3--Si se ha llegado hasta aquí:
 		        //    No hay fichaje abierto
 		        //    No hay tareas ejecutando
@@ -527,8 +513,9 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 
 		        this.dispose();         
 		        if (parent != null) {
-		            parent.setVisible(true);   // VPrincipal
-		        }
+		            parent.setVisible(true); 
+		            parent.getTxtUser().requestFocusInWindow();
+		        	}
 
 		    } catch (Exception ex) {
 		        ex.printStackTrace();

@@ -269,6 +269,7 @@ public class VAsignarTareas extends VentanaConConfirmacion {
     protected void onConfirmExit() {
         this.dispose();
         parent.setVisible(true);
+        
     }
     
     private void TrabajadoresListas() {
@@ -287,6 +288,7 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         }
        listTrabajadores.setModel(modeloTrabajadoresNoAsignados);
        listTrabajadoresAsignados.setModel(modeloTrabajadoresAsignados);
+       parent.getListaTrabajadores().setModel(modeloTrabajadoresAsignados);
         
 
 

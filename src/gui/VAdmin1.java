@@ -19,7 +19,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 	@SuppressWarnings("unused")
 	private BDAdmin admin;
 	@SuppressWarnings("unused")
-	private VPrincipal parent;  //--(Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE ADMIN--> TRABAJADOR SIN TENER QUE CERRAR EL PROGRAMA
+	private VPrincipal parent;  
 	JButton btnCerrarSesion;
 	
 
@@ -180,7 +180,9 @@ public class VAdmin1 extends VentanaConConfirmacion {
     private void cerrarSesionYVolverAlLogin() {
         this.dispose();
         if (parent != null) {
-            parent.setVisible(true);   // volvemos al login
+            parent.setVisible(true);
+            parent.getTxtUser().requestFocusInWindow(); 
+            // volvemos al login
         }
     }
 
