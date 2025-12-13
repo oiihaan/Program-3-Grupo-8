@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import bd.FichajeDAO;
@@ -121,7 +122,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         gbc_panelRight.gridy = 0;
         panelPrincipal.add(panelRight, gbc_panelRight);
 
-        String[] columnas = {"Día", "Entrada", "Salida", "Horas trabajadas"};
+        String[] columnas = {"Día", "Entrada", "Salida", "Horas trabajadas", "Jornada completa"};
         modeloFichajes = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -297,11 +298,58 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
     //   CARGAR FICHAJES EN TABLA
     // ===========================
     private void actualizarTablaFichajes(int idTrabajador) {
+    	
+        //Cargo Imagenes
+        ImageIcon iconoPositivo = new ImageIcon("./img/tickVerde.png");
+        ImageIcon iconoNegativo = new ImageIcon("./img/cruzRoja.png"); 
+
+    	
         try {
             List<BDFichaje> fichajes = FichajeDAO.obtenerFichajesTrabajador(idTrabajador);
 
             modeloFichajes.setRowCount(0);
 
+            
+            //Hago el render
+            tablaFichajes.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                                                               boolean isSelected, boolean hasFocus,
+                                                               int row, int column) {                    
+                    JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    label.setText("");
+                    label.setHorizontalAlignment(JLabel.CENTER);
+                    label.setIcon(null); 
+
+                        long minutos = (Long) value;
+                        int cellHeight = table.getRowHeight(row);
+                        int size = cellHeight - 4; // Tamaño ajustado
+
+                        //Ha trabajado 8 horas o mas
+                        if (minutos >= 480) {
+                            if (iconoPositivo != null) {
+                                Image img = iconoPositivo.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                                label.setIcon(new ImageIcon(img));
+                            }
+                        } else {
+                            // 
+                            if (iconoNegativo != null) {
+                                Image img = iconoNegativo.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                                label.setIcon(new ImageIcon(img));
+                            }
+                        }
+                    
+
+                    return label;
+                }
+            });
+
+            
+            
+            
+            
+            
             for (BDFichaje f : fichajes) {
                 LocalDate dia = f.getEntrada().toLocalDate();
                 LocalTime entrada = f.getEntrada().toLocalTime();
@@ -309,6 +357,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
 
                 String salidaStr = "";
                 String horasStr = "";
+                Object estadoData = null; // Variable para la columna del icono
 
                 if (f.getSalida() != null) {
                     LocalTime salida = f.getSalida().toLocalTime();
@@ -316,14 +365,26 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
 
                     long minutos = Duration.between(f.getEntrada(), f.getSalida()).toMinutes();
                     horasStr = (minutos / 60) + "h " + (minutos % 60) + "min";
+                    
+                    // Datos para la columna 4 (invisible, usado por el renderizador para elegir icono)
+                    estadoData = minutos; 
                 }
-
+                
+                
+                
+                
+                
+                
+                
+                
                 modeloFichajes.addRow(new Object[]{
                         dia.toString(),
                         entradaStr,
                         salidaStr,
-                        horasStr
+                        horasStr,
+                        estadoData
                 });
+                
             }
 
         } catch (SQLException ex) {
@@ -334,6 +395,17 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Salida dandole a la x:
     @Override
