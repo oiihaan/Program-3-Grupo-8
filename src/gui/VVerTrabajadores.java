@@ -62,7 +62,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         setContentPane(contentPane);
 
         GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{100, 600, 100};
+        gbl_contentPane.columnWidths = new int[] {30, 650, 30};
         gbl_contentPane.rowHeights = new int[]{50, 350, 50};
         gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0};
         gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0};
