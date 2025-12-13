@@ -231,7 +231,7 @@ public class AppUI {
     
   //IMAGEN
   	public static void establecerIcono(JFrame ventana) {
-          ImageIcon baseIcon = new ImageIcon("./img/logo4.png"); 
+          ImageIcon baseIcon = new ImageIcon("./img/logo.png"); 
                  
           ventana.setIconImage(baseIcon.getImage());
   	}
