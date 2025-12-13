@@ -11,7 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import bd.FichajeDAO;
 import bd.TareaDAO;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
@@ -39,202 +42,113 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 	private JButton btnDesfichar;
 	private JButton btnFichar;
 	private JButton btnVerTareas;
+	private JButton btnCerrarSesion;
+	JButton btnVerFichajes;
 	private VPrincipal parent; 
 	
-	
-	// (Danel): LE HE AÑADIDO PARENT PARA PODER CAMBIAR DE TRABAJADOR--> ADMIN
-	// PORQUE SINO LOS FICHAJES NO SE GUARDAN Y AL ENTRAR COMO ADMIN LA LISTA DE FICHAJES DE LOS TRABAJADORES ESTARIA VACIA
-	// AL INICIAR EL PROGRAMA NO HAY FICHAJES HECHOS (SE PODRIA CREAR UN METODO PARA QUE LEA UN ARCHIVO DE FICHAJES O ASI PARA QUE NO ESTEN VACIOS DE INICIO)
-	
-	public void controlFichaje(BDTrabajador trabajador){
-		
-		if (trabajador.getEntrada() != null) {
-			btnDesfichar.setEnabled(true);
-			btnFichar.setEnabled(false);
-
-
-		}else {
-			btnFichar.setEnabled(true);
-			btnDesfichar.setEnabled(false);
-
-
-		}
-		
-	}
 	
 	//CONSTRUCTOR
 	public VTrabajador1(VPrincipal parent, BDTrabajador trabajador) {
 		this.parent = parent;
 		this.trabajador = trabajador;
 		
-		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		//getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         setTitle("Panel del Trabajador");
         setSize(643, 462);
         setLocationRelativeTo(null);
         
-			// --- LABEL BIENVENIDO ---
-        JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
-        GridBagConstraints gbc_lbl = new GridBagConstraints();
-        gbc_lbl.fill = GridBagConstraints.VERTICAL;
-        gbc_lbl.insets = new Insets(0, 0, 5, 0);
-        gbc_lbl.gridwidth = 6;
-        gbc_lbl.gridx = 0;
-        gbc_lbl.gridy = 1;
-   
-                                              
-        // --- BOTÓN DESFICHAR ---
-        btnDesfichar = new JButton("Desfichar");
-        btnDesfichar.setBounds(36, 28, 100, 30);
+        //PANEL PRINCIPAL
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
         
-        // --- BOTÓN FICHAR ---
-        btnFichar = new JButton("Fichar");
-        btnFichar.setBounds(44, 28, 85, 31);
-        btnFichar.setEnabled(false);
-        btnFichar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		trabajador.metodoFichar();
-        		btnDesfichar.setEnabled(true);
-        		btnFichar.setEnabled(false);
-
-        	}
-        });
-        
-        //-- BOTON LogOut --
-        JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-        btnCerrarSesion.addActionListener(e -> manejarSalidaYVolverALogin());
-
-
-        // --- BOTÓN VER TAREAS ---
-        btnVerTareas = new JButton("Ver tareas");
-        btnVerTareas.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
-        		VTrabajadorTarea.setVisible(true);
-        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
-        	}
-        });
-        
-        
-        
-        //--CODIGO LAYOUT--
-        GridBagConstraints gbc_btnFichar = new GridBagConstraints();
-        gbc_btnFichar.fill = GridBagConstraints.BOTH;
-        gbc_btnFichar.insets = new Insets(0, 0, 5, 5);
-        gbc_btnFichar.gridx = 1;
-        gbc_btnFichar.gridy = 3;
-
-        btnDesfichar.setEnabled(false);
-        GridBagConstraints gbc_btnDesfichar = new GridBagConstraints();
-        gbc_btnDesfichar.anchor = GridBagConstraints.WEST;
-        gbc_btnDesfichar.fill = GridBagConstraints.VERTICAL;
-        gbc_btnDesfichar.insets = new Insets(0, 0, 5, 5);
-        gbc_btnDesfichar.gridx = 4;
-        gbc_btnDesfichar.gridy = 3;
-
-        GridBagConstraints gbc_btnVerTareas = new GridBagConstraints();
-        gbc_btnVerTareas.fill = GridBagConstraints.BOTH;
-        gbc_btnVerTareas.insets = new Insets(0, 0, 5, 5);
-        gbc_btnVerTareas.gridx = 1;
-        gbc_btnVerTareas.gridy = 5;
-
-        GridBagConstraints gbc_btnCerrarSesion = new GridBagConstraints();
-        gbc_btnCerrarSesion.insets = new Insets(0, 0, 5, 5);
-        gbc_btnCerrarSesion.fill = GridBagConstraints.BOTH;
-        gbc_btnCerrarSesion.gridx = 4;
-        gbc_btnCerrarSesion.gridy = 5;
-
-        
-        controlFichaje(trabajador);
-
-        //ESTILO CON AppUI
-        AppUI.styleBackground((JPanel) getContentPane());
-        GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[] {140, 350, 140};
-        gridBagLayout.rowHeights = new int[] {50, 200, 50};
-        gridBagLayout.columnWeights = new double[]{0.0,0.0,0.0};
-        gridBagLayout.rowWeights = new double[]{0.0,0.0,0.0};
-        getContentPane().setLayout(gridBagLayout);
-        
-        JButton btnVerficajes = new JButton("Ver mis fichajes");
-        btnVerficajes.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		TrabajadorVerFichaje VTrabajadorTarea = new TrabajadorVerFichaje(VTrabajador1.this , trabajador , trabajador.getId());
-        		VTrabajadorTarea.setVisible(true);
-        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
-        		
-        		
-        	}
-        });
-        GridBagConstraints gbc_btnVerficajes = new GridBagConstraints();
-        gbc_btnVerficajes.insets = new Insets(0, 0, 5, 5);
-        gbc_btnVerficajes.gridx = 0;
-        gbc_btnVerficajes.gridy = 1;
-        getContentPane().add(btnVerficajes, gbc_btnVerficajes);
-        
+        //LAYOUT PRINCIPAL:
+        GridBagLayout gbl = new GridBagLayout();
+        gbl.columnWidths  = new int[] {150, 150, 150}; 
+        gbl.rowHeights    = new int[] {50, 300, 50};
+        gbl.columnWeights = new double[]{0.0, 0.0, 0.0};
+        gbl.rowWeights    = new double[]{0.0, 0.0, 0.0};
+        contentPane.setLayout(gbl);
+      
+        //PANEL CENTRO
         JPanel centro = new JPanel();
+ 
         GridBagConstraints gbc_centro = new GridBagConstraints();
-        gbc_centro.insets = new Insets(0, 0, 5, 5);
-        gbc_centro.fill = GridBagConstraints.BOTH;
-        gbc_centro.gridx = 1;
-        gbc_centro.gridy = 1;
-        getContentPane().add(centro, gbc_centro);
+        gbc_centro.anchor = GridBagConstraints.WEST;      // igual que Admin
+        gbc_centro.fill = GridBagConstraints.VERTICAL;    // igual que Admin
+        gbc_centro.insets = new Insets(0, 0, 5, 5);       // igual que Admin
+        gbc_centro.gridx = 1; // Columna central
+        gbc_centro.gridy = 1; // Fila central
+        contentPane.add(centro, gbc_centro);
+        
         centro.setLayout(new BorderLayout(0, 0));
         
-        JPanel north = new JPanel();
-        centro.add(north, BorderLayout.NORTH);
-        north.add(lbl);
+     //NORTH (Titulo)
+        JPanel centroNorth = new JPanel();
+        FlowLayout fl = (FlowLayout) centroNorth.getLayout();
+        fl.setVgap(20);
+        centro.add(centroNorth, BorderLayout.NORTH);
         
-        JPanel centroCentro = new JPanel();
-        centro.add(centroCentro, BorderLayout.CENTER);
-        centroCentro.setLayout(new GridLayout(2, 2, 0, 0));
+        JLabel lbl = new JLabel("Bienvenido, " + trabajador.getNombre());
+        centroNorth.add(lbl);
         
-        JPanel topIz = new JPanel();
-        centroCentro.add(topIz);
-        topIz.setLayout(null);
-        topIz.add(btnFichar);
+     // CENTRO,2x2 botones 
+        JPanel centroCenter = new JPanel();
+        centroCenter.setLayout(new GridLayout(2, 2, 10, 30));
+        centro.add(centroCenter, BorderLayout.CENTER);
+
+        btnFichar = new JButton("Fichar");
+        btnDesfichar = new JButton("Desfichar");
+        btnVerTareas = new JButton("Ver tareas");
+        btnVerFichajes = new JButton("Ver mis fichajes");
+        btnCerrarSesion = new JButton("Cerrar sesión");
+
+        centroCenter.add(btnFichar);
+        centroCenter.add(btnDesfichar);
+        centroCenter.add(btnVerTareas);
+        centroCenter.add(btnVerFichajes);
+
         
-        JPanel topDe = new JPanel();
-        centroCentro.add(topDe);
-        topDe.setLayout(null);
-        topDe.add(btnDesfichar);
-        
-        JPanel downIz = new JPanel();
-        centroCentro.add(downIz);
-        downIz.add(btnVerTareas);
-        
-        JPanel downDe = new JPanel();
-        centroCentro.add(downDe);
-        downDe.add(btnCerrarSesion);
+     // CERRAR SESIÓN
+        GridBagConstraints gbc_btnCerrar = new GridBagConstraints();
+        gbc_btnCerrar.insets = new Insets(0, 0, 0, 5);
+        gbc_btnCerrar.gridx = 1;
+        gbc_btnCerrar.gridy = 2;
+        contentPane.add(btnCerrarSesion, gbc_btnCerrar);
         
         
-        AppUI.styleTitle(lbl);
+        
+        
+     // ===== ESTILO ======
         AppUI.stylePrimaryButton(btnFichar);
         AppUI.stylePrimaryButton(btnDesfichar);
         AppUI.stylePrimaryButton(btnVerTareas);
+        AppUI.stylePrimaryButton(btnVerFichajes);
         AppUI.stylePrimaryButton(btnCerrarSesion);
-        AppUI.styleBackground(centro);
-        AppUI.styleCard(topDe);
-        AppUI.styleCard(topIz);
-        AppUI.styleCard(downDe);
-        AppUI.styleCard(downIz);
-        AppUI.styleCard(north);
         
 
+        // Estilo de fondo a los paneles 
+        AppUI.styleBackground(contentPane);
+        AppUI.styleBackground(centro);
+        AppUI.styleCard(centro); 
+         
+        AppUI.styleTransparent(centroNorth); 
+        AppUI.styleTransparent(centroCenter);
+       
+
+        // Estilo del Título
+        AppUI.styleTitle(lbl);
         
+        AppUI.establecerIcono(this);
+        //=================================================
+        //====================================== ACTIONS ========================================================
+        //================================================================
+        //Llamada al metodo de inicializar (esta debajo definido)
+        inicializarEstadoFichaje();
+        //
+        controlFichaje(trabajador);
         
-      //IMAGEN
-		AppUI.establecerIcono(this);
-		
-	
-	  // Fichajes:
-		//Llamada al metodo de inicializar (esta debajo definido)
-		inicializarEstadoFichaje();
-		
-		//Explicacion:Ahora, hora del fichaje
-		//Se actualiza el objeto trabajador
-		//Se
-		
+        //===============FICHAR=================
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 		//Conectar botón FICHAR con FichajeDAO
 		btnFichar.addActionListener(e -> {
@@ -265,13 +179,8 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		                JOptionPane.ERROR_MESSAGE);
 		    }
 		});
-		
-		//Conectar boton DESfichar con fichajeDAO
-		//Se mira la entrada que tenía el objeto trabajador
-		//Se cierra la fila abieta en BD
-		//Se añade al mapa de registrosFichaje, y se borra la entrada.
-		//Se muestra mensaje de: has trabaado: x
-		//TODO poner si hay tareas ejecutando y asi
+        
+        //============================DESFICHAR==========================
 		btnDesfichar.addActionListener(e -> {
 		    try {
 		        // 1) Hora actual
@@ -316,22 +225,94 @@ public class VTrabajador1 extends VentanaConConfirmacion {
 		                JOptionPane.ERROR_MESSAGE);
 		    }
 		});
-		
-		// Para controlar que no se vaya sin fichar o que al menos 
-		// Se le recuerde que sigue estando sin fichar
+		//======================================================================================
+		//para controlar que no se vaya sin fichar:
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
-//		addWindowListener(new java.awt.event.WindowAdapter() {
-//			public void windowClosing(java.awt.event.WindowEvent e) {
-//				controlarSalida();
-//			}
-//			});
+		// =============CERRAR SESION===========
+        btnCerrarSesion.addActionListener(e -> manejarSalidaYVolverALogin());
 
-
-        	  
+        //========================VER FICHAJES==============================
+        btnVerFichajes.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
         		
-
+        		TrabajadorVerFichaje VTrabajadorTarea = new TrabajadorVerFichaje(VTrabajador1.this , trabajador , trabajador.getId());
+        		VTrabajadorTarea.setVisible(true);
+        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+        		
+        		
+        	}
+        });
+        
+        //=============================VER TAREAS==============================
+        btnVerTareas.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VTrabajadorTarea VTrabajadorTarea = new VTrabajadorTarea(VTrabajador1.this , trabajador);
+        		VTrabajadorTarea.setVisible(true);
+        		VTrabajador1.this.setVisible(false);  // No se abre la ventana, no se porque. Falta pasarle el trabajador
+        	}
+        });
+        
+      
+        
+        
+     //din de constructor
+		
 	}
+	//METODO QUE PODEMOS USAR:
+//	private void configurarFichaje() {
+//	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+//
+//	    btnFichar.addActionListener(e -> {
+//	        try {
+//	            LocalDateTime ahora = LocalDateTime.now();
+//	            FichajeDAO.crearFichajeEntrada(trabajador.getId(), ahora);
+//	            trabajador.registrarFichajeEntrada(ahora);
+//
+//	            btnFichar.setEnabled(false);
+//	            btnDesfichar.setEnabled(true);
+//
+//	            JOptionPane.showMessageDialog(this,
+//	                    "Has fichado a las " + ahora.toLocalTime().format(formatter));
+//	        } catch (Exception ex) {
+//	            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//	        }
+//	    });
+//
+//	    btnDesfichar.addActionListener(e -> {
+//	        try {
+//	            LocalDateTime salida = LocalDateTime.now();
+//	            FichajeDAO.cerrarFichajeActual(trabajador.getId(), salida);
+//	            trabajador.registrarFichajeSalida(salida);
+//
+//	            btnFichar.setEnabled(true);
+//	            btnDesfichar.setEnabled(false);
+//
+//	            JOptionPane.showMessageDialog(this,
+//	                    "Has desfichado a las " + salida.toLocalTime().format(formatter));
+//	        } catch (Exception ex) {
+//	            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//	        }
+//	    });
+//	}
+
+	
+	public void controlFichaje(BDTrabajador trabajador){
+			
+			if (trabajador.getEntrada() != null) {
+				btnDesfichar.setEnabled(true);
+				btnFichar.setEnabled(false);
+	
+	
+			}else {
+				btnFichar.setEnabled(true);
+				btnDesfichar.setEnabled(false);
+	
+	
+			}
+			
+		}
+	
 	//METODO PARA LOS FICHAJES:
 	private void inicializarEstadoFichaje() {
 	    try {
