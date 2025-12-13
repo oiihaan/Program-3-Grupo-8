@@ -41,73 +41,97 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         setContentPane(contentPane);
         contentPane.setLayout(new GridLayout(1, 1, 0, 0));
         
-        JPanel panel = new JPanel();
-        contentPane.add(panel);
-        GridBagLayout gbl_panel = new GridBagLayout();
-        gbl_panel.rowHeights = new int[] {50, 58, 50};
-        gbl_panel.columnWidths = new int[] {30, 200, 200, 200, 50};
-        gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0};
-        panel.setLayout(gbl_panel);
-
+        JPanel panelDeAtras = new JPanel();
+        contentPane.add(panelDeAtras);
+        GridBagConstraints gbc_panelDeAtras = new GridBagConstraints();
+        gbc_panelDeAtras.insets = new Insets(0, 0, 5, 5);
+        gbc_panelDeAtras.fill = GridBagConstraints.BOTH;
+        gbc_panelDeAtras.gridx = 1;
+        gbc_panelDeAtras.gridy = 0;
+        GridBagLayout gbl_panelDeAtras = new GridBagLayout();
+        gbl_panelDeAtras.columnWidths = new int[] {50, 600, 50};
+        gbl_panelDeAtras.rowHeights = new int[] {50, 58, 50};
+        gbl_panelDeAtras.columnWeights = new double[]{0.0, 0.0,0.0};
+        gbl_panelDeAtras.rowWeights = new double[]{0.0, 0.0,0.0};
+        panelDeAtras.setLayout(gbl_panelDeAtras);
         
+        
+
+        // Estilo AppUI
+        AppUI.styleBackground(contentPane);
+        
+        JPanel panelCuadrado = new JPanel();
+        GridBagLayout gbl_panelCuadrado = new GridBagLayout();
+        gbl_panelCuadrado.rowHeights = new int[] {58};
+        gbl_panelCuadrado.columnWidths = new int[] {200, 200, 200};
+        gbl_panelCuadrado.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
+        gbl_panelCuadrado.rowWeights = new double[]{1.0, 0.0, 0.0};
+        panelCuadrado.setLayout(gbl_panelCuadrado);
+        GridBagConstraints gbc_panelCuadrado = new GridBagConstraints();
+        gbc_panelCuadrado.anchor = GridBagConstraints.NORTHWEST;
+        gbc_panelCuadrado.gridx = 1;
+        gbc_panelCuadrado.gridy = 1;
+        panelDeAtras.add(panelCuadrado, gbc_panelCuadrado);
+        
+                
         //3 paneles
         JPanel left = new JPanel();
         GridBagConstraints gbc_left = new GridBagConstraints();
         gbc_left.fill = GridBagConstraints.BOTH;
-        gbc_left.insets = new Insets(0, 0, 0, 5);
-        gbc_left.gridx = 1;
-        gbc_left.gridy = 1;
-        panel.add(left, gbc_left);
+        gbc_left.insets = new Insets(0, 0, 5, 5);
+        gbc_left.gridx = 0;
+        gbc_left.gridy = 0;
+        panelCuadrado.add(left, gbc_left);
         left.setLayout(new GridLayout(0, 1, 0, 0));
-
-        JPanel center = new JPanel();
-        GridBagConstraints gbc_center = new GridBagConstraints();
-        gbc_center.fill = GridBagConstraints.BOTH;
-        gbc_center.insets = new Insets(0, 0, 0, 5);
-        gbc_center.gridx = 2;
-        gbc_center.gridy = 1;
-        panel.add(center, gbc_center);
-        center.setLayout(new GridLayout(0, 1, 0, 0));
         
-        JPanel right = new JPanel();
-        right.setLayout(new GridLayout(2, 1, 0, 10));
-        GridBagConstraints gbc_right = new GridBagConstraints();
-        gbc_right.fill = GridBagConstraints.BOTH;
-        gbc_right.gridx = 3;
-        gbc_right.gridy = 1;
-        panel.add(right, gbc_right);
-        
-        
-        
-        //LABELS
-        JLabel lblUsername = new JLabel("Nombre de usuario: ");
-        left.add(lblUsername);
-        lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
-       
+	    JPanel center = new JPanel();
+	    GridBagConstraints gbc_center = new GridBagConstraints();
+	    gbc_center.fill = GridBagConstraints.BOTH;
+	    gbc_center.insets = new Insets(0, 0, 5, 5);
+	    gbc_center.gridx = 1;
+	    gbc_center.gridy = 0;
+	    panelCuadrado.add(center, gbc_center);
+	    center.setLayout(new GridLayout(0, 1, 0, 0));
+	    
+	    JPanel right = new JPanel();
+	    right.setLayout(new GridLayout(2, 1, 0, 10));
+	    GridBagConstraints gbc_right = new GridBagConstraints();
+	    gbc_right.insets = new Insets(0, 0, 5, 5);
+	    gbc_right.fill = GridBagConstraints.BOTH;
+	    gbc_right.gridx = 2;
+	    gbc_right.gridy = 0;
+	    panelCuadrado.add(right, gbc_right);
+	    
+	    
+	    
+	    //LABELS
+	    JLabel lblUsername = new JLabel("Nombre de usuario: ");
+	    left.add(lblUsername);
+	    lblUsername.setHorizontalAlignment(SwingConstants.RIGHT);
+	    
+	
+	     JLabel lblContrasenya = new JLabel("Contraseña: ");
+	     lblContrasenya.setHorizontalAlignment(SwingConstants.RIGHT);
+	     left.add(lblContrasenya);
+     
+     
+         //TEXTFIELDS
+         txtUsername = new JTextField();
+         center.add(txtUsername);
+         txtUsername.setColumns(10);
+         
+	       txtPassword = new JPasswordField();
+	       txtPassword.setColumns(15);
+	       txtPassword.setEchoChar('•');
+	       center.add(txtPassword);
+	       
 
-        JLabel lblContrasenya = new JLabel("Contraseña: ");
-        lblContrasenya.setHorizontalAlignment(SwingConstants.RIGHT);
-        left.add(lblContrasenya);
-
-
-        //TEXTFIELDS
-        txtUsername = new JTextField();
-        center.add(txtUsername);
-        txtUsername.setColumns(10);
-      
-        txtPassword = new JPasswordField();
-        txtPassword.setColumns(15);
-        txtPassword.setEchoChar('•');
-        center.add(txtPassword);
-       
-
-        
+            
         //BOTONES
         JButton btnAynadir = new JButton("Añadir");
         right.add(btnAynadir);
         btnAynadir.setEnabled(false);
-
+        
         JButton btnVolver = new JButton("Volver");
         right.add(btnVolver);
         
@@ -123,17 +147,17 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
 				}
 			}
 		});
-		
-		txtPassword.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if(!txtUsername.getText().isEmpty() && txtPassword.getPassword().length > 0) {
-					btnAynadir.setEnabled(true);
-				}else {
-					btnAynadir.setEnabled(false);
-				}
-			}
-		});
+                                            
+        txtPassword.addKeyListener(new KeyAdapter() {
+        	@Override
+        	public void keyReleased(KeyEvent e) {
+        		if(!txtUsername.getText().isEmpty() && txtPassword.getPassword().length > 0) {
+        			btnAynadir.setEnabled(true);
+        		}else {
+        			btnAynadir.setEnabled(false);
+        		}
+        	}
+        });
         
         
         
@@ -146,13 +170,13 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
             	String username = txtUsername.getText().trim();
                 
 
-                
+                                                    
 				txtUsername.setText("");
 				txtPassword.setText("");
 				btnAynadir.setEnabled(false);
 			
 
-                //Uso de la funcion recursiva
+                                                    //Uso de la funcion recursiva
                 //Sugiere al usuario una contraseña creada por el sistema
                 String suggestedPassword = invertirRecursivo(username);
                 
@@ -210,12 +234,8 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
                 onConfirmExit();
             }
         });
-        
-        
-
-        // Estilo AppUI
-        AppUI.styleBackground(contentPane);
-        AppUI.styleCard(panel);
+        AppUI.styleBackground(panelDeAtras);
+        AppUI.styleCard(panelCuadrado);
         AppUI.styleTransparent(right);
         AppUI.styleTransparent(left);
         AppUI.styleLabel(lblUsername);

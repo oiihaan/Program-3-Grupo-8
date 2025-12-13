@@ -282,8 +282,8 @@ public class VVerTareas extends VentanaConConfirmacion {
 		//Estilo AppUI
 				AppUI.styleBackground(contentPane);
 				AppUI.styleCard(centro);
-				AppUI.styleTransparent(left);
 				AppUI.styleTransparent(right);
+				AppUI.styleTransparent(left);
 				AppUI.styleTransparent(firstRowCe);
 				
 
