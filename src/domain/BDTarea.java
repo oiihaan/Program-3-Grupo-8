@@ -12,7 +12,6 @@ public class BDTarea {
     private String nombre;
     private int duracion; // En minutos
 	private String estado; // Opciones : pendiente (Si no se ha iniciado) , ejecutando (Si se ha iniciado el hilo) y finalizado (Si el hilo se ha finalizado)
-//	private Boolean completada; // Por si es necesario para algo luego -->(UNAI ) YO LO QUITABA
 	private HashSet<BDTrabajador> trabajadoresAsignados; //Mirar el doc la 23 he puseto algo sobre esto
 	private Thread hilo;
 	
@@ -25,7 +24,6 @@ public class BDTarea {
 		this.nombre = nombre;
 		this.duracion = duracion;
 		this.estado = estado;
-//		this.completada = completada;
 		this.trabajadoresAsignados = trabajadoresAsignados;
 		this.hilo =   new Thread(new Runnable() {
 			
@@ -33,7 +31,6 @@ public class BDTarea {
 			public void run() {
 				
 				setEstado("ejecutando");
-//				setEjecucion(true);
 		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
 
 				TareaDAO.marcarEjecutando(id);
@@ -41,11 +38,9 @@ public class BDTarea {
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-//					setEjecucion(null);
 					TareaDAO.marcarCompletada(id);
 					return;
 				}
-//				setEjecucion(null);
 				TareaDAO.marcarCompletada(id);
 				
 				
@@ -59,7 +54,6 @@ public class BDTarea {
 		this.nombre = nombre;
 		this.duracion = duracion;
 		this.estado = estado;
-//		this.completada = completada;
 //		this.trabajadoresAsignados = null;
 		this.hilo =   new Thread(new Runnable() {
 			
@@ -67,18 +61,15 @@ public class BDTarea {
 			public void run() {
 				
 				setEstado("ejecutando");
-//				setEjecucion(true);
 		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
 				TareaDAO.marcarEjecutando(id);
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-//					setEjecucion(null);
 					TareaDAO.marcarCompletada(BDTarea.this.getId());
 					return;
 				}
-//				setEjecucion(null);
 				TareaDAO.marcarCompletada(id);
 				
 				
@@ -88,7 +79,6 @@ public class BDTarea {
 	
 	@Override
 	public String toString() {
-	    // Ejemplo: "Montar Estantería [pendiente]"
 	    return String.format(nombre);
 	}
 
@@ -130,11 +120,7 @@ public class BDTarea {
 		this.trabajadoresAsignados = trabajadoresAsignados;
 	}
 
-	//es necesario para la base de datos (hay que completarlo)
-	public boolean isCompletada() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 
 

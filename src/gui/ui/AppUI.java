@@ -236,6 +236,15 @@ public class AppUI {
           ventana.setIconImage(baseIcon.getImage());
   	}
   	
+  	//Tamaño ventanas igual
+    public static void configurarVentana(JFrame frame) {
+        int ANCHO = 800;
+        int ALTO  = 600;
+
+        frame.setSize(ANCHO, ALTO);          
+        frame.setLocationRelativeTo(null);   
+    }
+  	
 
     
 }

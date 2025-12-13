@@ -55,9 +55,6 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 
 		 
 		setTitle("Añadir Tareas");
-		
-		// No poner para que funcione lo de desloguearse
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 700, 387);
 		contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -217,12 +214,12 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 		AppUI.styleTextField(txtDuracion);
 	    AppUI.styleTextField(txtNombreTarea);
 		
+        AppUI.configurarVentana(this);
 
 		//IMAGEN
 		AppUI.establecerIcono(this);
 		
-		//Para centrar la ventana
-		this.setLocationRelativeTo(null);
+
 
 	}
 
@@ -241,10 +238,11 @@ public class VAnyadirTareas extends VentanaConConfirmacion {
 
     @Override
     protected void onConfirmExit() {
-        this.dispose();
+        
         if (parent != null) {
             parent.setVisible(true);
         }
+        this.dispose();
     }
 }
 

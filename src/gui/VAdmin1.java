@@ -16,9 +16,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	@SuppressWarnings("unused")
 	private BDAdmin admin;
-	@SuppressWarnings("unused")
 	private VPrincipal parent;  
 	JButton btnCerrarSesion;
 	
@@ -146,7 +144,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		AppUI.styleTransparent(centroNorth);
 		AppUI.styleTransparent(centroCenter);
 
-		AppUI.styleSubtitle(lblBienvenida);
+		AppUI.styleTitle(lblBienvenida);
 		AppUI.styleTitle(lblNombreAdmin);
 
 		AppUI.stylePrimaryButton(btnAnyadirTareas);
@@ -155,10 +153,12 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		AppUI.stylePrimaryButton(btnVisualizarEmpleados);
 		AppUI.stylePrimaryButton(btnCerrarSesion);
 
-		
+        AppUI.configurarVentana(this);
+
 		//IMAGEN
 		AppUI.establecerIcono(this);
 	}
+	
 
 
 	@Override
@@ -178,12 +178,13 @@ public class VAdmin1 extends VentanaConConfirmacion {
 
 
     private void cerrarSesionYVolverAlLogin() {
-        this.dispose();
+
         if (parent != null) {
             parent.setVisible(true);
             parent.getTxtUser().requestFocusInWindow(); 
             // volvemos al login
         }
+        this.dispose();
     }
 
 

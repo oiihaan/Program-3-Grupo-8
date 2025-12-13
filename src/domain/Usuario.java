@@ -8,8 +8,7 @@ import java.util.HashMap;
 public abstract class Usuario {
     private int id;
 	private String nombre;
-	//private String apellido;
-	//private String usuario; // El de la parte del login
+
 	private String contrasenya;
 	
 

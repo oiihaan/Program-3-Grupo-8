@@ -24,11 +24,10 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
     private Thread HiloTiempo;
 
     public VTrabajadorTarea(VTrabajador1 parent, BDTrabajador trabajador) {
-        super();               // usar el constructor de VentanaConConfirmacion
+        super();             
         this.parent = parent;
 
         setTitle("Tus tareas asignadas");
-        // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setBounds(100, 100, 616, 423);
         contentPane = new JPanel();
@@ -211,8 +210,7 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
                     }
                 }
             } catch (InterruptedException ex) {
-                // Sale del bucle cuando se interrumpe
-                // No hace falta log aquí si no quieres ruido
+
             }
         });
         HiloTiempo.start();
@@ -244,6 +242,8 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
 
         // IMAGEN
         AppUI.establecerIcono(this);
+        AppUI.configurarVentana(this);
+
     }
 
     // LOGOUT: VOLVER A A la ventana padre VTrabajador1
@@ -260,9 +260,11 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
     @Override
     protected void onConfirmExit() {
         // solo volver al padre
-        this.dispose();
+ 
         if (parent != null) {
             parent.setVisible(true);
         }
+        this.dispose();
+        
     }
 }

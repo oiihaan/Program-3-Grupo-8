@@ -118,7 +118,20 @@ public class VVerTareas extends VentanaConConfirmacion {
 		//SCROLLPANE
 		JScrollPane scrollPane = new JScrollPane();
 		left.add(scrollPane);
-		listaTareas = new JList();
+		listaTareas = new JList() {
+
+            @Override
+            public String getToolTipText(java.awt.event.MouseEvent e) {
+                int index = locationToIndex(e.getPoint());
+                if (index == -1) {
+                    return null;
+                }else {
+                  BDTarea t = (BDTarea) getModel().getElementAt(index);
+
+                return "La tarea dura " + t.getDuracion() + " minutos";
+                }
+            }
+		};
 
 		//LISTA
 		listaTareas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -263,13 +276,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 			}
 		});
 		
-			
-	//Boton Paso de Ventana a ASIGNAR_TAREA
 
-	//	GridBagConstraints gbc_btnAsignarTareas = new GridBagConstraints();
-	//	gbc_btnAsignarTareas.gridx = 0;
-	//	gbc_btnAsignarTareas.gridy = 0;
-		// thirdRowCe.add(btnAsignarTareas, gbc_btnAsignarTareas);
 
 		
 		//Estilo AppUI
@@ -305,7 +312,8 @@ public class VVerTareas extends VentanaConConfirmacion {
 				
 				//IMAGEN
 				AppUI.establecerIcono(this);
-				
+		        AppUI.configurarVentana(this);
+
 
 	}
 

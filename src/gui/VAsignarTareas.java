@@ -33,14 +33,13 @@ public class VAsignarTareas extends VentanaConConfirmacion {
     
     //CONSTRUCTOR
     public VAsignarTareas(VVerTareas parent, BDAdmin admin , BDTarea tarea)  {
-        super();                  // importante: llama al constructor de la base
+        super();                  
         this.parent = parent;
         this.admin = admin;
         this.tarea = tarea;
 
         
         setTitle("Asignador de Trabajadores a la tarea: " + tarea.getNombre() );
-        // NO: setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); -> lo hace la base
         setBounds(100, 100, 648, 530);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -108,28 +107,52 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         JButton btnVolver = new JButton("Volver");
         centroSouth.add(btnVolver);
 
-     
-
-     
-
        
         //SCROLLPANE
         JScrollPane scrollPaneCentroDe = new JScrollPane();
         scrollPaneCentroDe.setBounds(10, 10, 195, 314);
         
 
-        
         JScrollPane scrollPaneCentroIzq = new JScrollPane();
         scrollPaneCentroIzq.setBounds(10, 10, 195, 314);
+        
+        
+        GridBagLayout gbl_centroIzq = new GridBagLayout();
+        gbl_centroIzq.columnWidths = new int[] {20, 140, 30};
+        gbl_centroIzq.rowHeights = new int[] {10, 366, 10};
+        gbl_centroIzq.columnWeights = new double[]{0.0,1.0,0.0};
+        gbl_centroIzq.rowWeights = new double[]{0.0,1.0,0.0};
+        centroIzq.setLayout(gbl_centroIzq);
+        
+        JPanel panelScrollIz = new JPanel();
+        GridBagConstraints gbc_panelScrollIz = new GridBagConstraints();
+        gbc_panelScrollIz.insets = new Insets(0, 0, 5, 5);
+        gbc_panelScrollIz.fill = GridBagConstraints.BOTH;
+        gbc_panelScrollIz.gridx = 1;
+        gbc_panelScrollIz.gridy = 1;
+        centroIzq.add(panelScrollIz, gbc_panelScrollIz);
+        
+        GridBagLayout gbl_centroDe = new GridBagLayout();
+        gbl_centroDe.rowHeights = new int[] {10, 366, 10};
+        gbl_centroDe.columnWidths = new int[] {20, 140, 30};
+        gbl_centroDe.columnWeights = new double[]{0.0,1.0,0.0};
+        gbl_centroDe.rowWeights = new double[]{0.0,1.0,0.0};
+        centroDe.setLayout(gbl_centroDe);
+        
+        JPanel panelScrollDe = new JPanel();
+        GridBagConstraints gbc_panelScrollDe = new GridBagConstraints();
+        gbc_panelScrollDe.insets = new Insets(0, 0, 5, 5);
+        gbc_panelScrollDe.fill = GridBagConstraints.BOTH;
+        gbc_panelScrollDe.gridx = 1;
+        gbc_panelScrollDe.gridy = 1;
+        centroDe.add(panelScrollDe, gbc_panelScrollDe);
+        panelScrollIz.setLayout(new GridLayout(0, 1, 0, 0));
+        panelScrollIz.add(scrollPaneCentroIzq);
+        scrollPaneCentroIzq.setViewportView(listTrabajadoresAsignados);
+	    panelScrollDe.setLayout(new GridLayout(0, 1, 0, 0));
+	    panelScrollDe.add(scrollPaneCentroDe);
+	    scrollPaneCentroDe.setViewportView(listTrabajadores);
       
-
-        
-        
-        
-        //LOGICA de los botones --> Queda esto pendiente
-
-        // -- LÓGICA DE LISTAS --
-
 
         // Botón Volver -> mismo comportamiento que la X
         btnVolver.addActionListener(new ActionListener() {
@@ -163,6 +186,53 @@ public class VAsignarTareas extends VentanaConConfirmacion {
             	}
         	}
         });
+        
+        
+        //BOTONES
+        btnAsignarTarea = new JButton("Asignar tarea");
+        btnAsignarTarea.setEnabled(false);
+        centroSouth.add(btnAsignarTarea);
+        
+        btnAsignarTarea.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Object[] trabajadoresSelecionados = listTrabajadores.getSelectedValues();
+
+        		for(Object t : trabajadoresSelecionados) {
+        			BDTrabajador trabajador = (BDTrabajador) t;
+        			Tarea_TrabajadorDAO.insertarTrabajadoresATarea(tarea.getId(), trabajador.getId());
+        			
+        		}
+        		TrabajadoresListas();
+        		JOptionPane.showMessageDialog(
+        		        null,
+        		        "Los trabajadores se han añadido correctamente.",
+        		        "Información",
+        		        JOptionPane.INFORMATION_MESSAGE
+        		);
+        		
+
+        	}
+        });
+        
+        btnDesasignarTarea.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Object[] trabajadoresSelecionados = listTrabajadoresAsignados.getSelectedValues();
+
+        		for(Object t : trabajadoresSelecionados) {
+        			BDTrabajador trabajador = (BDTrabajador) t;
+        			Tarea_TrabajadorDAO.eliminarTrabajadorDeTarea(tarea.getId(), trabajador.getId());
+        			
+        		}
+        		TrabajadoresListas();
+        		JOptionPane.showMessageDialog(
+        		        null,
+        		        "Los trabajadores se han eliminado de la tarea correctamente.",
+        		        "Información",
+        		        JOptionPane.INFORMATION_MESSAGE
+        		);
+        		
+        	}
+        });
 
         
         // Estilo AppUI
@@ -173,100 +243,17 @@ public class VAsignarTareas extends VentanaConConfirmacion {
         AppUI.styleTransparent(centroSouth);
         AppUI.styleTransparent(centroCentro);
         AppUI.styleTransparent(centroIzq);
-        GridBagLayout gbl_centroIzq = new GridBagLayout();
-        gbl_centroIzq.columnWidths = new int[] {20, 140, 30};
-        gbl_centroIzq.rowHeights = new int[] {10, 366, 10};
-        gbl_centroIzq.columnWeights = new double[]{0.0,1.0,0.0};
-        gbl_centroIzq.rowWeights = new double[]{0.0,1.0,0.0};
-        centroIzq.setLayout(gbl_centroIzq);
-        
-        JPanel panelScrollIz = new JPanel();
-        GridBagConstraints gbc_panelScrollIz = new GridBagConstraints();
-        gbc_panelScrollIz.insets = new Insets(0, 0, 5, 5);
-        gbc_panelScrollIz.fill = GridBagConstraints.BOTH;
-        gbc_panelScrollIz.gridx = 1;
-        gbc_panelScrollIz.gridy = 1;
-        centroIzq.add(panelScrollIz, gbc_panelScrollIz);
         AppUI.styleTransparent(centroDe);
-        GridBagLayout gbl_centroDe = new GridBagLayout();
-        gbl_centroDe.rowHeights = new int[] {10, 366, 10};
-        gbl_centroDe.columnWidths = new int[] {20, 140, 30};
-        gbl_centroDe.columnWeights = new double[]{0.0,1.0,0.0};
-        gbl_centroDe.rowWeights = new double[]{0.0,1.0,0.0};
-        centroDe.setLayout(gbl_centroDe);
-        
-        JPanel panelScrollDe = new JPanel();
-        GridBagConstraints gbc_panelScrollDe = new GridBagConstraints();
-        gbc_panelScrollDe.insets = new Insets(0, 0, 5, 5);
-        gbc_panelScrollDe.fill = GridBagConstraints.BOTH;
-        gbc_panelScrollDe.gridx = 1;
-        gbc_panelScrollDe.gridy = 1;
-        centroDe.add(panelScrollDe, gbc_panelScrollDe);
-        panelScrollIz.setLayout(new GridLayout(0, 1, 0, 0));
-        panelScrollIz.add(scrollPaneCentroIzq);
-        scrollPaneCentroIzq.setViewportView(listTrabajadoresAsignados);
-	    panelScrollDe.setLayout(new GridLayout(0, 1, 0, 0));
-	    panelScrollDe.add(scrollPaneCentroDe);
-	    scrollPaneCentroDe.setViewportView(listTrabajadores);
-
         AppUI.styleLabel(lblAsignados);
         AppUI.styleLabel(lblTrabajadores);
         AppUI.stylePrimaryButton(btnVolver);
         
-                
-                //BOTONES
-                btnAsignarTarea = new JButton("Asignar tarea");
-                btnAsignarTarea.setEnabled(false);
-                centroSouth.add(btnAsignarTarea);
-                
-                btnAsignarTarea.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		Object[] trabajadoresSelecionados = listTrabajadores.getSelectedValues();
-                		//DefaultListModel<BDTrabajador> modelParentTrabajadores = (DefaultListModel<BDTrabajador>) parent.getListaTrabajadores().getModel();
-
-                		for(Object t : trabajadoresSelecionados) {
-                			BDTrabajador trabajador = (BDTrabajador) t;
-                			Tarea_TrabajadorDAO.insertarTrabajadoresATarea(tarea.getId(), trabajador.getId());
-                			//modelParentTrabajadores.addElement(trabajador);
-                			
-                		}
-                		TrabajadoresListas();
-                		JOptionPane.showMessageDialog(
-                		        null,
-                		        "Los trabajadores se han añadido correctamente.",
-                		        "Información",
-                		        JOptionPane.INFORMATION_MESSAGE
-                		);
-                		
-
-                	}
-                });
-                
-                btnDesasignarTarea.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		Object[] trabajadoresSelecionados = listTrabajadoresAsignados.getSelectedValues();
-                		//DefaultListModel<BDTrabajador> modelParentTrabajadores = (DefaultListModel<BDTrabajador>) parent.getListaTrabajadores().getModel();
-
-                		for(Object t : trabajadoresSelecionados) {
-                			BDTrabajador trabajador = (BDTrabajador) t;
-                			Tarea_TrabajadorDAO.eliminarTrabajadorDeTarea(tarea.getId(), trabajador.getId());
-                			//modelParentTrabajadores.removeElement(trabajador);
-                			
-                		}
-                		TrabajadoresListas();
-                		JOptionPane.showMessageDialog(
-                		        null,
-                		        "Los trabajadores se han eliminado de la tarea correctamente.",
-                		        "Información",
-                		        JOptionPane.INFORMATION_MESSAGE
-                		);
-                		
-                	}
-                });
+               
         AppUI.stylePrimaryButton(btnAsignarTarea);
         AppUI.styleList(listTrabajadores);
         AppUI.styleList(listTrabajadoresAsignados);
         AppUI.stylePrimaryButton(btnDesasignarTarea);
+        AppUI.configurarVentana(this);
 
         AppUI.establecerIcono(this);
     }
@@ -291,10 +278,12 @@ public class VAsignarTareas extends VentanaConConfirmacion {
 
     @Override
     protected void onConfirmExit() {
-        this.dispose();
+
         parent.setVisible(true);
+        this.dispose();
         
     }
+    //Funcion para manejar las listas a la vez
     
     private void TrabajadoresListas() {
         DefaultListModel<BDTrabajador> modeloTrabajadoresAsignados = new DefaultListModel<BDTrabajador>();
@@ -313,8 +302,6 @@ public class VAsignarTareas extends VentanaConConfirmacion {
        listTrabajadores.setModel(modeloTrabajadoresNoAsignados);
        listTrabajadoresAsignados.setModel(modeloTrabajadoresAsignados);
        parent.getListaTrabajadores().setModel(modeloTrabajadoresAsignados);
-        
-
 
 	}
 }

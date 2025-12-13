@@ -229,8 +229,8 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                     return;
                 }
             	for(BDTarea t : tareasProblemas) {
-            		t.getHilo().interrupt(); //Primero la finalizamos cortanto en hilo 
-            		TareaDAO.marcarPendiente(t.getId()); // Y luego le cambiamos en estado Por que si no el hilo se queda 
+            		t.getHilo().interrupt();					//Primero la finalizamos cortanto en hilo 
+            		TareaDAO.marcarPendiente(t.getId()); 		// Y luego le cambiamos en estado Por que si no el hilo se queda activo
             	}
             	   
             	   
@@ -289,6 +289,8 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         AppUI.stylePrimaryButton(btnDespedir);
 
         AppUI.establecerIcono(this);
+        AppUI.configurarVentana(this);
+
     }
 
     // ===========================
@@ -346,10 +348,11 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
 
     @Override
     protected void onConfirmExit() {
-        this.dispose();
+
         if (parent != null) {
             parent.setVisible(true);
         }
+        this.dispose();
     }
 }
 

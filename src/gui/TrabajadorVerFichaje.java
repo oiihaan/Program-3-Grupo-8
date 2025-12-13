@@ -186,6 +186,8 @@ public class TrabajadorVerFichaje extends VentanaConConfirmacion {
         AppUI.stylePrimaryButton(btnVolver);
 
         AppUI.establecerIcono(this);
+        AppUI.configurarVentana(this);
+
     }
 
     // ===========================
@@ -243,10 +245,11 @@ public class TrabajadorVerFichaje extends VentanaConConfirmacion {
 
     @Override
     protected void onConfirmExit() {
-        this.dispose();
+       
         if (parent != null) {
             parent.setVisible(true);
         }
+        this.dispose();
     }
 }
 

@@ -31,8 +31,7 @@ public class VPrincipal extends VentanaConConfirmacion {
     private JLabel lblForgot;
 
     private static HashSet<BDTarea> tareas;
-    private static HashSet<Usuario> personal; //Prueba Unai
-
+    private static HashSet<Usuario> personal; 
 
     public VPrincipal() {
 
@@ -42,7 +41,6 @@ public class VPrincipal extends VentanaConConfirmacion {
 
      // === Login TITULO ===
     	setTitle("Login");
-       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 555, 491);
         setLocationRelativeTo(null);
 
@@ -122,6 +120,8 @@ public class VPrincipal extends VentanaConConfirmacion {
         
       //IMAGEN
       AppUI.establecerIcono(this);
+      
+      AppUI.configurarVentana(this);
 
 
         // === LÓGICA DEL LOGIN ===
@@ -178,6 +178,9 @@ public class VPrincipal extends VentanaConConfirmacion {
                 JOptionPane.showMessageDialog(null, "Porfavor comuniquese con el departamento de \n recursos humanos: PabloAvila@gmail.com");
             }
         });
+        
+        
+
     }
 	public static void cargarPersonal() {
 		for (BDTrabajador t : TrabajadorDAO.getAllTrabajadores()) {
@@ -213,11 +216,11 @@ public class VPrincipal extends VentanaConConfirmacion {
 		if(ejecutando) {
 			
 	        int respuesta = JOptionPane.showConfirmDialog(
-	                null,                          // componente padre (puede ser null)
-	                "Algunas tareas se estan ejecutando si cierras el programa volveran a estar pendientes \n Quieres cerrar el programa?",          // mensaje
-	                "Confirmación",                 // título de la ventana
-	                JOptionPane.YES_NO_OPTION,      // tipo de opciones (Sí/No)
-	                JOptionPane.QUESTION_MESSAGE    // icono de pregunta
+	                null,                          
+	                "Algunas tareas se estan ejecutando si cierras el programa volveran a estar pendientes \n Quieres cerrar el programa?",         
+	                "Confirmación",                 
+	                JOptionPane.YES_NO_OPTION,      
+	                JOptionPane.QUESTION_MESSAGE    
 	        );
 			if(respuesta == JOptionPane.YES_OPTION) {
 				for(BDTarea t : TareaDAO.getAllTareas()) {

@@ -26,12 +26,11 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
     private BDAdmin admin;
 
     public VAnyadirTrabajador(VAdmin1 parent, BDAdmin admin) {
-        super();      // importante: llama al constructor de la base
+        super();      
         this.parent = parent;
         this.admin = admin;
 
         setTitle("Añadir Trabajador");
-        // NO poner lo de setDefaultCloseOperation:
     
         
         
@@ -146,11 +145,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
             	String contrasenya = new String(txtPassword.getPassword()).trim();
             	String username = txtUsername.getText().trim();
                 
-//                if(!nombreSinNumeros(username)) {
-//                	JOptionPane.showMessageDialog(VAnyadirTrabajador.this, "El nombre tiene que ser un nombre real");
-//                	txtUsername.setText("");
-//                	return;
-//                }
+
                 
 				txtUsername.setText("");
 				txtPassword.setText("");
@@ -186,10 +181,9 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
                     // 1) Insertar en BD
                     TrabajadorDAO.insertarTrabajador(nuevo);
 
-                    // 2) Añadir al conjunto estático de VPrincipal --> EL login lo pilla de la base(Unai)
-                  //  VPrincipal.getTrabajadores().add(nuevo);
 
-                    // 3) Avisar de éxito
+
+                    // 2) Avisar de éxito
                     JOptionPane.showMessageDialog(
                             VAnyadirTrabajador.this,
                             "Trabajador añadido correctamente.",
@@ -197,7 +191,7 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
                             JOptionPane.INFORMATION_MESSAGE
                     );
 
-                    // 4) Volver al menú admin -> mismo flujo que la X
+                    // 3) Volver al menú admin -> mismo flujo que la X
                     onConfirmExit();
 
                 } catch (Exception ex) {
@@ -231,13 +225,11 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         AppUI.styleTransparent(center);
         AppUI.styleTextField(txtUsername);
         AppUI.stylePasswordField(txtPassword);
-        
+        AppUI.configurarVentana(this);
+
         // IMAGEN
         AppUI.establecerIcono(this);
 
-        // Para ajustar el tamaño(Con ayuda de AI studio, no sabemos porque se nos genera asi justo esta ventana)
-        //this.pack();
-        // Para centrar
         this.setLocationRelativeTo(null);
     }
 
@@ -258,10 +250,10 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
 
     @Override
     protected void onConfirmExit() {
-        this.dispose();
         if (parent != null) {
             parent.setVisible(true);
         }
+        this.dispose();
     }
     
     
@@ -275,15 +267,6 @@ public class VAnyadirTrabajador extends VentanaConConfirmacion {
         return invertirRecursivo(str.substring(1)) + str.charAt(0);
     }
     
-//    public static boolean nombreSinNumeros(String nombre) {
-//        for (int i = 0; i < nombre.length(); i++) {
-//            char c = nombre.charAt(i);
-//            if (Character.isDigit(c)) {   // si encuentra un dígito, no es válido
-//                return false;
-//            }
-//        }
-//        return true; // no había dígitos
-//    }
-    
+
     
 }
