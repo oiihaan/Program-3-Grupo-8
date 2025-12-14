@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import bd.TareaDAO;
+import bd.TrabajadorDAO;
 import domain.BDTarea;
 import domain.BDTrabajador;
 import gui.ui.AppUI;
@@ -194,31 +195,29 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(10000);
+                    for(Object t :modelo.toArray()) {
+                    	BDTarea tarea = (BDTarea) t;
+                    	if(tarea.getEstado().equals("finalizado")) {
+                        	int indice = modelo.indexOf(tarea);
+                            modelo.removeElementAt(indice);
 
-                    for (BDTarea tarea : trabajador.getTareasAsignadas()) {
-                        if ("finalizado".equals(tarea.getEstado()) && modelo.contains(tarea)) {
-                            System.out.println("Borrando tarea finalizada del modelo");
-                            SwingUtilities.invokeLater(() -> {
-                                btnFinalizarTarea.setEnabled(false);
-                                btnEmpezarTarea.setEnabled(false);
-                                int indice = modelo.indexOf(tarea);
-                                if (indice >= 0) {
-                                    modelo.removeElementAt(indice);
-                                }
-                            });
-                        }
+
+                    	}
+                    	
+                    	
                     }
+                    	
                 }
             } catch (InterruptedException ex) {
+
 
             }
         });
         HiloTiempo.start();
-        
 
         
     
-        // importante: activar un tooltip “base” para que se registre en el ToolTipManager
+        // tooltip “base” para que se registre en el ToolTipManager
         list.setToolTipText("");
 
 
@@ -264,6 +263,7 @@ public class VTrabajadorTarea extends VentanaConConfirmacion {
         if (parent != null) {
             parent.setVisible(true);
         }
+        HiloTiempo.interrupt();
         this.dispose();
         
     }

@@ -34,14 +34,21 @@ public class BDTarea {
 		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
 
 				TareaDAO.marcarEjecutando(id);
+				setEstado("ejecutando");
+
+				
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
 					TareaDAO.marcarCompletada(id);
+					setEstado("finalizado");
+
 					return;
 				}
 				TareaDAO.marcarCompletada(id);
+				setEstado("finalizado");
+
 				
 				
 			}
@@ -63,14 +70,20 @@ public class BDTarea {
 				setEstado("ejecutando");
 		        JOptionPane.showMessageDialog(null, "Tarea Iniciada " + nombre);
 				TareaDAO.marcarEjecutando(id);
+				setEstado("ejecutando");
+
 
 				try {
 					Thread.sleep(duracion * 60000); // 60000 milisegundos = 1 min
 				} catch (InterruptedException e) {
-					TareaDAO.marcarCompletada(BDTarea.this.getId());
+					TareaDAO.marcarCompletada(id);
+					setEstado("finalizado");
+
 					return;
 				}
 				TareaDAO.marcarCompletada(id);
+				setEstado("finalizado");
+
 				
 				
 			}
