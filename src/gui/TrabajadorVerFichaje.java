@@ -51,7 +51,7 @@ public class TrabajadorVerFichaje extends VentanaConConfirmacion {
         this.trabajador = trabajador;
         this.trabajadorIdInicial = trabajadorIdInicial;
 
-        setTitle("Ver empleados");
+        setTitle("Mis fichajes");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 800, 500);
         setLocationRelativeTo(null);

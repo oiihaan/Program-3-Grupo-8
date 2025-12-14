@@ -31,7 +31,7 @@ public class VAdmin1 extends VentanaConConfirmacion {
 		this.parent = parent;
 		
 		//DISEÑO
-		setTitle("MENU de Administrador");
+		setTitle("Panel del Administrador");
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 640, 482);
 		contentPane = new JPanel();
