@@ -32,6 +32,8 @@ public class VPrincipal extends VentanaConConfirmacion {
 
     private static HashSet<BDTarea> tareas;
     private static HashSet<Usuario> personal; 
+    private JPanel panelUsuarioTxt;
+    private JPanel panelContraTxt;
 
     public VPrincipal() {
 
@@ -51,7 +53,12 @@ public class VPrincipal extends VentanaConConfirmacion {
 
         // === CARD CENTRAL ===
         card = new JPanel();
-        card.setLayout(new GridBagLayout());
+        GridBagLayout gbl_card = new GridBagLayout();
+        gbl_card.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0};
+        gbl_card.columnWeights = new double[]{1.0};
+        gbl_card.rowHeights = new int[] {50, 50, 50, 50, 50, 0, 0};
+        gbl_card.columnWidths = new int[] {100};
+        card.setLayout(gbl_card);
 
         // --- TÍTULO ---
         JLabel lblTitle = new JLabel("Bienvenido");
@@ -71,7 +78,7 @@ public class VPrincipal extends VentanaConConfirmacion {
         gbc_txtUser.gridy = 1;
         gbc_txtUser.insets = new Insets(8, 0, 8, 0);
         gbc_txtUser.fill = GridBagConstraints.HORIZONTAL;
-        card.add(txtUser, gbc_txtUser);
+      
 
         // --- PASSWORD ---
         txtPass = new JPasswordField();
@@ -81,7 +88,7 @@ public class VPrincipal extends VentanaConConfirmacion {
         gbc_txtPass.gridy = 2;
         gbc_txtPass.insets = new Insets(8, 0, 8, 0);
         gbc_txtPass.fill = GridBagConstraints.HORIZONTAL;
-        card.add(txtPass, gbc_txtPass);
+
 
         // --- BOTÓN LOGIN ---
         btnLogin = new JButton("LOG IN");
@@ -118,10 +125,30 @@ public class VPrincipal extends VentanaConConfirmacion {
         AppUI.stylePrimaryButton(btnLogin);
         AppUI.styleSubtitle(lblForgot);
         
+        panelUsuarioTxt = new JPanel();
+        FlowLayout flowLayout = (FlowLayout) panelUsuarioTxt.getLayout();
+        flowLayout.setAlignment(FlowLayout.LEADING);
+        GridBagConstraints gbc_panelUsuarioTxt = new GridBagConstraints();
+        gbc_panelUsuarioTxt.insets = new Insets(0, 0, 5, 0);
+        gbc_panelUsuarioTxt.fill = GridBagConstraints.BOTH;
+        gbc_panelUsuarioTxt.gridx = 0;
+        gbc_panelUsuarioTxt.gridy = 1;
+        card.add(panelUsuarioTxt, gbc_panelUsuarioTxt);
+        panelUsuarioTxt.add(txtUser);
+        
+        panelContraTxt = new JPanel();
+        GridBagConstraints gbc_panelContraTxt = new GridBagConstraints();
+        gbc_panelContraTxt.fill = GridBagConstraints.BOTH;
+        gbc_panelContraTxt.gridx = 0;
+        gbc_panelContraTxt.gridy = 2;
+        card.add(panelContraTxt, gbc_panelContraTxt);
+        panelContraTxt.add(txtPass);
+        
       //IMAGEN
       AppUI.establecerIcono(this);
-      
       AppUI.configurarVentana(this);
+      AppUI.styleTransparent(panelUsuarioTxt);
+      AppUI.styleTransparent(panelContraTxt);
 
 
         // === LÓGICA DEL LOGIN ===
