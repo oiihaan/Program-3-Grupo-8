@@ -302,6 +302,68 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
         ImageIcon iconoPositivo = new ImageIcon("./img/tickVerde.png");
         ImageIcon iconoNegativo = new ImageIcon("./img/cruzRoja.png"); 
 
+
+    	
+        try {
+            List<BDFichaje> fichajes = FichajeDAO.obtenerFichajesTrabajador(idTrabajador);
+
+            modeloFichajes.setRowCount(0);
+
+            
+            //==== RENDER ====
+            tablaFichajes.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                                                               boolean isSelected, boolean hasFocus,
+                                                               int row, int column) {                    
+                    JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    label.setText("");
+                    label.setHorizontalAlignment(JLabel.CENTER);
+                    label.setIcon(null);
+
+                    int altura = table.getRowHeight(row);
+                    int size = altura - 4;
+
+                    try {
+                        ArrayList<LocalDate> dias = FichajeDAO.getDiasMasDe8Horas(idTrabajador);
+
+                        boolean masDe8 = false;
+                        if (value instanceof LocalDate) {
+                            LocalDate diaCelda = (LocalDate) value;
+                            masDe8 = dias.contains(diaCelda);
+                        }
+
+                        if (masDe8) {
+                            if (iconoPositivo != null) {
+                                Image img = iconoPositivo.getImage()
+                                        .getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                                label.setIcon(new ImageIcon(img));
+                            }
+                        } else {
+                            if (iconoNegativo != null) {
+                                Image img = iconoNegativo.getImage()
+                                        .getScaledInstance(size, size, Image.SCALE_SMOOTH);
+                                label.setIcon(new ImageIcon(img));
+                            }
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    return label;
+                    }
+                    
+            });
+
+            /*    private void actualizarTablaFichajes(int idTrabajador) {
+    	
+        //Cargo Imagenes
+        ImageIcon iconoPositivo = new ImageIcon("./img/tickVerde.png");
+        ImageIcon iconoNegativo = new ImageIcon("./img/cruzRoja.png"); 
+ 
+
     	
         try {
             List<BDFichaje> fichajes = FichajeDAO.obtenerFichajesTrabajador(idTrabajador);
@@ -350,15 +412,14 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                     return label;
                     }
                     
-            });
-
-            
+            });*/
             
             
             
             
             for (BDFichaje f : fichajes) {
                 LocalDate dia = f.getEntrada().toLocalDate();
+                LocalDate diaSuplemento = f.getEntrada().toLocalDate();
                 LocalTime entrada = f.getEntrada().toLocalTime();
                 String entradaStr = entrada.toString().substring(0, 5);
 
@@ -374,7 +435,7 @@ public class VVerTrabajadores extends VentanaConConfirmacion {
                     horasStr = (minutos / 60) + "h " + (minutos % 60) + "min";
                     
                     
-                    iconito = minutos; 
+                    iconito = diaSuplemento; 
                 }
                 
                 modeloFichajes.addRow(new Object[]{

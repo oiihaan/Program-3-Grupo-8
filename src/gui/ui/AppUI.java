@@ -238,7 +238,7 @@ public class AppUI {
   	
   	//Tamaño ventanas igual
     public static void configurarVentana(JFrame frame) {
-        int ANCHO = 800;
+        int ANCHO = 1000;  //800 antes ahora se ve mejor asi
         int ALTO  = 600;
 
         frame.setSize(ANCHO, ALTO);          

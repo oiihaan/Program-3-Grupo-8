@@ -1,6 +1,7 @@
 package bd;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -127,6 +128,40 @@ public class FichajeDAO {
 
         return lista;
     }
+    
+
+
+    public static ArrayList<LocalDate> getDiasMasDe8Horas(int idTrabajador) throws SQLException {
+
+        ArrayList<LocalDate> dias = new ArrayList<>();
+
+        String sql =
+            "SELECT date(entrada) AS dia " +
+            "FROM FICHAJE " +
+            "WHERE id_trabajador = ? " +
+            "  AND salida IS NOT NULL " +
+            "GROUP BY date(entrada) " +
+            "HAVING SUM( (strftime('%s', salida) - strftime('%s', entrada)) / 60.0 ) >= 480";
+
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setInt(1, idTrabajador);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    String diaStr = rs.getString("dia");  // "YYYY-MM-DD" desde SQLite [web:97][web:108]
+                    LocalDate dia = LocalDate.parse(diaStr); // ISO-8601 yyyy-MM-dd [web:99]
+                    dias.add(dia);
+                }
+            }
+        }
+
+        return dias;
+    }
+
+
+
 
     // ==============
     // MÉTODO PRIVADO PARA MAPEAR RESULTSET -> BDFichaje
