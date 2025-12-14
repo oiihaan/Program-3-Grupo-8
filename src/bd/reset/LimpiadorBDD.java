@@ -381,7 +381,7 @@ public class LimpiadorBDD {
 
             conn.commit(); //Confirma todos los cambios
             
-            System.out.println("Datos insertados correctamente");
+            System.out.println("   -> Datos insertados correctamente");
             
 
         } catch (SQLException e) {
