@@ -13,7 +13,7 @@ public class LimpiadorBDD {
 
     public static void ejecutarLimpieza() {
         
-//String sql que borra todos los datos almacenados en las tablas
+
         String sqlScript = 
             "PRAGMA foreign_keys = OFF; " + //Desactivar llaves foráneas para que no de errores
             "DELETE FROM FICHAJE; " +           
@@ -21,9 +21,8 @@ public class LimpiadorBDD {
             "DELETE FROM tarea; " +             
             "DELETE FROM trabajador; " +        
             "DELETE FROM admin; " +                  
-            "DELETE FROM sqlite_sequence; " +   //Tabla interna de SQLite (pone a 0 los contadores de ID etc)
-            
-            "PRAGMA foreign_keys = ON;";    //Reactivar llaves foráneas
+            "DELETE FROM sqlite_sequence; " +   //Tabla interna de SQLite 
+            "PRAGMA foreign_keys = ON;";    
 
         try (Connection conn = DriverManager.getConnection(DB_PATH);
              Statement stmt = conn.createStatement()) {
@@ -39,9 +38,6 @@ public class LimpiadorBDD {
     public static void insertarDatosInicio() {
 
         try (Connection conn = DriverManager.getConnection(DB_PATH)){
-        		// Statement stmt = conn.createStatement() // Manera como tenia oihan por si queremos volver
-        		
-
             conn.setAutoCommit(false); //Para que se metan todos de golpe o si falla algo no nos meta nada
             
             // 1) Admin
@@ -79,7 +75,7 @@ public class LimpiadorBDD {
             int javier  = insertTrabajador(conn, "Javier Soto", "js135");
             int patxi   = insertTrabajador(conn, "Patxi Etxeberria", "pe246");
 
-            // 3) Tareas (nombre, duracion EN MINUTOS, estado)
+            // 3) Tareas 
             int t1  = insertTarea(conn, "Reparar impresora", 5, "finalizado");
             int t2  = insertTarea(conn, "Actualizar software", 8, "pendiente");
             int t3  = insertTarea(conn, "Montar estantería", 10, "pendiente");
@@ -121,64 +117,35 @@ public class LimpiadorBDD {
             int t39 = insertTarea(conn, "Crear cuentas invitados", 3, "pendiente");
             int t40 = insertTarea(conn, "Actualizar portal interno", 6, "pendiente");
 
-            // 4) Asignaciones tarea_trabajador (muchas, para probar JList/relaciones)
-            // Juan
+            // 4) Asignaciones tarea_trabajador
             linkTareaTrabajador(conn, t1, juan);  linkTareaTrabajador(conn, t12, juan); linkTareaTrabajador(conn, t8, juan);  linkTareaTrabajador(conn, t18, juan); linkTareaTrabajador(conn, t21, juan); linkTareaTrabajador(conn, t31, juan);
-            // Ana
             linkTareaTrabajador(conn, t2, ana);   linkTareaTrabajador(conn, t6, ana);  linkTareaTrabajador(conn, t13, ana); linkTareaTrabajador(conn, t19, ana); linkTareaTrabajador(conn, t28, ana); linkTareaTrabajador(conn, t34, ana);
-            // Unai
             linkTareaTrabajador(conn, t3, unai);  linkTareaTrabajador(conn, t9, unai); linkTareaTrabajador(conn, t14, unai); linkTareaTrabajador(conn, t22, unai); linkTareaTrabajador(conn, t32, unai);
-            // Laura
             linkTareaTrabajador(conn, t4, laura); linkTareaTrabajador(conn, t10, laura); linkTareaTrabajador(conn, t17, laura); linkTareaTrabajador(conn, t26, laura); linkTareaTrabajador(conn, t38, laura);
-            // Iker
             linkTareaTrabajador(conn, t5, iker);  linkTareaTrabajador(conn, t11, iker); linkTareaTrabajador(conn, t16, iker); linkTareaTrabajador(conn, t27, iker); linkTareaTrabajador(conn, t37, iker);
-            // Marta
             linkTareaTrabajador(conn, t7, marta); linkTareaTrabajador(conn, t6, marta); linkTareaTrabajador(conn, t15, marta); linkTareaTrabajador(conn, t23, marta); linkTareaTrabajador(conn, t33, marta);
-            // Asier
             linkTareaTrabajador(conn, t8, asier); linkTareaTrabajador(conn, t12, asier); linkTareaTrabajador(conn, t19, asier); linkTareaTrabajador(conn, t24, asier); linkTareaTrabajador(conn, t30, asier);
-            // Eneko
             linkTareaTrabajador(conn, t10, eneko); linkTareaTrabajador(conn, t2, eneko); linkTareaTrabajador(conn, t20, eneko); linkTareaTrabajador(conn, t29, eneko); linkTareaTrabajador(conn, t39, eneko);
-            // Pablo
             linkTareaTrabajador(conn, t13, pablo); linkTareaTrabajador(conn, t17, pablo); linkTareaTrabajador(conn, t25, pablo); linkTareaTrabajador(conn, t31, pablo);
-            // Lucia
             linkTareaTrabajador(conn, t14, lucia); linkTareaTrabajador(conn, t1, lucia); linkTareaTrabajador(conn, t21, lucia); linkTareaTrabajador(conn, t35, lucia);
-            // Diego
             linkTareaTrabajador(conn, t15, diego); linkTareaTrabajador(conn, t9, diego); linkTareaTrabajador(conn, t27, diego); linkTareaTrabajador(conn, t36, diego);
-            // Sara
             linkTareaTrabajador(conn, t16, sara); linkTareaTrabajador(conn, t3, sara); linkTareaTrabajador(conn, t23, sara); linkTareaTrabajador(conn, t33, sara);
-            // David
             linkTareaTrabajador(conn, t18, david); linkTareaTrabajador(conn, t4, david); linkTareaTrabajador(conn, t30, david); linkTareaTrabajador(conn, t37, david);
-            // Nerea
             linkTareaTrabajador(conn, t19, nerea); linkTareaTrabajador(conn, t5, nerea); linkTareaTrabajador(conn, t28, nerea); linkTareaTrabajador(conn, t34, nerea);
-            // Ruben
             linkTareaTrabajador(conn, t20, ruben); linkTareaTrabajador(conn, t7, ruben); linkTareaTrabajador(conn, t26, ruben); linkTareaTrabajador(conn, t38, ruben);
-            // Maria
             linkTareaTrabajador(conn, t11, maria); linkTareaTrabajador(conn, t2, maria); linkTareaTrabajador(conn, t29, maria); linkTareaTrabajador(conn, t39, maria);
-            // Jon
             linkTareaTrabajador(conn, t21, jon); linkTareaTrabajador(conn, t25, jon); linkTareaTrabajador(conn, t30, jon); linkTareaTrabajador(conn, t40, jon);
-            // Andrea
             linkTareaTrabajador(conn, t22, andrea); linkTareaTrabajador(conn, t18, andrea); linkTareaTrabajador(conn, t24, andrea); linkTareaTrabajador(conn, t32, andrea);
-            // Carlos
             linkTareaTrabajador(conn, t23, carlos); linkTareaTrabajador(conn, t10, carlos); linkTareaTrabajador(conn, t27, carlos); linkTareaTrabajador(conn, t31, carlos);
-            // Irene
             linkTareaTrabajador(conn, t24, irene); linkTareaTrabajador(conn, t6, irene); linkTareaTrabajador(conn, t28, irene); linkTareaTrabajador(conn, t35, irene);
-            // Alvaro
             linkTareaTrabajador(conn, t25, alvaro); linkTareaTrabajador(conn, t13, alvaro); linkTareaTrabajador(conn, t33, alvaro); linkTareaTrabajador(conn, t36, alvaro);
-            // Esther
             linkTareaTrabajador(conn, t26, esther); linkTareaTrabajador(conn, t17, esther); linkTareaTrabajador(conn, t32, esther); linkTareaTrabajador(conn, t38, esther);
-            // Rocio
             linkTareaTrabajador(conn, t27, rocio); linkTareaTrabajador(conn, t4, rocio); linkTareaTrabajador(conn, t37, rocio); linkTareaTrabajador(conn, t40, rocio);
-            // Sergio
             linkTareaTrabajador(conn, t28, nacho); linkTareaTrabajador(conn, t3, nacho); linkTareaTrabajador(conn, t39, nacho);
-            // Noelia
             linkTareaTrabajador(conn, t29, noelia); linkTareaTrabajador(conn, t7, noelia); linkTareaTrabajador(conn, t34, noelia);
-            // Oscar
             linkTareaTrabajador(conn, t30, oscar); linkTareaTrabajador(conn, t5, oscar); linkTareaTrabajador(conn, t31, oscar);
-            // Ainhoa
             linkTareaTrabajador(conn, t32, ainhoa); linkTareaTrabajador(conn, t8, ainhoa); linkTareaTrabajador(conn, t35, ainhoa);
-            // Javier
             linkTareaTrabajador(conn, t33, javier); linkTareaTrabajador(conn, t9, javier); linkTareaTrabajador(conn, t36, javier);
-            // Patxi
             linkTareaTrabajador(conn, t34, patxi); linkTareaTrabajador(conn, t2, patxi); linkTareaTrabajador(conn, t37, patxi);
 
          // 5) Fichajes (muchos por cada trabajador)
@@ -392,7 +359,7 @@ public class LimpiadorBDD {
             insertFichajeCerrado(conn, patxi, "2025-12-03 09:02:00", "2025-12-03 17:01:00");
             insertFichajeCerrado(conn, patxi, "2025-12-04 09:06:00", "2025-12-04 17:06:00");
 
-            // Abiertos (para probar “salida NULL”)
+            // Abiertos (para probar salida NULL)
             insertFichajeAbierto(conn, unai,  "2025-12-14 09:12:00");
             insertFichajeAbierto(conn, marta, "2025-12-14 09:25:00");
             insertFichajeAbierto(conn, laura, "2025-12-14 09:18:00");
@@ -413,7 +380,7 @@ public class LimpiadorBDD {
             
 
             conn.commit(); //Confirma todos los cambios
-            System.out.println("   -> Datos insertados correctamente");
+            
 
         } catch (SQLException e) {
             System.err.println("Error insertando datos: " + e.getMessage());
