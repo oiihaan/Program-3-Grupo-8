@@ -45,20 +45,19 @@ public class LimpiadorBDD {
             conn.setAutoCommit(false); //Para que se metan todos de golpe o si falla algo no nos meta nada
             
             // 1) Admin
-            insertAdmin(conn, "Julio", "123");
+            insertAdmin(conn, "Jose Gaviria", "GaViRiA_10");
            
 
             // 2) Trabajadores (nombre + contrasenya)
             int juan    = insertTrabajador(conn, "Juan Perez", "pass1");
             int ana     = insertTrabajador(conn, "Ana Lopez", "pass2");
-            int unai    = insertTrabajador(conn, "Unai", "uu");
+            int unai    = insertTrabajador(conn, "Unai", "c.e.o.");
             int laura   = insertTrabajador(conn, "Laura Martin", "laura");
             int iker    = insertTrabajador(conn, "Iker Ruiz", "iker");
-          
             int marta   = insertTrabajador(conn, "Marta Gomez", "mg123");
             int asier   = insertTrabajador(conn, "Asier Garcia", "ag456");
             int eneko   = insertTrabajador(conn, "Eneko Gil", "eg789");
-            int pablo   = insertTrabajador(conn, "Pablo Torres", "pt111");
+            int pablo   = insertTrabajador(conn, "Pablo Gonzalez", "LockedIn");
             int lucia   = insertTrabajador(conn, "Lucia Santos", "ls222");
             int diego   = insertTrabajador(conn, "Diego Ramirez", "dr333");
             int sara    = insertTrabajador(conn, "Sara Blanco", "sb444");
@@ -73,7 +72,7 @@ public class LimpiadorBDD {
             int alvaro  = insertTrabajador(conn, "Alvaro Lozano", "al468");
             int esther  = insertTrabajador(conn, "Esther Cano", "ec579");
             int rocio   = insertTrabajador(conn, "Rocio Marin", "rm680");
-            int sergio  = insertTrabajador(conn, "Sergio Vidal", "sv791");
+            int nacho  = insertTrabajador(conn, "Nacho Vidal", "nv791");
             int noelia  = insertTrabajador(conn, "Noelia Rueda", "nr802");
             int oscar   = insertTrabajador(conn, "Oscar Prieto", "op913");
             int ainhoa  = insertTrabajador(conn, "Ainhoa Lasa", "al024");
@@ -170,7 +169,7 @@ public class LimpiadorBDD {
             // Rocio
             linkTareaTrabajador(conn, t27, rocio); linkTareaTrabajador(conn, t4, rocio); linkTareaTrabajador(conn, t37, rocio); linkTareaTrabajador(conn, t40, rocio);
             // Sergio
-            linkTareaTrabajador(conn, t28, sergio); linkTareaTrabajador(conn, t3, sergio); linkTareaTrabajador(conn, t39, sergio);
+            linkTareaTrabajador(conn, t28, nacho); linkTareaTrabajador(conn, t3, nacho); linkTareaTrabajador(conn, t39, nacho);
             // Noelia
             linkTareaTrabajador(conn, t29, noelia); linkTareaTrabajador(conn, t7, noelia); linkTareaTrabajador(conn, t34, noelia);
             // Oscar
@@ -356,11 +355,11 @@ public class LimpiadorBDD {
             insertFichajeCerrado(conn, rocio, "2025-12-04 08:49:00", "2025-12-04 16:47:00");
             insertFichajeCerrado(conn, rocio, "2025-12-05 08:52:00", "2025-12-05 16:52:00");
 
-            // Sergio
-            insertFichajeCerrado(conn, sergio, "2025-12-01 09:00:00", "2025-12-01 17:00:00");
-            insertFichajeCerrado(conn, sergio, "2025-12-02 09:05:00", "2025-12-02 17:05:00");
-            insertFichajeCerrado(conn, sergio, "2025-12-03 09:02:00", "2025-12-03 17:02:00");
-            insertFichajeCerrado(conn, sergio, "2025-12-04 09:04:00", "2025-12-04 17:03:00");
+            // Nacho
+            insertFichajeCerrado(conn, nacho, "2025-12-01 09:00:00", "2025-12-01 17:00:00");
+            insertFichajeCerrado(conn, nacho, "2025-12-02 09:05:00", "2025-12-02 17:05:00");
+            insertFichajeCerrado(conn, nacho, "2025-12-03 09:02:00", "2025-12-03 17:02:00");
+            insertFichajeCerrado(conn, nacho, "2025-12-04 09:04:00", "2025-12-04 17:03:00");
 
             // Noelia
             insertFichajeCerrado(conn, noelia, "2025-12-01 09:00:00", "2025-12-01 16:55:00");
@@ -405,7 +404,7 @@ public class LimpiadorBDD {
             insertFichajeAbierto(conn, david, "2025-12-14 10:01:00");
             insertFichajeAbierto(conn, esther,"2025-12-14 09:09:00");
             insertFichajeAbierto(conn, rocio, "2025-12-14 08:51:00");
-            insertFichajeAbierto(conn, sergio,"2025-12-14 09:05:00");
+            insertFichajeAbierto(conn, nacho,"2025-12-14 09:05:00");
             insertFichajeAbierto(conn, noelia,"2025-12-14 09:10:00");
             insertFichajeAbierto(conn, oscar, "2025-12-14 08:57:00");
             insertFichajeAbierto(conn, ainhoa,"2025-12-14 09:03:30");

@@ -32,9 +32,7 @@ public class FichajeDAO {
         return ConexionSQLite.getConnection();
     }
 
-    // ==============
     // 1) INSERTAR ENTRADA
-    // ==============
     //Inserta una fila nueva en la tabla, con id_trabajador, entrada y salida = null
     public static void crearFichajeEntrada(int idTrabajador, LocalDateTime entrada)
             throws SQLException {
@@ -50,9 +48,7 @@ public class FichajeDAO {
         }
     }
 
-    // ==============
     // 2) CERRAR FICHAJE ABIERTO
-    // ==============
     //Busca la fila de ese trabajador cuya salida esté vacía y le pone la hora salids
     public static boolean cerrarFichajeActual(int idTrabajador, LocalDateTime salida)
             throws SQLException {
@@ -71,10 +67,8 @@ public class FichajeDAO {
             return filas > 0; //true si realmente habúa algo abierto.
         }
     }
-
-    // ==============
+    
     // 3) OBTENER FICHAJE ABIERTO (si existe)
-    // ==============
     //Devuelve el fichaje que está activo, entrada registrada y salida a null
     public static BDFichaje obtenerFichajeAbierto(int idTrabajador)
             throws SQLException {
@@ -100,9 +94,7 @@ public class FichajeDAO {
         }
     }
 
-    // ==============
     // 4) OBTENER TODOS LOS FICHAJES DE UN TRABAJADOR
-    // ==============
     // Devuelve toda la historia de fichajes de ese trabajador, para luego rellenar la JTable de Ver empleado
     public static List<BDFichaje> obtenerFichajesTrabajador(int idTrabajador)
             throws SQLException {
@@ -150,8 +142,8 @@ public class FichajeDAO {
 
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
-                    String diaStr = rs.getString("dia");  // "YYYY-MM-DD" desde SQLite [web:97][web:108]
-                    LocalDate dia = LocalDate.parse(diaStr); // ISO-8601 yyyy-MM-dd [web:99]
+                    String diaStr = rs.getString("dia");  
+                    LocalDate dia = LocalDate.parse(diaStr); 
                     dias.add(dia);
                 }
             }
@@ -163,9 +155,7 @@ public class FichajeDAO {
 
 
 
-    // ==============
-    // MÉTODO PRIVADO PARA MAPEAR RESULTSET -> BDFichaje
-    // ==============
+    // MÉTODO  PARA MAPEAR RESULTSET -> BDFichaje
     private static BDFichaje mapFichaje(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         int idTrabajador = rs.getInt("id_trabajador");

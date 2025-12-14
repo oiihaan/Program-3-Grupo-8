@@ -46,5 +46,4 @@ public class Tarea_TrabajadorDAO {
             e.printStackTrace();
         }
     }
-
 }

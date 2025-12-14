@@ -159,7 +159,6 @@ public class TrabajadorDAO {
     }
 
 
-
     // ELIMINAR TRABAJADOR POR NOMBRE
     public static void eliminarPorNombre(String nombre) {
 
@@ -203,5 +202,4 @@ public class TrabajadorDAO {
 
         return trabajadores;
     }
-
 }

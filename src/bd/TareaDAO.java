@@ -12,13 +12,6 @@ import domain.BDTrabajador;
 
 public class TareaDAO {
 	
-	
-//	Metodos que podemos implementar si queremos:
-//		actualizar la duración
-//		asignar trabajadores
-//		quitar trabajadores
-//		recuperar trabajadores asignados
-
     
     // BUSCAR TAREA POR NOMBRE
     public static BDTarea buscarTareaPorNombre(String nombre) {
@@ -283,9 +276,4 @@ public class TareaDAO {
 
         return tareas;
     }
-
-
-    
-    
-
 }
