@@ -392,10 +392,8 @@ public class LimpiadorBDD {
             insertFichajeCerrado(conn, patxi, "2025-12-04 09:06:00", "2025-12-04 17:06:00");
 
             // Abiertos (para probar “salida NULL”)
-            insertFichajeAbierto(conn, ana,   "2025-12-14 08:59:00");
             insertFichajeAbierto(conn, unai,  "2025-12-14 09:12:00");
             insertFichajeAbierto(conn, marta, "2025-12-14 09:25:00");
-            insertFichajeAbierto(conn, juan,  "2025-12-14 09:03:00");
             insertFichajeAbierto(conn, laura, "2025-12-14 09:18:00");
             insertFichajeAbierto(conn, iker,  "2025-12-14 10:05:00");
             insertFichajeAbierto(conn, lucia, "2025-12-14 09:07:00");
