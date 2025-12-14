@@ -72,7 +72,7 @@ public class LimpiadorBDD {
             int alvaro  = insertTrabajador(conn, "Alvaro Lozano", "al468");
             int esther  = insertTrabajador(conn, "Esther Cano", "ec579");
             int rocio   = insertTrabajador(conn, "Rocio Marin", "rm680");
-            int nacho  = insertTrabajador(conn, "Nacho Vidal", "nv791");
+            int nacho  = insertTrabajador(conn, "Nacho Alonso", "na791");
             int noelia  = insertTrabajador(conn, "Noelia Rueda", "nr802");
             int oscar   = insertTrabajador(conn, "Oscar Prieto", "op913");
             int ainhoa  = insertTrabajador(conn, "Ainhoa Lasa", "al024");
