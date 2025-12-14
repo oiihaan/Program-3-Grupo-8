@@ -184,7 +184,8 @@ public class LimpiadorBDD {
          // 5) Fichajes (muchos por cada trabajador)
 
             // Juan
-            insertFichajeCerrado(conn, juan, "2025-12-01 08:55:00", "2025-12-01 17:05:00");
+            insertFichajeCerrado(conn, juan, "2025-12-01 08:55:00", "2025-12-01 15:05:00");
+            insertFichajeCerrado(conn, juan, "2025-12-01 16:05:00", "2025-12-01 18:15:00");
             insertFichajeCerrado(conn, juan, "2025-12-02 08:58:00", "2025-12-02 17:03:00");
             insertFichajeCerrado(conn, juan, "2025-12-03 09:10:00", "2025-12-03 16:55:00");
             insertFichajeCerrado(conn, juan, "2025-12-04 08:57:00", "2025-12-04 17:01:00");
