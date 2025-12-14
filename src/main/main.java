@@ -6,9 +6,6 @@ import gui.ui.*;
 import gui.VPrincipal;
 
 public class main {
-		/**
-		 * Launch the application.
-		 */
 	public static void main(String[] args) {
 		InicializadorBaseDatos.init();			//Asegura que la base de datos este creada
 		EventQueue.invokeLater(new Runnable() {
@@ -25,4 +22,4 @@ public class main {
 }
 
 	
-	//(NO ESTA USABLE PORQUE NO ME ENCUENTRA LA CLASE)
+	

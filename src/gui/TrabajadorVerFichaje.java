@@ -107,12 +107,9 @@ public class TrabajadorVerFichaje extends VentanaConConfirmacion {
         JScrollPane scrollListTrab = new JScrollPane(listTrabajadores);
         panelLeft.add(scrollListTrab, BorderLayout.CENTER);
 
-        // Cargamos trabajadores desde la BD
-        
+        // Carga de trabajadores desde la BD
           modeloTrabajadores.addElement(TrabajadorDAO.buscarPorNombre(trabajador.getNombre()));
       
-
-
         // ======= PANEL DERECHO – TABLA FICHAJES =======
         JPanel panelRight = new JPanel(new BorderLayout());
         GridBagConstraints gbc_panelRight = new GridBagConstraints();
@@ -258,67 +255,7 @@ public class TrabajadorVerFichaje extends VentanaConConfirmacion {
                     }
                     
             });
-
-            /*    private void actualizarTablaFichajes(int idTrabajador) {
-    	
-        //Cargo Imagenes
-        ImageIcon iconoPositivo = new ImageIcon("./img/tickVerde.png");
-        ImageIcon iconoNegativo = new ImageIcon("./img/cruzRoja.png"); 
- 
-
-    	
-        try {
-            List<BDFichaje> fichajes = FichajeDAO.obtenerFichajesTrabajador(idTrabajador);
-
-            modeloFichajes.setRowCount(0);
-
-            
-            //==== RENDER ====
-            tablaFichajes.getColumnModel().getColumn(4).setCellRenderer(new DefaultTableCellRenderer() {
-                @Override
-                public Component getTableCellRendererComponent(JTable table, Object value,
-                                                               boolean isSelected, boolean hasFocus,
-                                                               int row, int column) {                    
-                    JLabel label = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-                    label.setText("");
-                    label.setHorizontalAlignment(JLabel.CENTER);
-                    label.setIcon(null); 
-
-                   
-                    try {
-                        long minutos = (Long) value;
-                        int altura = table.getRowHeight(row);
-                        int size = altura - 4; 
-
-                        //Ha trabajado 8 horas o mas
-                        if (minutos >= 480) {
-                            if (iconoPositivo != null) {
-                                Image img = iconoPositivo.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
-                                
-                                label.setIcon(new ImageIcon(img));
-                            }
-                        } else { // Menos de 8 horas
-                           
-                            if (iconoNegativo != null) {
-                                Image img = iconoNegativo.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
-                                
-                                label.setIcon(new ImageIcon(img));
-                            }
-                         }
-                        }catch (NullPointerException e) {
-							System.err.println("ERROR. No se ha podida renderizar la celda. Contactar con UNAI");
-							}
-                        
-                    
-                    return label;
-                    }
-                    
-            });*/
-            
-            
-            
-            
+      
             for (BDFichaje f : fichajes) {
                 LocalDate dia = f.getEntrada().toLocalDate();
                 LocalDate diaSuplemento = f.getEntrada().toLocalDate();
