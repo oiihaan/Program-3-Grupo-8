@@ -265,7 +265,7 @@ public class VVerTareas extends VentanaConConfirmacion {
 											
 		//BOTONES
 		
-		JButton btnAsignarTareas = new JButton("AsignarTareas");
+		JButton btnAsignarTareas = new JButton("Asignar/Desasignar");
 		south.add(btnAsignarTareas);
 		btnAsignarTareas.setEnabled(false);
 					
